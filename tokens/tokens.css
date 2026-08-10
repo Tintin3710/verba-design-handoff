@@ -1,0 +1,51 @@
+/* Verba — Design Tokens (CSS custom properties) · Light theme
+   Source of truth for the coded prototype in /prototype/verba.html */
+:root{
+  /* ── Brand ── */
+  --brand:            #6B58EC;   /* primary action, active states, links */
+  --brand-pressed:    #5847D8;
+  --on-brand:         #FFFFFF;
+  --brand-pale:       #F1EFFD;   /* active/selected focus background */
+  --brand-border:     #E2DDFB;
+
+  /* ── Icon accents (two-tone icons; fg on bg tile) ── */
+  --acc-purple:       #6B58EC;  --acc-purple-bg: #F1EFFD;
+  --acc-teal:         #3FB3A6;  --acc-teal-bg:   #DDF2EE;
+  --acc-coral:        #E0795A;  --acc-coral-bg:  #FBE7E1;
+
+  /* ── Surface ── */
+  --page:             #F3F3F5;  /* app chrome / showcase background */
+  --canvas:           #FFFFFF;  /* content area */
+  --surface:          #FFFFFF;  /* cards */
+  --surface-soft:     #FAFAFB;  /* hover / soft fills / card headers */
+
+  /* ── Text ── */
+  --ink:              #28283C;  /* headings, primary text */
+  --body:             #62626F;  /* secondary text */
+  --mute:             #9A9AA6;  /* placeholder, captions, disabled */
+
+  /* ── Border ── */
+  --border:           #E6E6EB;  /* card/hairline border on white */
+  --border-subtle:    #EDEDF1;
+
+  /* ── Status (functional; not brand) ── */
+  --ok:               #12A150;
+  --warn:             #C77700;
+  --danger:           #DC2626;
+
+  /* ── Radius ── */
+  --r-input:  9px;
+  --r-btn:   10px;
+  --r-card:  16px;
+  --r-pill:  9999px;
+
+  /* ── Elevation (used sparingly) ── */
+  --shadow-card: 0 18px 44px -30px rgba(30,27,75,.08);
+
+  /* ── Type ── */
+  --font-sans: "Pretendard", -apple-system, BlinkMacSystemFont, "Inter", system-ui, "Apple SD Gothic Neo", sans-serif;
+
+  /* ── Spacing scale (px): 4 8 12 16 20 24 28 32 40 48 ── */
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 20px;
+  --sp-6: 24px; --sp-7: 28px; --sp-8: 32px; --sp-10: 40px; --sp-12: 48px;
+}

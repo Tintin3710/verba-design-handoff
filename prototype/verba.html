@@ -1,0 +1,701 @@
+<title>Verba 리디자인 시안</title>
+<style>
+  /* Minimal white · brand #6B58EC · lighter weights · generous whitespace (Flodesk/Mercor-inspired) */
+  :root{
+    --brand:#6B58EC; --brand-press:#5847D8; --on-brand:#FFFFFF;
+    --brand-pale:#F1EFFD; --brand-soft:#F1EFFD; --brand-border:#E2DDFB;
+    --acc-pl:#6B58EC; --acc-pl-bg:#F1EFFD;
+    --acc-tl:#3FB3A6; --acc-tl-bg:#DDF2EE;
+    --acc-co:#E0795A; --acc-co-bg:#FBE7E1;
+    --page:#F3F3F5; --canvas:#FFFFFF; --surface:#FFFFFF; --surface-soft:#FAFAFB;
+    --ink:#28283C; --body:#62626F; --mute:#9A9AA6; --border:#E6E6EB; --border2:#EDEDF1;
+    --ok:#12A150; --warn:#C77700; --shadow:rgba(30,27,75,.08);
+    --r-card:16px; --r-btn:10px; --r-input:9px; --r-chip:9px; --r-pill:9999px;
+    --sans:"Pretendard",-apple-system,BlinkMacSystemFont,"Inter",system-ui,"Apple SD Gothic Neo",sans-serif;
+  }
+  *{box-sizing:border-box;} body{margin:0;}
+  .wrap{background:var(--page);color:var(--ink);font-family:var(--sans);min-height:100vh;padding:clamp(28px,4vw,60px) clamp(14px,3vw,40px) 90px;-webkit-font-smoothing:antialiased;}
+  .inner{max-width:1120px;margin:0 auto;}
+  .eyebrow{font-size:12px;letter-spacing:1.6px;text-transform:uppercase;color:var(--brand);font-weight:600;margin:0 0 12px;}
+  h1{font-size:clamp(30px,4.4vw,44px);font-weight:700;letter-spacing:-0.03em;margin:0 0 14px;line-height:1.06;}
+  .lede{font-size:16.5px;line-height:1.65;color:var(--body);max-width:66ch;margin:0;}
+  .lede b{color:var(--ink);font-weight:600;}
+
+  .screentag{display:flex;align-items:center;gap:10px;margin:52px 0 16px;}
+  .screentag .n{min-width:26px;height:26px;padding:0 7px;border-radius:8px;background:var(--brand);color:var(--on-brand);font-weight:600;font-size:12px;display:flex;align-items:center;justify-content:center;}
+  .screentag .t{font-size:16px;font-weight:700;letter-spacing:-0.01em;}
+  .screentag .d{font-size:13px;color:var(--mute);}
+
+  .frame{position:relative;background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 18px 44px -30px var(--shadow);}
+  .chrome{display:flex;align-items:center;gap:8px;padding:12px 16px;background:var(--surface-soft);border-bottom:1px solid var(--border2);}
+  .dot{width:11px;height:11px;border-radius:50%;background:var(--border);}
+  .url{flex:1;text-align:center;font-size:12px;color:var(--mute);background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:6px 12px;max-width:300px;margin:0 auto;}
+
+  .shell{display:grid;grid-template-columns:216px 1fr;background:var(--canvas);min-height:540px;}
+  @media(max-width:680px){.shell{grid-template-columns:1fr;}.sidebar{display:none;}}
+  .sidebar{background:var(--surface);border-right:1px solid var(--border2);padding:22px 14px;display:flex;flex-direction:column;}
+  .slogo{font-size:21px;font-weight:700;letter-spacing:-0.03em;padding:6px 10px 20px;}
+  .slogo b{color:var(--brand);}
+  .snav{display:flex;flex-direction:column;gap:2px;}
+  .snav a{display:flex;align-items:center;gap:11px;font-size:14px;font-weight:500;color:var(--body);padding:10px 12px;border-radius:8px;text-decoration:none;}
+  .snav a .i{width:18px;text-align:center;opacity:.9;display:inline-flex;align-items:center;justify-content:center;}
+  .snav a .i .vic{width:18px;height:18px;}
+  .snav a.on{background:var(--brand-pale);color:var(--brand);font-weight:600;}
+  .sfoot{margin-top:auto;display:flex;flex-direction:column;gap:10px;padding-top:16px;}
+  .creditbox{background:var(--surface-soft);border:1px solid var(--border2);border-radius:10px;padding:12px;}
+  .creditbox .l{font-size:11px;color:var(--mute);font-weight:600;}
+  .creditbox .v{font-size:19px;font-weight:700;margin-top:2px;}
+  .creditbox .bar{height:5px;background:var(--border);border-radius:9px;margin-top:8px;overflow:hidden;}
+  .creditbox .bar i{display:block;height:100%;width:36%;background:var(--brand);border-radius:9px;}
+  .sprofile{display:flex;align-items:center;gap:9px;padding:8px 10px;}
+  .sprofile .av{width:30px;height:30px;border-radius:50%;background:var(--brand);}
+  .sprofile .nm{font-size:13px;font-weight:600;}
+
+  .content{padding:clamp(26px,3vw,46px);}
+  .chead{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:30px;flex-wrap:wrap;}
+  .chead h2{font-size:27px;font-weight:700;letter-spacing:-0.025em;margin:0;}
+  .chead .sub{font-size:13.5px;color:var(--body);margin-top:6px;}
+  .btn-primary{display:inline-flex;align-items:center;gap:9px;background:var(--brand);color:var(--on-brand);border:none;border-radius:var(--r-btn);padding:12px 20px;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;}
+  .btn-primary .cost{font-size:12px;font-weight:500;opacity:.9;background:rgba(255,255,255,.2);padding:3px 8px;border-radius:var(--r-pill);}
+  .btn-ghost{background:transparent;border:none;color:var(--ink);font-size:14px;font-weight:600;cursor:pointer;padding:11px 16px;border-radius:var(--r-btn);}
+  .btn-outline{background:var(--surface);border:1px solid var(--border);color:var(--ink);font-size:14px;font-weight:600;cursor:pointer;padding:11px 18px;border-radius:var(--r-btn);}
+
+  .seclabel{font-size:12px;letter-spacing:1.2px;text-transform:uppercase;color:var(--mute);font-weight:600;margin:28px 0 14px;}
+  .actiongrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+  @media(max-width:900px){.actiongrid{grid-template-columns:repeat(2,1fr);}}
+  .acard{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card);padding:20px;cursor:pointer;transition:border-color .15s;}
+  .acard:hover{border-color:var(--brand);}
+  .acard .ico{width:40px;height:40px;border-radius:10px;background:var(--brand-pale);display:flex;align-items:center;justify-content:center;margin-bottom:28px;}
+  .acard .ico .vic{width:22px;height:22px;}
+  .acard .t{font-size:15px;font-weight:600;}
+  .acard .d{font-size:12.5px;color:var(--body);margin-top:5px;line-height:1.45;}
+  .acard.dash{border-style:dashed;background:var(--surface-soft);display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  .acard.dash .plus{font-size:26px;font-weight:400;color:var(--brand);line-height:1;margin-bottom:8px;}
+
+  .dgrid{display:grid;grid-template-columns:1.6fr 1fr;gap:16px;}
+  @media(max-width:820px){.dgrid{grid-template-columns:1fr;}}
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card);padding:22px;}
+  .panel .ph{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+  .panel .ph .t{font-size:15px;font-weight:600;}
+  .panel .ph a{font-size:12.5px;font-weight:600;color:var(--brand);text-decoration:none;}
+  .mini{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-top:1px solid var(--border2);cursor:pointer;}
+  .mini:first-of-type{border-top:none;}
+  .mini .l{font-size:14px;font-weight:600;}
+  .mini .l small{display:block;font-size:11.5px;color:var(--mute);font-weight:400;margin-top:2px;}
+  .go{color:var(--mute);font-weight:600;} .mini:hover .go{color:var(--brand);}
+  .stat{display:flex;flex-direction:column;gap:16px;}
+  .stat .row{display:flex;align-items:baseline;gap:10px;}
+  .stat .big{font-size:30px;font-weight:700;letter-spacing:-0.02em;}
+  .stat .cap{font-size:12.5px;color:var(--body);}
+  .stat .hr{height:1px;background:var(--border2);}
+
+  .gengrid{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;align-items:start;}
+  @media(max-width:820px){.gengrid{grid-template-columns:1fr;}}
+  .field{margin-bottom:20px;}.field:last-child{margin-bottom:0;}
+  .lab{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:600;margin-bottom:9px;}
+  .lab .opt{font-size:12px;font-weight:400;color:var(--mute);}
+  .inp{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-input);padding:12px 14px;font-size:15px;color:var(--ink);font-family:inherit;}
+  .inp::placeholder{color:var(--mute);}
+  .chips{display:flex;gap:9px;flex-wrap:wrap;}
+  .chip{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;padding:10px 14px;border-radius:var(--r-chip);border:1px solid var(--border);background:var(--surface);color:var(--body);cursor:pointer;}
+  .chip.on{background:var(--brand-pale);border-color:var(--brand);color:var(--brand);}
+  .voice{display:flex;flex-direction:column;gap:10px;}
+  .vopt{display:flex;align-items:center;gap:11px;padding:12px;border:1px solid var(--border);border-radius:10px;cursor:pointer;}
+  .vopt.on{border-color:var(--brand);background:var(--brand-soft);}
+  .vopt .rad{width:18px;height:18px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;}
+  .vopt.on .rad{border-color:var(--brand);background:radial-gradient(circle,var(--brand) 0 5px,transparent 5px);}
+  .vopt .t{font-size:13.5px;font-weight:600;}
+  .vopt .d{font-size:11.5px;color:var(--mute);margin-top:1px;}
+  .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:12px;border:1px solid var(--border);border-radius:10px;margin-top:10px;}
+  .toggle-row .t{font-size:13.5px;font-weight:600;}.toggle-row .d{font-size:11.5px;color:var(--mute);margin-top:1px;}
+  .sw{width:42px;height:24px;border-radius:99px;background:var(--brand);position:relative;flex-shrink:0;}
+  .sw::after{content:"";position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;background:#fff;}
+
+  .rhead{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:18px;flex-wrap:wrap;}
+  .rhead .title{font-size:24px;font-weight:700;letter-spacing:-0.02em;display:flex;align-items:center;gap:10px;}
+  .badge{font-size:12px;font-weight:600;background:var(--surface-soft);border:1px solid var(--border);color:var(--body);padding:5px 11px;border-radius:var(--r-pill);}
+  .rhead .meta{font-size:12.5px;color:var(--mute);margin-top:6px;}
+  .btn-sm{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;padding:9px 14px;border-radius:var(--r-btn);border:none;background:var(--brand-pale);color:var(--brand);cursor:pointer;font-family:inherit;}
+  .btn-sm.solid{background:var(--brand);color:var(--on-brand);}
+  .why{display:flex;gap:11px;align-items:flex-start;background:var(--brand-pale);border:1px solid var(--brand-border);border-radius:12px;padding:14px 16px;margin-bottom:18px;}
+  .why .ic{color:var(--brand);font-weight:700;font-size:14px;line-height:1.4;display:inline-flex;}
+  .why .ic .vic{width:17px;height:17px;}
+  .why p{margin:0;font-size:13px;line-height:1.6;color:var(--body);}
+  .why b{color:var(--ink);font-weight:600;}
+  .channels{display:flex;flex-direction:column;gap:16px;}
+  .ch{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card);overflow:hidden;}
+  .ch-top{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:var(--surface-soft);}
+  .ch-name{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;}
+  .ch-ic{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:var(--brand-pale);}
+  .ch-ic .vic{width:17px;height:17px;}
+  .abtabs{display:flex;gap:4px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-pill);padding:3px;}
+  .abtabs span{font-size:12px;font-weight:600;padding:5px 12px;border-radius:var(--r-pill);color:var(--mute);cursor:pointer;user-select:none;}
+  .abtabs span.on{background:var(--brand);color:var(--on-brand);}
+  .ch-body{padding:16px 18px 0;font-size:14.5px;line-height:1.75;color:var(--ink);}
+  .ch-body .tags{color:var(--brand);font-weight:600;}
+  .ch-body .v{display:none;} .ch-body .v.show{display:inline;}
+  .ch-strategy{display:flex;align-items:center;gap:7px;padding:10px 18px 0;font-size:12px;font-weight:600;color:var(--brand);}
+  .ch-foot{display:flex;align-items:center;justify-content:space-between;padding:12px 18px 15px;gap:12px;}
+  .ch-foot .cnt{font-size:12px;color:var(--mute);font-weight:400;}
+  .ch-foot .cnt.warn{color:var(--warn);}
+  .btn-copy{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:8px 14px;border-radius:var(--r-btn);border:none;background:var(--brand-pale);color:var(--brand);cursor:pointer;font-family:inherit;}
+  .btn-copy.done{background:var(--brand);color:var(--on-brand);}
+
+  .filterrow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+  .ft{font-size:13px;font-weight:600;padding:9px 15px;border-radius:var(--r-pill);border:1px solid var(--border);background:var(--surface);color:var(--body);cursor:pointer;}
+  .ft.on{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .tplgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  @media(max-width:900px){.tplgrid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:560px){.tplgrid{grid-template-columns:1fr;}}
+  .tpl{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card);padding:20px;cursor:pointer;transition:border-color .15s;}
+  .tpl:hover{border-color:var(--brand);}
+  .tpl .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .tpl .ico{width:38px;height:38px;border-radius:10px;background:var(--brand-pale);display:flex;align-items:center;justify-content:center;}
+  .tpl .ico .vic{width:20px;height:20px;}
+  .tpl .use{font-size:11.5px;font-weight:600;color:var(--brand);}
+  .tpl h3{font-size:15px;font-weight:600;margin:0 0 4px;}
+  .tpl p{font-size:12.5px;color:var(--body);line-height:1.5;margin:0 0 12px;}
+  .tpl .tags{display:flex;gap:5px;flex-wrap:wrap;}
+  .tpl .tg{font-size:10.5px;font-weight:500;color:var(--mute);background:var(--surface-soft);border:1px solid var(--border2);border-radius:var(--r-pill);padding:3px 9px;}
+
+  .kpirow{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:18px;}
+  @media(max-width:820px){.kpirow{grid-template-columns:repeat(2,1fr);}}
+  .kpi{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;}
+  .kpi .l{font-size:11.5px;color:var(--mute);font-weight:500;}
+  .kpi .v{font-size:26px;font-weight:700;letter-spacing:-0.02em;margin-top:6px;}
+  .kpi .delta{font-size:11.5px;font-weight:600;color:var(--ok);margin-top:3px;}
+  .insgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:820px){.insgrid{grid-template-columns:1fr;}}
+  .barrow{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+  .barrow .bl{width:64px;font-size:12.5px;font-weight:600;}
+  .barrow .bt{flex:1;height:12px;background:var(--surface-soft);border-radius:9px;overflow:hidden;}
+  .barrow .bt i{display:block;height:100%;background:var(--brand);border-radius:9px;}
+  .barrow .bv{font-size:12px;font-weight:600;color:var(--body);width:34px;text-align:right;}
+  .week{display:flex;align-items:flex-end;gap:8px;height:120px;padding-top:8px;}
+  .week .d{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end;}
+  .week .d i{width:100%;max-width:26px;background:var(--brand-pale);border-radius:6px 6px 0 0;}
+  .week .d i.hot{background:var(--brand);}
+  .week .d small{font-size:10.5px;color:var(--mute);font-weight:500;}
+
+  .overlay{position:absolute;inset:0;background:rgba(30,27,75,.28);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .2s;}
+  .overlay.open{opacity:1;pointer-events:auto;}
+  .modal{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;width:min(400px,100%);box-shadow:0 30px 60px -20px rgba(0,0,0,.3);}
+  .modal .mh{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+  .modal h3{font-size:18px;font-weight:700;margin:0;}
+  .modal .x{border:none;background:var(--surface-soft);color:var(--body);width:30px;height:30px;border-radius:50%;font-size:15px;cursor:pointer;}
+  .modal .ms{font-size:13px;color:var(--body);margin:0 0 16px;}
+  .exopt{display:flex;align-items:center;gap:12px;padding:13px;border:1px solid var(--border);border-radius:10px;margin-bottom:9px;cursor:pointer;}
+  .exopt:hover{border-color:var(--brand);}
+  .exopt .ei{width:34px;height:34px;border-radius:9px;background:var(--brand-pale);display:flex;align-items:center;justify-content:center;}
+  .exopt .ei .vic{width:18px;height:18px;}
+  .exopt .t{font-size:14px;font-weight:600;}
+  .exopt .d{font-size:11.5px;color:var(--mute);margin-top:1px;}
+
+  /* landing */
+  .lp{background:var(--surface);}
+  .lpnav{display:flex;align-items:center;justify-content:space-between;padding:20px 30px;border-bottom:1px solid var(--border2);}
+  .lpnav .links{display:flex;gap:24px;font-size:14px;font-weight:500;color:var(--body);}
+  @media(max-width:620px){.lpnav .links{display:none;}}
+  .lpnav .right{display:flex;gap:8px;align-items:center;}
+  .lphero{text-align:center;padding:64px 24px 44px;}
+  .lphero .tag{display:inline-block;font-size:12.5px;font-weight:600;color:var(--brand);background:var(--brand-pale);border:1px solid var(--brand-border);border-radius:9999px;padding:6px 14px;margin-bottom:22px;}
+  .lphero h2{font-size:clamp(28px,4.2vw,44px);font-weight:700;letter-spacing:-0.03em;line-height:1.32;margin:0 auto 18px;max-width:15ch;}
+  .lphero .hp{font-size:16px;color:var(--body);max-width:42ch;margin:0 auto 26px;line-height:1.6;}
+  .lphero .ctas{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+  .lptrust{font-size:12.5px;color:var(--mute);margin-top:16px;}
+  .lpfeat{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:0 30px 48px;}
+  @media(max-width:760px){.lpfeat{grid-template-columns:1fr;}}
+  .lpfeat .f{background:var(--surface-soft);border:1px solid var(--border2);border-radius:14px;padding:22px;}
+  .lpfeat .f .ic{display:flex;height:28px;} .lpfeat .f .ic .vic{width:27px;height:27px;}
+  .lpfeat .f h3{font-size:15px;font-weight:600;margin:12px 0 5px;} .lpfeat .f p{font-size:13px;color:var(--body);margin:0;line-height:1.55;}
+
+  /* onboarding */
+  .obwrap{padding:38px 24px;display:flex;flex-direction:column;align-items:center;background:var(--canvas);min-height:540px;}
+  .stepper{display:flex;align-items:center;gap:8px;margin-bottom:28px;}
+  .stepper .st{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--mute);}
+  .stepper .st .dot{width:22px;height:22px;border-radius:50%;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;}
+  .stepper .st.on{color:var(--brand);} .stepper .st.on .dot{background:var(--brand);border-color:var(--brand);color:#fff;}
+  .stepper .st.done .dot{background:var(--brand-pale);border-color:var(--brand);color:var(--brand);}
+  .stepper .line{width:26px;height:1px;background:var(--border);}
+  .obcard{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;width:min(520px,100%);}
+  .obcard h2{font-size:22px;font-weight:700;letter-spacing:-0.02em;margin:0 0 4px;}
+  .obcard .obsub{font-size:13.5px;color:var(--body);margin:0 0 22px;}
+  .tonechips{display:flex;gap:8px;flex-wrap:wrap;}
+  .tonechips .tc{font-size:13px;font-weight:500;padding:9px 14px;border-radius:9999px;border:1px solid var(--border);background:var(--surface);color:var(--body);cursor:pointer;}
+  .tonechips .tc.on{background:var(--brand-pale);border-color:var(--brand);color:var(--brand);}
+  .obnote{display:flex;gap:9px;align-items:flex-start;background:var(--brand-pale);border:1px solid var(--brand-border);border-radius:10px;padding:12px;margin-top:18px;font-size:12.5px;color:var(--body);line-height:1.55;}
+  .obnote b{color:var(--ink);font-weight:600;}
+  .obfoot{display:flex;justify-content:space-between;align-items:center;margin-top:22px;}
+
+  /* loading */
+  .loadwrap{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 24px;text-align:center;min-height:460px;}
+  .spinner{width:44px;height:44px;border-radius:50%;border:4px solid var(--brand-pale);border-top-color:var(--brand);animation:spin .8s linear infinite;margin-bottom:22px;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  @media(prefers-reduced-motion:reduce){.spinner{animation:none;}}
+  .loadwrap h2{font-size:20px;font-weight:700;margin:0 0 6px;}
+  .loadwrap .lpp{font-size:13.5px;color:var(--body);margin:0 0 24px;}
+  .loadsteps{text-align:left;display:flex;flex-direction:column;gap:11px;width:min(320px,100%);}
+  .loadsteps .s{display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--ink);font-weight:500;}
+  .loadsteps .s .k{width:18px;height:18px;border-radius:50%;background:var(--brand);color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:600;flex-shrink:0;}
+  .loadsteps .s.doing .k{background:var(--brand-pale);color:var(--brand);}
+  .loadsteps .s.todo{color:var(--mute);} .loadsteps .s.todo .k{background:var(--surface-soft);color:var(--mute);border:1px solid var(--border);}
+
+  /* empty */
+  .empty{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:64px 24px;min-height:420px;}
+  .empty .art{width:72px;height:72px;border-radius:18px;background:var(--brand-pale);display:flex;align-items:center;justify-content:center;margin-bottom:20px;}
+  .empty .art .vic{width:36px;height:36px;}
+  .empty h3{font-size:18px;font-weight:700;margin:0 0 6px;}
+  .empty p{font-size:13.5px;color:var(--body);margin:0 0 22px;max-width:34ch;line-height:1.6;}
+
+  /* brand voice */
+  .bvgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+  @media(max-width:760px){.bvgrid{grid-template-columns:1fr;}}
+  .bvcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card);padding:20px;}
+  .bvcard.default{border-color:var(--brand);}
+  .bvcard .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+  .bvcard .nm{font-size:16px;font-weight:600;display:flex;align-items:center;gap:8px;}
+  .bvcard .defbadge{font-size:10.5px;font-weight:600;color:var(--brand);background:var(--brand-pale);border-radius:9999px;padding:3px 9px;}
+  .bvcard .more{color:var(--mute);font-weight:600;cursor:pointer;font-size:18px;line-height:1;}
+  .bvcard .tones{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+  .bvcard .tt{font-size:11.5px;font-weight:500;color:var(--body);background:var(--surface-soft);border:1px solid var(--border2);border-radius:9999px;padding:3px 9px;}
+  .bvcard .sample{font-size:13px;color:var(--body);line-height:1.55;background:var(--surface-soft);border-radius:10px;padding:12px 14px;margin-bottom:14px;}
+  .bvcard .acts{display:flex;gap:8px;}
+  .btn-edit{font-size:12.5px;font-weight:600;color:var(--brand);background:var(--brand-pale);border:none;border-radius:var(--r-btn);padding:8px 15px;cursor:pointer;font-family:inherit;}
+  .btn-mini{font-size:12.5px;font-weight:500;color:var(--body);background:var(--surface);border:1px solid var(--border);border-radius:var(--r-btn);padding:8px 15px;cursor:pointer;font-family:inherit;}
+  .bv-new{border:1px dashed var(--border);background:var(--surface-soft);border-radius:var(--r-card);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;cursor:pointer;min-height:180px;gap:6px;}
+  .bv-new .plus{font-size:26px;color:var(--brand);line-height:1;}
+  .bv-new .t{font-size:14px;font-weight:600;} .bv-new .d{font-size:12px;color:var(--mute);}
+
+  /* pricing */
+  .plangrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:6px;}
+  @media(max-width:820px){.plangrid{grid-template-columns:1fr;}}
+  .plan{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card);padding:26px;}
+  .plan.featured{border:1.5px solid var(--brand);position:relative;}
+  .plan .ptag{position:absolute;top:-11px;left:22px;font-size:11px;font-weight:600;color:#fff;background:var(--brand);border-radius:9999px;padding:4px 11px;}
+  .plan .pn{font-size:16px;font-weight:600;}
+  .plan .pr{font-size:32px;font-weight:700;letter-spacing:-0.02em;margin:8px 0 2px;}
+  .plan .pr small{font-size:14px;font-weight:500;color:var(--mute);}
+  .plan .pd{font-size:12.5px;color:var(--body);margin-bottom:18px;}
+  .plan ul{list-style:none;margin:0 0 20px;padding:0;display:flex;flex-direction:column;gap:10px;}
+  .plan li{font-size:13px;color:var(--body);display:flex;gap:8px;align-items:flex-start;line-height:1.4;}
+  .plan li::before{content:"✓";color:var(--brand);font-weight:600;}
+  .plan .pbtn{width:100%;justify-content:center;}
+
+  .vic{display:block;color:inherit;}
+  .c-purple{background:var(--acc-pl-bg);color:var(--acc-pl);}
+  .c-teal{background:var(--acc-tl-bg);color:var(--acc-tl);}
+  .c-coral{background:var(--acc-co-bg);color:var(--acc-co);}
+  .i-purple{color:var(--acc-pl);} .i-teal{color:var(--acc-tl);} .i-coral{color:var(--acc-co);}
+
+  .points{margin:16px 2px 0;padding:0;display:flex;flex-direction:column;gap:7px;}
+  .points li{list-style:none;font-size:13px;color:var(--body);line-height:1.5;padding-left:20px;position:relative;}
+  .points li::before{content:"✓";position:absolute;left:0;color:var(--brand);font-weight:600;}
+  .points li b{color:var(--ink);font-weight:600;}
+  .foot{margin-top:56px;border-top:1px solid var(--border);padding-top:22px;font-size:13px;color:var(--body);line-height:1.65;}
+  .foot b{color:var(--ink);font-weight:600;}
+</style>
+
+<div class="wrap"><div class="inner">
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+    <symbol id="ic-doc" viewBox="0 0 24 24"><path fill="currentColor" fill-opacity=".3" d="M6 2h7l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z"/><path fill="currentColor" d="M13 2v4a1 1 0 0 0 1 1h4z"/><rect fill="currentColor" x="7.5" y="12" width="9" height="1.7" rx=".85"/><rect fill="currentColor" x="7.5" y="15.6" width="6.5" height="1.7" rx=".85"/></symbol>
+    <symbol id="ic-chat" viewBox="0 0 24 24"><path fill="currentColor" d="M5 3.5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-7L8 19v-3.5H5a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2Z"/><g fill="#fff"><circle cx="8.5" cy="9.5" r="1.2"/><circle cx="12" cy="9.5" r="1.2"/><circle cx="15.5" cy="9.5" r="1.2"/></g></symbol>
+    <symbol id="ic-mega" viewBox="0 0 24 24"><path fill="currentColor" d="M3 10v3a1.5 1.5 0 0 0 1.5 1.5H6l1.2 4.3a1 1 0 0 0 1.9-.5v-3.5l9 3.4a1 1 0 0 0 1.4-.95V6.75A1 1 0 0 0 18.1 5.8L4.5 9A1.5 1.5 0 0 0 3 10Z"/><path fill="currentColor" fill-opacity=".3" d="M20.5 9.3a2.6 2.6 0 0 1 0 5.4z"/></symbol>
+    <symbol id="ic-bars" viewBox="0 0 24 24"><rect fill="currentColor" fill-opacity=".3" x="4" y="12" width="4" height="8" rx="1"/><rect fill="currentColor" x="10" y="7" width="4" height="13" rx="1"/><rect fill="currentColor" fill-opacity=".3" x="16" y="4" width="4" height="16" rx="1"/></symbol>
+    <symbol id="ic-pencil" viewBox="0 0 24 24"><path fill="currentColor" d="M4 17.3 14.6 6.7l2.7 2.7L6.7 20H4z"/><path fill="currentColor" fill-opacity=".3" d="M15.6 5.7 18.3 8.4l1.4-1.4a1.6 1.6 0 0 0 0-2.3l-.4-.4a1.6 1.6 0 0 0-2.3 0z"/></symbol>
+    <symbol id="ic-grid" viewBox="0 0 24 24"><rect fill="currentColor" x="4" y="4" width="7" height="7" rx="1.6"/><rect fill="currentColor" fill-opacity=".3" x="13" y="4" width="7" height="7" rx="1.6"/><rect fill="currentColor" fill-opacity=".3" x="4" y="13" width="7" height="7" rx="1.6"/><rect fill="currentColor" x="13" y="13" width="7" height="7" rx="1.6"/></symbol>
+    <symbol id="ic-voice" viewBox="0 0 24 24"><g fill="currentColor"><rect x="3.5" y="10" width="2.2" height="4" rx="1.1" fill-opacity=".3"/><rect x="7.5" y="7" width="2.2" height="10" rx="1.1"/><rect x="11" y="4" width="2.2" height="16" rx="1.1" fill-opacity=".3"/><rect x="14.5" y="7" width="2.2" height="10" rx="1.1"/><rect x="18.3" y="10" width="2.2" height="4" rx="1.1" fill-opacity=".3"/></g></symbol>
+    <symbol id="ic-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="currentColor" fill-opacity=".3"/><path fill="currentColor" d="M12 7a1 1 0 0 1 1 1v3.5l2.2 1.3a1 1 0 1 1-1 1.7l-2.7-1.6A1 1 0 0 1 11 12V8a1 1 0 0 1 1-1Z"/></symbol>
+    <symbol id="ic-bell" viewBox="0 0 24 24"><path fill="currentColor" d="M12 3a5 5 0 0 1 5 5c0 3.8 1.3 4.8 1.8 5.7a1 1 0 0 1-.9 1.5H6.1a1 1 0 0 1-.9-1.5C5.7 12.8 7 11.8 7 8a5 5 0 0 1 5-5Z"/><path fill="currentColor" fill-opacity=".3" d="M9.8 18a2.3 2.3 0 0 0 4.4 0z"/></symbol>
+    <symbol id="ic-spark" viewBox="0 0 24 24"><path fill="currentColor" d="M11 2.5 12.9 8 18 9.9 12.9 11.8 11 17 9.1 11.8 4 9.9 9.1 8z"/><circle fill="currentColor" fill-opacity=".3" cx="18" cy="17" r="2.3"/></symbol>
+    <symbol id="ic-thumb" viewBox="0 0 24 24"><path fill="currentColor" fill-opacity=".3" d="M3 11h3.2v9H3z"/><path fill="currentColor" d="M8 20v-9l3.4-6a1.6 1.6 0 0 1 3 1l-1 4.2h5a2 2 0 0 1 2 2.4l-1.2 5.8A2 2 0 0 1 17.3 20z"/></symbol>
+    <symbol id="ic-gift" viewBox="0 0 24 24"><rect fill="currentColor" fill-opacity=".3" x="4.5" y="10.5" width="15" height="9.5" rx="1.4"/><rect fill="currentColor" x="3.5" y="7" width="17" height="4" rx="1"/><rect fill="currentColor" x="10.8" y="7" width="2.4" height="13"/></symbol>
+    <symbol id="ic-channels" viewBox="0 0 24 24"><rect fill="currentColor" x="2.5" y="9.5" width="6.5" height="5" rx="1.6"/><g fill="currentColor" fill-opacity=".3"><rect x="16" y="3" width="5.5" height="5" rx="1.4"/><rect x="16" y="9.5" width="5.5" height="5" rx="1.4"/><rect x="16" y="16" width="5.5" height="5" rx="1.4"/></g><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.3M12.3 5.5V18.5M12.3 5.5H16M12.3 12H16M12.3 18.5H16"/></symbol>
+    <symbol id="ic-shuffle" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h3.5l3 3"/><path d="M14 14l2.5 3H21"/><path d="M3 17h3.5l10-11H21"/><path d="M18 3.5 21.5 6 18 8.5"/><path d="M18 14.5 21.5 17 18 19.5"/></g></symbol>
+    <symbol id="ic-image" viewBox="0 0 24 24"><rect fill="currentColor" fill-opacity=".3" x="4" y="5" width="16" height="14" rx="2.4"/><circle fill="currentColor" cx="9" cy="10" r="1.8"/><path fill="currentColor" d="M4 16.5 8.6 12l3 3L15 11.4l5 5V17a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/></symbol>
+    <symbol id="ic-code" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 7.5 4.5 12 9 16.5"/><path d="M15 7.5 19.5 12 15 16.5"/></g></symbol>
+    <symbol id="ic-table" viewBox="0 0 24 24"><rect fill="currentColor" fill-opacity=".3" x="4" y="5" width="16" height="14" rx="2.2"/><path fill="currentColor" d="M4 9.4h16v1.7H4zM9.4 9h1.7v10H9.4z"/></symbol>
+    <symbol id="ic-bolt" viewBox="0 0 24 24"><path fill="currentColor" d="M13 2 4 13.2h6L9 22l9-11.2h-6z"/></symbol>
+    <symbol id="ic-home" viewBox="0 0 24 24"><path fill="currentColor" fill-opacity=".3" d="M5 10.8 12 5.2l7 5.6V19a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1z"/><path fill="currentColor" d="M3.4 11 12 4.2 20.6 11l-1.3 1.6L12 6.9 4.7 12.6z"/></symbol>
+  </defs></svg>
+
+  <p class="eyebrow">Verba · Redesign v9 · Minimal White</p>
+  <h1>Verba — 미니멀 화이트 리디자인</h1>
+  <p class="lede">전체 배경을 <b>화이트</b>로 두고, 헤딩·강조의 <b>글자 무게를 한 단계 덜어</b> 가볍게, <b>여백을 넉넉히</b> 확보했어요. 카드는 얇은 헤어라인으로 정리 — Flodesk·Mercor식 미니멀. 브랜드 <b>#6B58EC</b> + 팔레트(퍼플·틸·코랄) 2D 아이콘.</p>
+
+  <!-- 1 DASHBOARD -->
+  <div class="screentag"><span class="n">1</span><span class="t">대시보드</span><span class="d">빠른 생성 · 최근 · 인사이트</span></div>
+  <div class="frame">
+    <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">verba.app</span></div>
+    <div class="shell">
+      <aside class="sidebar">
+        <div class="slogo"><b>V</b>erba</div>
+        <nav class="snav"><a class="on"><span class="i"><svg class="vic"><use href="#ic-home"/></svg></span>대시보드</a><a><span class="i"><svg class="vic"><use href="#ic-pencil"/></svg></span>카피 생성</a><a><span class="i"><svg class="vic"><use href="#ic-grid"/></svg></span>템플릿</a><a><span class="i"><svg class="vic"><use href="#ic-voice"/></svg></span>브랜드 보이스</a><a><span class="i"><svg class="vic"><use href="#ic-clock"/></svg></span>히스토리</a><a><span class="i"><svg class="vic"><use href="#ic-bars"/></svg></span>인사이트</a></nav>
+        <div class="sfoot"><div class="creditbox"><div class="l">남은 크레딧</div><div class="v">18 / 50</div><div class="bar"><i></i></div></div><div class="sprofile"><span class="av"></span><span class="nm">Sam Lee</span></div></div>
+      </aside>
+      <main class="content">
+        <div class="chead"><div><h2>안녕하세요, Sam님 👋</h2><div class="sub">오늘은 어떤 카피를 만들어 볼까요?</div></div><button class="btn-primary">＋ 새 카피 생성</button></div>
+        <div class="seclabel">빠른 생성</div>
+        <div class="actiongrid">
+          <div class="acard"><div class="ico c-purple"><svg class="vic"><use href="#ic-doc"/></svg></div><div class="t">상세페이지</div><div class="d">제품 상세 설명 카피</div></div>
+          <div class="acard"><div class="ico c-teal"><svg class="vic"><use href="#ic-chat"/></svg></div><div class="t">SNS</div><div class="d">인스타·스레드 캡션</div></div>
+          <div class="acard"><div class="ico c-coral"><svg class="vic"><use href="#ic-mega"/></svg></div><div class="t">광고</div><div class="d">검색·배너 광고 문구</div></div>
+          <div class="acard dash"><div class="plus">＋</div><div class="t">새 상품 등록</div><div class="d">상품 정보로 한 번에</div></div>
+        </div>
+        <div class="dgrid" style="margin-top:26px;">
+          <div class="panel"><div class="ph"><span class="t">최근 생성</span><a href="#">전체 보기 →</a></div>
+            <div class="mini"><span class="l">새싹비빔밥 <small>요식업 · 3개 채널</small></span><span class="go">→</span></div>
+            <div class="mini"><span class="l">수분 진정 크림 <small>화장품 · 2개 채널</small></span><span class="go">→</span></div>
+            <div class="mini"><span class="l">무선 이어폰 <small>전자기기 · 3개 채널</small></span><span class="go">→</span></div>
+          </div>
+          <div class="panel"><div class="ph"><span class="t">이번 달</span></div>
+            <div class="stat"><div class="row"><span class="big">34</span><span class="cap">건 생성</span></div><div class="hr"></div><div class="row"><span class="big">~3.2h</span><span class="cap">아낀 시간(추정)</span></div><div class="hr"></div><div class="row"><span class="big">SNS</span><span class="cap">가장 많이 쓴 채널</span></div></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- 2 GENERATE -->
+  <div class="screentag"><span class="n">2</span><span class="t">카피 생성 (입력)</span><span class="d">'＋ 새 카피 생성' → 입력 페이지</span></div>
+  <div class="frame">
+    <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">verba.app / generate</span></div>
+    <div class="shell">
+      <aside class="sidebar">
+        <div class="slogo"><b>V</b>erba</div>
+        <nav class="snav"><a><span class="i"><svg class="vic"><use href="#ic-home"/></svg></span>대시보드</a><a class="on"><span class="i"><svg class="vic"><use href="#ic-pencil"/></svg></span>카피 생성</a><a><span class="i"><svg class="vic"><use href="#ic-grid"/></svg></span>템플릿</a><a><span class="i"><svg class="vic"><use href="#ic-voice"/></svg></span>브랜드 보이스</a><a><span class="i"><svg class="vic"><use href="#ic-clock"/></svg></span>히스토리</a><a><span class="i"><svg class="vic"><use href="#ic-bars"/></svg></span>인사이트</a></nav>
+        <div class="sfoot"><div class="creditbox"><div class="l">남은 크레딧</div><div class="v">18 / 50</div><div class="bar"><i></i></div></div><div class="sprofile"><span class="av"></span><span class="nm">Sam Lee</span></div></div>
+      </aside>
+      <main class="content">
+        <div class="chead"><div><h2>카피 생성</h2><div class="sub">상품 정보를 넣으면 채널에 맞는 카피를 만들어 드려요.</div></div></div>
+        <div class="gengrid">
+          <div class="panel">
+            <div class="field"><div class="lab">상품명</div><input class="inp" placeholder="예: 수분 진정 크림"></div>
+            <div class="field"><div class="lab">업종</div><input class="inp" placeholder="예: 화장품"></div>
+            <div class="field"><div class="lab">핵심 소구점 <span class="opt">선택</span></div><input class="inp" placeholder="예: 자극 없는 저자극 · 24시간 보습"></div>
+            <div class="field"><div class="lab">채널 <span class="opt">복수 선택</span></div>
+              <div class="chips"><span class="chip on">상세페이지</span><span class="chip on">SNS</span><span class="chip">광고</span></div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="lab">브랜드 보이스 <span class="opt">저장된 톤</span></div>
+            <div class="voice">
+              <div class="vopt on"><span class="rad"></span><div><div class="t">우리 브랜드 · 기본</div><div class="d">친근하고 신뢰감 있게</div></div></div>
+              <div class="vopt"><span class="rad"></span><div><div class="t">프리미엄</div><div class="d">차분하고 고급스럽게</div></div></div>
+            </div>
+            <div class="toggle-row"><div><div class="t">A/B 변형 생성</div><div class="d">채널별 2안 비교</div></div><span class="sw"></span></div>
+            <button class="btn-primary" style="width:100%;justify-content:center;margin-top:14px;">카피 생성 <span class="cost">−2 크레딧</span></button>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- 3 RESULT -->
+  <div class="screentag"><span class="n">3</span><span class="t">생성 결과</span><span class="d">생성 근거 · 변형 전략 · A/B 실제 전환</span></div>
+  <div class="frame" id="resultFrame">
+    <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">verba.app / result</span></div>
+    <div class="shell">
+      <aside class="sidebar">
+        <div class="slogo"><b>V</b>erba</div>
+        <nav class="snav"><a><span class="i"><svg class="vic"><use href="#ic-home"/></svg></span>대시보드</a><a class="on"><span class="i"><svg class="vic"><use href="#ic-pencil"/></svg></span>카피 생성</a><a><span class="i"><svg class="vic"><use href="#ic-grid"/></svg></span>템플릿</a><a><span class="i"><svg class="vic"><use href="#ic-voice"/></svg></span>브랜드 보이스</a><a><span class="i"><svg class="vic"><use href="#ic-clock"/></svg></span>히스토리</a><a><span class="i"><svg class="vic"><use href="#ic-bars"/></svg></span>인사이트</a></nav>
+        <div class="sfoot"><div class="creditbox"><div class="l">남은 크레딧</div><div class="v">16 / 50</div><div class="bar"><i style="width:32%"></i></div></div><div class="sprofile"><span class="av"></span><span class="nm">Sam Lee</span></div></div>
+      </aside>
+      <main class="content">
+        <div class="rhead">
+          <div><div class="title">새싹비빔밥 <span class="badge">요식업</span></div><div class="meta">방금 생성 · 3개 채널 · A/B 변형 · 톤: 친근하고 세련되게</div></div>
+          <div style="display:flex;gap:9px;"><button class="btn-sm">↻ 다시 생성</button><button class="btn-sm solid" id="exportBtn">↥ 내보내기</button></div>
+        </div>
+        <div class="why"><span class="ic"><svg class="vic"><use href="#ic-bolt"/></svg></span><p><b>생성 근거</b> — 상품(새싹비빔밥)·업종(요식업)·톤(친근·세련)을 바탕으로, 채널별 규칙(글자수·구조·해시태그)에 맞춰 <b>서로 다른 소구 전략 2안(A·B)</b>을 만들었어요. 각 채널의 <b>안 A / 안 B</b>를 눌러 전략을 비교해 보세요.</p></div>
+        <div class="channels">
+          <div class="ch">
+            <div class="ch-top"><span class="ch-name"><span class="ch-ic c-teal"><svg class="vic"><use href="#ic-chat"/></svg></span>SNS · 인스타그램</span><span class="abtabs" data-ch="sns"><span class="on" data-v="a">안 A</span><span data-v="b">안 B</span></span></div>
+            <div class="ch-body" data-ch="sns"><span class="v show" data-v="a" data-strat="혜택·세련미 강조 · 2030 라이프 훅">🍚🌱 바쁜 2030을 위한 완벽한 한 끼! 새싹비빔밥으로 건강과 세련미를 동시에 챙기세요. <span class="tags">#웰빙 #비빔밥 #2030라이프</span></span><span class="v" data-v="b" data-strat="공감·상황 제시 · '점심 고민' 훅">🌱 오늘 점심 뭐 먹지? 고민 끝! 신선한 새싹 가득 새싹비빔밥으로 가볍고 든든하게. <span class="tags">#건강한끼 #직장인점심 #오늘뭐먹지</span></span></div>
+            <div class="ch-strategy" data-ch="sns"><span>✦</span><span class="txt">혜택·세련미 강조 · 2030 라이프 훅</span></div>
+            <div class="ch-foot"><span class="cnt">62자</span><button class="btn-copy">⧉ 복사</button></div>
+          </div>
+          <div class="ch">
+            <div class="ch-top"><span class="ch-name"><span class="ch-ic c-coral"><svg class="vic"><use href="#ic-mega"/></svg></span>광고 · 구글 검색</span><span class="abtabs" data-ch="ad"><span class="on" data-v="a">안 A</span><span data-v="b">안 B</span></span></div>
+            <div class="ch-body" data-ch="ad"><span class="v show" data-v="a" data-strat="긴급 행동 유도 · '바로 주문' CTA">2030 건강 한 끼, 새싹비빔밥 — 오늘 점심 바로 주문!</span><span class="v" data-v="b" data-strat="신선함·가치 강조형">신선한 새싹 가득, 건강한 한 끼 새싹비빔밥 지금 주문하기</span></div>
+            <div class="ch-strategy" data-ch="ad"><span>✦</span><span class="txt">긴급 행동 유도 · '바로 주문' CTA</span></div>
+            <div class="ch-foot"><span class="cnt warn">28 / 30자 · 헤드라인 제한 근접</span><button class="btn-copy done">✓ 복사됨</button></div>
+          </div>
+          <div class="ch">
+            <div class="ch-top"><span class="ch-name"><span class="ch-ic c-purple"><svg class="vic"><use href="#ic-doc"/></svg></span>상세페이지</span><span class="abtabs" data-ch="dp"><span class="on" data-v="a">안 A</span><span data-v="b">안 B</span></span></div>
+            <div class="ch-body" data-ch="dp"><span class="v show" data-v="a" data-strat="타깃·탄생 스토리 중심">새싹비빔밥은 2030 1인 가구를 위해 건강하고 세련된 웰빙 식품으로 탄생했습니다. 신선한 새싹과 영양 가득한 재료들이 조화를 이루어 맛과 건강을 동시에 챙길 수 있습니다.</span><span class="v" data-v="b" data-strat="감각·경험 묘사 중심">신선한 새싹과 다양한 채소가 가득 담긴 건강한 한 끼. 부드러운 고추장 소스와의 조화로 풍미가 더해져, 바쁜 일상에 건강한 에너지를 더합니다. 오늘 점심, 새싹비빔밥으로 결정하세요.</span></div>
+            <div class="ch-strategy" data-ch="dp"><span>✦</span><span class="txt">타깃·탄생 스토리 중심</span></div>
+            <div class="ch-foot"><span class="cnt">96자</span><button class="btn-copy">⧉ 복사</button></div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <div class="overlay" id="exportModal">
+      <div class="modal">
+        <div class="mh"><h3>내보내기</h3><button class="x" id="exportClose">✕</button></div>
+        <p class="ms">새싹비빔밥 · 3개 채널 카피를 원하는 형식으로 내보내요.</p>
+        <div class="exopt"><span class="ei c-purple"><svg class="vic"><use href="#ic-image"/></svg></span><div><div class="t">SNS 이미지 카드</div><div class="d">인스타 업로드용 이미지(9:16 · 1:1)</div></div></div>
+        <div class="exopt"><span class="ei c-teal"><svg class="vic"><use href="#ic-code"/></svg></span><div><div class="t">상세페이지 HTML</div><div class="d">스마트스토어 붙여넣기용</div></div></div>
+        <div class="exopt"><span class="ei c-coral"><svg class="vic"><use href="#ic-table"/></svg></span><div><div class="t">텍스트 · CSV</div><div class="d">채널별 카피 일괄 저장</div></div></div>
+      </div>
+    </div>
+  </div>
+  <ul class="points"><li>배경 화이트 + 얇은 헤어라인 카드 · 글자 무게↓ · 여백↑ 로 미니멀 정리</li><li>안 A / 안 B 클릭 → 카피·전략 캡션 실제 전환, <b>↥ 내보내기</b> → 모달</li></ul>
+
+  <!-- 4 TEMPLATES -->
+  <div class="screentag"><span class="n">4</span><span class="t">템플릿 갤러리</span><span class="d">목적별 프리셋</span></div>
+  <div class="frame">
+    <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">verba.app / templates</span></div>
+    <div class="shell">
+      <aside class="sidebar">
+        <div class="slogo"><b>V</b>erba</div>
+        <nav class="snav"><a><span class="i"><svg class="vic"><use href="#ic-home"/></svg></span>대시보드</a><a><span class="i"><svg class="vic"><use href="#ic-pencil"/></svg></span>카피 생성</a><a class="on"><span class="i"><svg class="vic"><use href="#ic-grid"/></svg></span>템플릿</a><a><span class="i"><svg class="vic"><use href="#ic-voice"/></svg></span>브랜드 보이스</a><a><span class="i"><svg class="vic"><use href="#ic-clock"/></svg></span>히스토리</a><a><span class="i"><svg class="vic"><use href="#ic-bars"/></svg></span>인사이트</a></nav>
+        <div class="sfoot"><div class="creditbox"><div class="l">남은 크레딧</div><div class="v">18 / 50</div><div class="bar"><i></i></div></div><div class="sprofile"><span class="av"></span><span class="nm">Sam Lee</span></div></div>
+      </aside>
+      <main class="content">
+        <div class="chead"><div><h2>템플릿</h2><div class="sub">목적을 고르면 바로 채워진 카피로 시작해요.</div></div></div>
+        <div class="filterrow"><span class="ft on">전체</span><span class="ft">세일·프로모</span><span class="ft">신제품</span><span class="ft">재입고</span><span class="ft">브랜드</span></div>
+        <div class="tplgrid">
+          <div class="tpl"><div class="top"><span class="ico c-coral"><svg class="vic"><use href="#ic-clock"/></svg></span><span class="use">사용 →</span></div><h3>타임세일 D-1</h3><p>마감 임박 긴급 할인으로 구매 전환을 유도해요.</p><div class="tags"><span class="tg">SNS</span><span class="tg">광고</span></div></div>
+          <div class="tpl"><div class="top"><span class="ico c-purple"><svg class="vic"><use href="#ic-spark"/></svg></span><span class="use">사용 →</span></div><h3>신제품 런칭</h3><p>새 상품의 첫인상을 강조하는 소개 카피.</p><div class="tags"><span class="tg">상세</span><span class="tg">SNS</span></div></div>
+          <div class="tpl"><div class="top"><span class="ico c-teal"><svg class="vic"><use href="#ic-bell"/></svg></span><span class="use">사용 →</span></div><h3>재입고 알림</h3><p>품절 인기 상품의 재입고를 알려 재구매를 유도.</p><div class="tags"><span class="tg">SNS</span></div></div>
+          <div class="tpl"><div class="top"><span class="ico c-coral"><svg class="vic"><use href="#ic-thumb"/></svg></span><span class="use">사용 →</span></div><h3>리뷰 이벤트</h3><p>구매 후기 작성을 부드럽게 유도하는 문구.</p><div class="tags"><span class="tg">SNS</span><span class="tg">상세</span></div></div>
+          <div class="tpl"><div class="top"><span class="ico c-purple"><svg class="vic"><use href="#ic-doc"/></svg></span><span class="use">사용 →</span></div><h3>브랜드 스토리</h3><p>브랜드의 시작과 가치를 담은 스토리텔링.</p><div class="tags"><span class="tg">상세</span></div></div>
+          <div class="tpl"><div class="top"><span class="ico c-teal"><svg class="vic"><use href="#ic-gift"/></svg></span><span class="use">사용 →</span></div><h3>번들·세트 제안</h3><p>묶음 구성의 혜택을 강조해 객단가를 높여요.</p><div class="tags"><span class="tg">상세</span><span class="tg">광고</span></div></div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- 5 INSIGHTS -->
+  <div class="screentag"><span class="n">5</span><span class="t">인사이트</span><span class="d">생성량 · 아낀 시간 · 채널 분포</span></div>
+  <div class="frame">
+    <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">verba.app / insights</span></div>
+    <div class="shell">
+      <aside class="sidebar">
+        <div class="slogo"><b>V</b>erba</div>
+        <nav class="snav"><a><span class="i"><svg class="vic"><use href="#ic-home"/></svg></span>대시보드</a><a><span class="i"><svg class="vic"><use href="#ic-pencil"/></svg></span>카피 생성</a><a><span class="i"><svg class="vic"><use href="#ic-grid"/></svg></span>템플릿</a><a><span class="i"><svg class="vic"><use href="#ic-voice"/></svg></span>브랜드 보이스</a><a><span class="i"><svg class="vic"><use href="#ic-clock"/></svg></span>히스토리</a><a class="on"><span class="i"><svg class="vic"><use href="#ic-bars"/></svg></span>인사이트</a></nav>
+        <div class="sfoot"><div class="creditbox"><div class="l">남은 크레딧</div><div class="v">16 / 50</div><div class="bar"><i style="width:32%"></i></div></div><div class="sprofile"><span class="av"></span><span class="nm">Sam Lee</span></div></div>
+      </aside>
+      <main class="content">
+        <div class="chead"><div><h2>인사이트</h2><div class="sub">이번 달 활동 요약</div></div></div>
+        <div class="kpirow">
+          <div class="kpi"><div class="l">총 생성</div><div class="v">34건</div><div class="delta">▲ 12% vs 지난달</div></div>
+          <div class="kpi"><div class="l">아낀 시간</div><div class="v">~3.2h</div><div class="delta">건당 ~5.6분</div></div>
+          <div class="kpi"><div class="l">크레딧 사용</div><div class="v">34 / 50</div><div class="delta" style="color:var(--mute)">68% 소진</div></div>
+          <div class="kpi"><div class="l">활용 채널</div><div class="v">3</div><div class="delta" style="color:var(--mute)">SNS 최다</div></div>
+        </div>
+        <div class="insgrid">
+          <div class="panel"><div class="ph"><span class="t">채널별 생성</span></div>
+            <div class="barrow"><span class="bl">SNS</span><span class="bt"><i style="width:82%"></i></span><span class="bv">18</span></div>
+            <div class="barrow"><span class="bl">상세</span><span class="bt"><i style="width:45%"></i></span><span class="bv">10</span></div>
+            <div class="barrow"><span class="bl">광고</span><span class="bt"><i style="width:27%"></i></span><span class="bv">6</span></div>
+          </div>
+          <div class="panel"><div class="ph"><span class="t">최근 7일</span></div>
+            <div class="week">
+              <div class="d"><i style="height:30%"></i><small>월</small></div>
+              <div class="d"><i style="height:55%"></i><small>화</small></div>
+              <div class="d"><i style="height:40%"></i><small>수</small></div>
+              <div class="d"><i class="hot" style="height:90%"></i><small>목</small></div>
+              <div class="d"><i style="height:65%"></i><small>금</small></div>
+              <div class="d"><i style="height:20%"></i><small>토</small></div>
+              <div class="d"><i style="height:35%"></i><small>일</small></div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- 6 LANDING -->
+  <div class="screentag"><span class="n">6</span><span class="t">랜딩 페이지</span><span class="d">가입 전 · 마케팅</span></div>
+  <div class="frame">
+    <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">verba.app</span></div>
+    <div class="lp">
+      <div class="lpnav">
+        <div class="slogo" style="padding:0"><b>V</b>erba</div>
+        <div class="links"><span>기능</span><span>요금</span><span>사례</span><span>문의</span></div>
+        <div class="right"><button class="btn-ghost">로그인</button><button class="btn-primary">무료로 시작하기</button></div>
+      </div>
+      <div class="lphero">
+        <span class="tag">AI 카피라이팅</span>
+        <h2>쓸 문구 고민하는 시간, Verba가 아껴드려요</h2>
+        <p class="hp">상품 정보만 넣으면 상세페이지·SNS·광고 카피를 한 번에. 채널에 맞게, 브랜드 톤 그대로.</p>
+        <div class="ctas"><button class="btn-primary">무료로 시작하기</button><button class="btn-outline">데모 보기</button></div>
+        <div class="lptrust">신용카드 없이 무료 크레딧 제공 · 1분이면 첫 카피 완성</div>
+      </div>
+      <div class="lpfeat">
+        <div class="f"><div class="ic i-teal"><svg class="vic"><use href="#ic-channels"/></svg></div><h3>채널 한 번에</h3><p>상세페이지·SNS·광고를 한 번의 입력으로 동시에 생성.</p></div>
+        <div class="f"><div class="ic i-purple"><svg class="vic"><use href="#ic-shuffle"/></svg></div><h3>A/B 변형</h3><p>서로 다른 소구 전략 2안을 만들어 바로 비교·선택.</p></div>
+        <div class="f"><div class="ic i-coral"><svg class="vic"><use href="#ic-voice"/></svg></div><h3>브랜드 보이스</h3><p>한 번 설정하면 모든 카피에 우리 톤이 자동 유지.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7 ONBOARDING -->
+  <div class="screentag"><span class="n">7</span><span class="t">온보딩 · 브랜드 보이스 설정</span><span class="d">첫 로그인 → '우리 브랜드 · 기본'이 여기서 만들어져요</span></div>
+  <div class="frame">
+    <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">verba.app / onboarding</span></div>
+    <div class="obwrap">
+      <div class="stepper">
+        <span class="st done"><span class="dot">✓</span>환영</span><span class="line"></span>
+        <span class="st on"><span class="dot">2</span>브랜드 보이스</span><span class="line"></span>
+        <span class="st"><span class="dot">3</span>완료</span>
+      </div>
+      <div class="obcard">
+        <h2>브랜드 보이스를 알려주세요</h2>
+        <p class="obsub">여기서 만든 톤이 생성되는 모든 카피에 <b>기본으로 적용</b>돼요.</p>
+        <div class="field"><div class="lab">브랜드 · 스토어명</div><input class="inp" placeholder="예: 초록상회"></div>
+        <div class="field"><div class="lab">주요 업종</div><input class="inp" placeholder="예: 요식업 · 밀키트"></div>
+        <div class="field"><div class="lab">기본 톤 <span class="opt">직접 입력하거나 골라주세요</span></div>
+          <input class="inp" placeholder="예: 다정하지만 전문적으로, 살짝 위트 있게" style="margin-bottom:10px;">
+          <div class="tonechips"><span class="tc on">친근함</span><span class="tc on">신뢰감</span><span class="tc">고급스러움</span><span class="tc">발랄함</span><span class="tc">전문적</span><span class="tc">감성적</span><span class="tc">유머러스</span><span class="tc">미니멀</span><span class="tc">트렌디</span><span class="tc">따뜻함</span><span class="tc">단호함</span><span class="tc">위트있게</span></div>
+        </div>
+        <div class="field"><div class="lab">피하고 싶은 표현 <span class="opt">선택</span></div><input class="inp" placeholder="예: 과장된 최상급 표현(최고·1위)"></div>
+        <div class="obnote">✦ <span>이 설정이 곧 <b>'우리 브랜드 · 기본'</b> 보이스예요. 생성 시 자동 적용되고, 언제든 사이드바 <b>[브랜드 보이스]</b> 메뉴에서 수정·추가할 수 있어요.</span></div>
+        <div class="obfoot"><button class="btn-ghost">나중에 하기</button><button class="btn-primary">다음 →</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8 LOADING -->
+  <div class="screentag"><span class="n">8</span><span class="t">로딩 상태</span><span class="d">생성 → 결과 사이 · AI 작성 중</span></div>
+  <div class="frame">
+    <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">verba.app / generating</span></div>
+    <div class="shell">
+      <aside class="sidebar">
+        <div class="slogo"><b>V</b>erba</div>
+        <nav class="snav"><a><span class="i"><svg class="vic"><use href="#ic-home"/></svg></span>대시보드</a><a class="on"><span class="i"><svg class="vic"><use href="#ic-pencil"/></svg></span>카피 생성</a><a><span class="i"><svg class="vic"><use href="#ic-grid"/></svg></span>템플릿</a><a><span class="i"><svg class="vic"><use href="#ic-voice"/></svg></span>브랜드 보이스</a><a><span class="i"><svg class="vic"><use href="#ic-clock"/></svg></span>히스토리</a><a><span class="i"><svg class="vic"><use href="#ic-bars"/></svg></span>인사이트</a></nav>
+        <div class="sfoot"><div class="creditbox"><div class="l">남은 크레딧</div><div class="v">16 / 50</div><div class="bar"><i style="width:32%"></i></div></div><div class="sprofile"><span class="av"></span><span class="nm">Sam Lee</span></div></div>
+      </aside>
+      <main class="content">
+        <div class="loadwrap">
+          <div class="spinner"></div>
+          <h2>카피를 쓰는 중이에요</h2>
+          <p class="lpp">새싹비빔밥 · 3개 채널을 서로 다른 전략 2안으로 작성하고 있어요.</p>
+          <div class="loadsteps">
+            <div class="s"><span class="k">✓</span>상품·업종·톤 분석</div>
+            <div class="s"><span class="k">✓</span>채널별 규칙 적용(글자수·구조)</div>
+            <div class="s doing"><span class="k">…</span>문장 다듬는 중</div>
+            <div class="s todo"><span class="k">4</span>A/B 변형 정리</div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- 9 EMPTY -->
+  <div class="screentag"><span class="n">9</span><span class="t">빈 상태</span><span class="d">첫 유저 · 히스토리 0건</span></div>
+  <div class="frame">
+    <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">verba.app / history</span></div>
+    <div class="shell">
+      <aside class="sidebar">
+        <div class="slogo"><b>V</b>erba</div>
+        <nav class="snav"><a><span class="i"><svg class="vic"><use href="#ic-home"/></svg></span>대시보드</a><a><span class="i"><svg class="vic"><use href="#ic-pencil"/></svg></span>카피 생성</a><a><span class="i"><svg class="vic"><use href="#ic-grid"/></svg></span>템플릿</a><a><span class="i"><svg class="vic"><use href="#ic-voice"/></svg></span>브랜드 보이스</a><a class="on"><span class="i"><svg class="vic"><use href="#ic-clock"/></svg></span>히스토리</a><a><span class="i"><svg class="vic"><use href="#ic-bars"/></svg></span>인사이트</a></nav>
+        <div class="sfoot"><div class="creditbox"><div class="l">남은 크레딧</div><div class="v">20 / 20</div><div class="bar"><i style="width:100%"></i></div></div><div class="sprofile"><span class="av"></span><span class="nm">Sam Lee</span></div></div>
+      </aside>
+      <main class="content">
+        <div class="empty">
+          <div class="art c-purple"><svg class="vic"><use href="#ic-pencil"/></svg></div>
+          <h3>아직 만든 카피가 없어요</h3>
+          <p>상품 정보만 넣으면 상세·SNS·광고 카피를 한 번에 만들어 드려요. 첫 카피를 만들어 볼까요?</p>
+          <button class="btn-primary">＋ 첫 카피 만들기</button>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- 10 BRAND VOICE -->
+  <div class="screentag"><span class="n">10</span><span class="t">브랜드 보이스 관리</span><span class="d">저장한 톤을 목록·편집</span></div>
+  <div class="frame">
+    <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">verba.app / brand-voice</span></div>
+    <div class="shell">
+      <aside class="sidebar">
+        <div class="slogo"><b>V</b>erba</div>
+        <nav class="snav"><a><span class="i"><svg class="vic"><use href="#ic-home"/></svg></span>대시보드</a><a><span class="i"><svg class="vic"><use href="#ic-pencil"/></svg></span>카피 생성</a><a><span class="i"><svg class="vic"><use href="#ic-grid"/></svg></span>템플릿</a><a class="on"><span class="i"><svg class="vic"><use href="#ic-voice"/></svg></span>브랜드 보이스</a><a><span class="i"><svg class="vic"><use href="#ic-clock"/></svg></span>히스토리</a><a><span class="i"><svg class="vic"><use href="#ic-bars"/></svg></span>인사이트</a></nav>
+        <div class="sfoot"><div class="creditbox"><div class="l">남은 크레딧</div><div class="v">18 / 50</div><div class="bar"><i></i></div></div><div class="sprofile"><span class="av"></span><span class="nm">Sam Lee</span></div></div>
+      </aside>
+      <main class="content">
+        <div class="chead"><div><h2>브랜드 보이스</h2><div class="sub">저장한 톤을 생성 시 골라 쓰거나, 기본으로 자동 적용해요.</div></div><button class="btn-primary">＋ 새 보이스</button></div>
+        <div class="bvgrid">
+          <div class="bvcard default">
+            <div class="top"><span class="nm">우리 브랜드 · 기본 <span class="defbadge">기본</span></span><span class="more">⋯</span></div>
+            <div class="tones"><span class="tt">친근함</span><span class="tt">신뢰감</span><span class="tt">위트있게</span></div>
+            <div class="sample">"바쁜 하루에도 챙기는 건강한 한 끼, 오늘은 저희가 도와드릴게요."</div>
+            <div class="acts"><button class="btn-edit">편집</button><button class="btn-mini">미리보기</button></div>
+          </div>
+          <div class="bvcard">
+            <div class="top"><span class="nm">프리미엄</span><span class="more">⋯</span></div>
+            <div class="tones"><span class="tt">고급스러움</span><span class="tt">차분함</span><span class="tt">전문적</span></div>
+            <div class="sample">"정제된 재료와 시간이 만든 깊은 풍미. 당신의 하루에 품격을 더합니다."</div>
+            <div class="acts"><button class="btn-edit">편집</button><button class="btn-mini">기본으로</button></div>
+          </div>
+          <div class="bvcard">
+            <div class="top"><span class="nm">이벤트 · 발랄</span><span class="more">⋯</span></div>
+            <div class="tones"><span class="tt">발랄함</span><span class="tt">유머러스</span><span class="tt">트렌디</span></div>
+            <div class="sample">"오늘만 이 가격?! 놓치면 진짜 아쉬운 그 맛, 지금 바로 겟🥬"</div>
+            <div class="acts"><button class="btn-edit">편집</button><button class="btn-mini">기본으로</button></div>
+          </div>
+          <div class="bv-new"><span class="plus">＋</span><span class="t">새 브랜드 보이스</span><span class="d">톤·키워드·금지어로 만들기</span></div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- 11 PRICING -->
+  <div class="screentag"><span class="n">11</span><span class="t">요금제</span><span class="d">크레딧 소진 시 자연스럽게 연결</span></div>
+  <div class="frame">
+    <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">verba.app / pricing</span></div>
+    <div class="shell">
+      <aside class="sidebar">
+        <div class="slogo"><b>V</b>erba</div>
+        <nav class="snav"><a><span class="i"><svg class="vic"><use href="#ic-home"/></svg></span>대시보드</a><a><span class="i"><svg class="vic"><use href="#ic-pencil"/></svg></span>카피 생성</a><a><span class="i"><svg class="vic"><use href="#ic-grid"/></svg></span>템플릿</a><a><span class="i"><svg class="vic"><use href="#ic-voice"/></svg></span>브랜드 보이스</a><a><span class="i"><svg class="vic"><use href="#ic-clock"/></svg></span>히스토리</a><a><span class="i"><svg class="vic"><use href="#ic-bars"/></svg></span>인사이트</a></nav>
+        <div class="sfoot"><div class="creditbox"><div class="l">남은 크레딧</div><div class="v">2 / 50</div><div class="bar"><i style="width:4%"></i></div></div><div class="sprofile"><span class="av"></span><span class="nm">Sam Lee</span></div></div>
+      </aside>
+      <main class="content">
+        <div class="chead"><div><h2>요금제</h2><div class="sub">필요한 만큼만. 언제든 변경할 수 있어요.</div></div></div>
+        <div class="why"><span class="ic"><svg class="vic"><use href="#ic-bolt"/></svg></span><p><b>크레딧이 2개 남았어요.</b> 업그레이드하면 끊김 없이 카피를 만들고, A/B·브랜드 보이스·내보내기까지 모두 쓸 수 있어요.</p></div>
+        <div class="plangrid">
+          <div class="plan">
+            <div class="pn">Free</div><div class="pr">₩0</div><div class="pd">가볍게 시작하기</div>
+            <ul><li>월 20 크레딧</li><li>3개 채널 생성</li><li>브랜드 보이스 1개</li><li>히스토리 저장</li></ul>
+            <button class="btn-outline pbtn">현재 플랜</button>
+          </div>
+          <div class="plan featured">
+            <span class="ptag">가장 인기</span>
+            <div class="pn">Pro</div><div class="pr">₩19,000<small> /월</small></div><div class="pd">본격적으로 파는 셀러</div>
+            <ul><li>월 500 크레딧</li><li>A/B 변형 무제한</li><li>브랜드 보이스 무제한</li><li>이미지·HTML·CSV 내보내기</li><li>인사이트 리포트</li></ul>
+            <button class="btn-primary pbtn">Pro 시작하기</button>
+          </div>
+          <div class="plan">
+            <div class="pn">Team</div><div class="pr">₩49,000<small> /월</small></div><div class="pd">함께 운영하는 팀</div>
+            <ul><li>Pro의 모든 기능</li><li>공유 워크스페이스</li><li>멤버 5명</li><li>우선 지원</li></ul>
+            <button class="btn-outline pbtn">문의하기</button>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <p class="foot"><b>이번 반영(v9)</b> — 전체 배경 화이트 · 헤딩/강조 무게 한 단계 다운(900→700, 800→600) · 여백 확대 · 카드 얇은 헤어라인. 브랜드 #6B58EC + 2D 아이콘 유지. <b>다음</b> — 케이스 스터디(before→after) 정리, 또는 Figma 이식.</p>
+
+</div></div>
+
+<script>
+  document.querySelectorAll('.abtabs').forEach(function(tabs){
+    tabs.addEventListener('click', function(e){
+      var t = e.target.closest('[data-v]'); if(!t) return;
+      var v = t.getAttribute('data-v');
+      tabs.querySelectorAll('[data-v]').forEach(function(s){ s.classList.toggle('on', s===t); });
+      var ch = tabs.getAttribute('data-ch');
+      var body = document.querySelector('.ch-body[data-ch="'+ch+'"]');
+      var active;
+      if(body){ body.querySelectorAll('.v').forEach(function(el){ var on = el.getAttribute('data-v')===v; el.classList.toggle('show', on); if(on) active = el; }); }
+      var strat = document.querySelector('.ch-strategy[data-ch="'+ch+'"] .txt');
+      if(strat && active){ strat.textContent = active.getAttribute('data-strat'); }
+    });
+  });
+  var em=document.getElementById('exportModal'), eb=document.getElementById('exportBtn'), ec=document.getElementById('exportClose');
+  if(eb) eb.addEventListener('click',function(){em.classList.add('open');});
+  if(ec) ec.addEventListener('click',function(){em.classList.remove('open');});
+  if(em) em.addEventListener('click',function(e){if(e.target===em)em.classList.remove('open');});
+</script>
