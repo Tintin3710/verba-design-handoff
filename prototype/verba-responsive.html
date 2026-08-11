@@ -1,0 +1,264 @@
+<title>Verba 반응형 · 웹 전달</title>
+<style>
+  :root{
+    --brand:#6B58EC; --on-brand:#fff; --brand-pale:#F1EFFD; --brand-border:#E2DDFB;
+    --acc-pl:#6B58EC; --acc-pl-bg:#F1EFFD; --acc-tl:#3FB3A6; --acc-tl-bg:#DDF2EE; --acc-co:#E0795A; --acc-co-bg:#FBE7E1;
+    --page:#F3F3F5; --surface:#fff; --surface-soft:#FAFAFB;
+    --ink:#28283C; --body:#62626F; --mute:#9A9AA6; --border:#E6E6EB; --border2:#EDEDF1;
+    --warn:#C77700; --ok:#12A150;
+    --sans:"Pretendard",-apple-system,BlinkMacSystemFont,"Inter",system-ui,"Apple SD Gothic Neo",sans-serif;
+  }
+  *{box-sizing:border-box;} body{margin:0;}
+  .wrap{background:var(--page);color:var(--ink);font-family:var(--sans);min-height:100vh;padding:clamp(24px,4vw,56px) clamp(14px,3vw,40px) 80px;-webkit-font-smoothing:antialiased;}
+  .inner{max-width:1080px;margin:0 auto;}
+  .eyebrow{font-size:12px;letter-spacing:1.6px;text-transform:uppercase;color:var(--brand);font-weight:600;margin:0 0 12px;}
+  h1{font-size:clamp(28px,4vw,42px);font-weight:700;letter-spacing:-0.03em;margin:0 0 14px;line-height:1.08;}
+  .lede{font-size:16px;line-height:1.65;color:var(--body);max-width:64ch;margin:0;}
+  .lede b{color:var(--ink);font-weight:600;}
+  h2.sec{font-size:12.5px;letter-spacing:1.6px;text-transform:uppercase;color:var(--body);margin:48px 0 18px;font-weight:600;border-bottom:1px solid var(--border);padding-bottom:10px;}
+
+  /* handoff notes */
+  .notegrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;}
+  .note{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px;}
+  .note h3{margin:0 0 6px;font-size:14.5px;font-weight:600;display:flex;gap:8px;align-items:center;}
+  .note .n{width:22px;height:22px;border-radius:6px;background:var(--brand-pale);color:var(--brand);font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;}
+  .note p{margin:0;font-size:12.5px;line-height:1.55;color:var(--body);}
+  .note b{color:var(--ink);}
+
+  .tblwrap{overflow-x:auto;border:1px solid var(--border);border-radius:14px;}
+  table{border-collapse:collapse;width:100%;min-width:640px;font-size:13px;}
+  th,td{text-align:left;padding:11px 15px;border-bottom:1px solid var(--border2);vertical-align:top;}
+  th{font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:var(--body);font-weight:600;background:var(--surface-soft);}
+  tr:last-child td{border-bottom:none;} td b{color:var(--ink);font-weight:600;}
+  .bp{font-weight:600;color:var(--brand);}
+
+  .framelabel{display:flex;align-items:center;gap:10px;margin:26px 0 12px;}
+  .framelabel .k{font-size:13px;font-weight:600;}
+  .framelabel .w{font-size:12px;color:var(--mute);background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:3px 10px;}
+
+  /* device frame + container query */
+  .stage{display:flex;justify-content:center;}
+  .device{container-type:inline-size;background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 18px 44px -30px rgba(30,27,75,.1);width:100%;}
+  .device.w-desktop{max-width:1040px;} .device.w-tablet{max-width:768px;} .device.w-mobile{max-width:390px;}
+  .chrome{display:flex;align-items:center;gap:7px;padding:11px 14px;background:var(--surface-soft);border-bottom:1px solid var(--border2);}
+  .dot{width:10px;height:10px;border-radius:50%;background:var(--border);}
+  .url{flex:1;text-align:center;font-size:11px;color:var(--mute);}
+
+  .app{background:#fff;position:relative;}
+  .mtop{display:none;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border2);}
+  .mtop .lg{font-size:18px;font-weight:700;} .mtop .lg b{color:var(--brand);}
+  .mtop .burger{width:22px;display:flex;flex-direction:column;gap:4px;} .mtop .burger i{height:2px;background:var(--ink);border-radius:2px;}
+  .mtop .credit{font-size:12px;font-weight:600;background:var(--brand-pale);color:var(--brand);border-radius:999px;padding:5px 11px;}
+  .shell{display:grid;grid-template-columns:1fr;}
+  .sidebar{display:none;flex-direction:column;background:#fff;border-right:1px solid var(--border2);padding:18px 12px;}
+  .slogo{font-size:19px;font-weight:700;padding:4px 10px 16px;} .slogo b{color:var(--brand);}
+  .snav{display:flex;flex-direction:column;gap:2px;}
+  .snav a{display:flex;align-items:center;gap:11px;font-size:13.5px;font-weight:500;color:var(--body);padding:9px 11px;border-radius:8px;text-decoration:none;white-space:nowrap;}
+  .snav a.on{background:var(--brand-pale);color:var(--brand);font-weight:600;}
+  .snav a .i{width:18px;height:18px;flex:0 0 18px;display:inline-flex;}
+  .snav a .i .vic{width:18px;height:18px;}
+  .sfoot{margin-top:auto;padding-top:14px;}
+  .creditbox{background:var(--surface-soft);border:1px solid var(--border2);border-radius:10px;padding:11px;}
+  .creditbox .l{font-size:10.5px;color:var(--mute);font-weight:600;} .creditbox .v{font-size:17px;font-weight:700;margin-top:2px;}
+  .creditbox .bar{height:5px;background:var(--border);border-radius:9px;margin-top:7px;overflow:hidden;} .creditbox .bar i{display:block;height:100%;width:36%;background:var(--brand);}
+
+  .content{padding:18px;}
+  .chead{display:flex;flex-direction:column;align-items:stretch;gap:12px;margin-bottom:18px;}
+  .chead h2{font-size:22px;font-weight:700;letter-spacing:-0.02em;margin:0;}
+  .chead .sub{font-size:13px;color:var(--body);margin-top:5px;}
+  .btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--brand);color:#fff;border:none;border-radius:10px;padding:11px 18px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;}
+  .seclabel{font-size:11px;letter-spacing:1.1px;text-transform:uppercase;color:var(--mute);font-weight:600;margin:20px 0 12px;}
+  .actiongrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .acard{background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px;}
+  .acard .ico{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:22px;}
+  .acard .ico .vic{width:20px;height:20px;}
+  .acard .t{font-size:14px;font-weight:600;} .acard .d{font-size:12px;color:var(--body);margin-top:3px;}
+  .acard.dash{border-style:dashed;background:var(--surface-soft);display:flex;flex-direction:column;justify-content:center;} .acard.dash .plus{font-size:24px;color:var(--brand);margin-bottom:6px;line-height:1;}
+  .dgrid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:18px;}
+  .panel{background:#fff;border:1px solid var(--border);border-radius:14px;padding:18px;}
+  .panel .ph{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;} .panel .ph .t{font-size:14px;font-weight:600;} .panel .ph a{font-size:12px;color:var(--brand);text-decoration:none;font-weight:600;}
+  .mini{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-top:1px solid var(--border2);} .mini:first-of-type{border-top:none;}
+  .mini .l{font-size:13.5px;font-weight:600;} .mini .l small{display:block;font-size:11px;color:var(--mute);font-weight:400;margin-top:2px;} .mini .go{color:var(--mute);font-weight:600;}
+  .stat{display:flex;flex-direction:column;gap:12px;} .stat .row{display:flex;align-items:baseline;gap:9px;} .stat .big{font-size:26px;font-weight:700;} .stat .cap{font-size:12px;color:var(--body);} .stat .hr{height:1px;background:var(--border2);}
+  .c-purple{background:var(--acc-pl-bg);color:var(--acc-pl);} .c-teal{background:var(--acc-tl-bg);color:var(--acc-tl);} .c-coral{background:var(--acc-co-bg);color:var(--acc-co);}
+  .vic{display:block;color:inherit;}
+
+  /* mobile bottom nav */
+  .mbnav{display:flex;justify-content:space-around;align-items:center;border-top:1px solid var(--border2);padding:9px 4px;background:#fff;}
+  .mbnav a{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9.5px;color:var(--mute);text-decoration:none;font-weight:500;}
+  .mbnav a .i{width:20px;height:20px;display:inline-flex;} .mbnav a .i .vic{width:20px;height:20px;}
+  .mbnav a.on{color:var(--brand);}
+
+  /* landing */
+  .lp{background:#fff;} .lpnav{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border2);}
+  .lpnav .lg{font-size:18px;font-weight:700;} .lpnav .lg b{color:var(--brand);}
+  .lpnav .links{display:none;gap:18px;font-size:13px;color:var(--body);font-weight:500;}
+  .lpnav .right{display:flex;gap:8px;align-items:center;} .lpnav .login{display:none;background:none;border:none;font-weight:600;font-size:13px;color:var(--ink);}
+  .btn-sm{background:var(--brand);color:#fff;border:none;border-radius:9px;padding:9px 14px;font-size:13px;font-weight:600;}
+  .lphero{text-align:center;padding:34px 20px 26px;} .lphero .tag{display:inline-block;font-size:11.5px;font-weight:600;color:var(--brand);background:var(--brand-pale);border:1px solid var(--brand-border);border-radius:999px;padding:5px 12px;margin-bottom:16px;}
+  .lphero h3{font-size:24px;font-weight:700;letter-spacing:-0.02em;line-height:1.32;margin:0 auto 12px;max-width:15ch;}
+  .lphero p{font-size:14px;color:var(--body);max-width:38ch;margin:0 auto 18px;line-height:1.55;}
+  .lphero .ctas{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;}
+  .btn-outline{background:#fff;border:1px solid var(--border);border-radius:9px;padding:11px 16px;font-size:13px;font-weight:600;color:var(--ink);}
+  .lpfeat{display:grid;grid-template-columns:1fr;gap:12px;padding:0 20px 28px;}
+  .lpfeat .f{background:var(--surface-soft);border:1px solid var(--border2);border-radius:14px;padding:18px;}
+  .lpfeat .f .ic{height:26px;display:flex;} .lpfeat .f .ic .vic{width:26px;height:26px;}
+  .i-teal{color:var(--acc-tl);} .i-purple{color:var(--acc-pl);} .i-coral{color:var(--acc-co);}
+  .lpfeat .f h4{margin:10px 0 4px;font-size:14px;font-weight:600;} .lpfeat .f p{margin:0;font-size:12.5px;color:var(--body);line-height:1.5;}
+
+  /* ── Container-query reflow ── */
+  @container (min-width:768px){
+    .mtop{display:none;} .mbnav{display:none;}
+    .shell{grid-template-columns:64px 1fr;}
+    .sidebar{display:flex;padding:16px 8px;}
+    .slogo{font-size:0;padding:6px;} .slogo b{font-size:19px;}
+    .snav a{justify-content:center;padding:11px 0;} .snav a .lbl{display:none;}
+    .sfoot .creditbox .l,.sfoot .creditbox .v{display:none;} .sfoot .creditbox{padding:8px;text-align:center;}
+    .content{padding:24px;}
+    .chead{flex-direction:row;align-items:flex-start;justify-content:space-between;}
+    .actiongrid{grid-template-columns:repeat(2,1fr);}
+    .lpnav .links{display:flex;} .lpnav .login{display:inline;}
+    .lphero{padding:52px 24px 36px;} .lphero h3{font-size:34px;} .lphero p{font-size:15px;max-width:42ch;}
+    .lpfeat{grid-template-columns:repeat(3,1fr);}
+  }
+  @container (min-width:1024px){
+    .shell{grid-template-columns:212px 1fr;}
+    .sidebar{padding:20px 14px;}
+    .slogo{font-size:20px;padding:6px 10px 18px;}
+    .snav a{justify-content:flex-start;padding:9px 11px;} .snav a .lbl{display:inline;}
+    .sfoot .creditbox{text-align:left;padding:11px;} .sfoot .creditbox .l,.sfoot .creditbox .v{display:block;}
+    .content{padding:32px;}
+    .actiongrid{grid-template-columns:repeat(4,1fr);}
+    .dgrid{grid-template-columns:1.6fr 1fr;}
+    .lphero h3{font-size:42px;}
+  }
+</style>
+
+<div class="wrap"><div class="inner">
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+    <symbol id="ic-home" viewBox="0 0 24 24"><path fill="currentColor" fill-opacity=".3" d="M5 10.8 12 5.2l7 5.6V19a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1z"/><path fill="currentColor" d="M3.4 11 12 4.2 20.6 11l-1.3 1.6L12 6.9 4.7 12.6z"/></symbol>
+    <symbol id="ic-pencil" viewBox="0 0 24 24"><path fill="currentColor" d="M4 17.3 14.6 6.7l2.7 2.7L6.7 20H4z"/><path fill="currentColor" fill-opacity=".3" d="M15.6 5.7 18.3 8.4l1.4-1.4a1.6 1.6 0 0 0 0-2.3l-.4-.4a1.6 1.6 0 0 0-2.3 0z"/></symbol>
+    <symbol id="ic-grid" viewBox="0 0 24 24"><rect fill="currentColor" x="4" y="4" width="7" height="7" rx="1.6"/><rect fill="currentColor" fill-opacity=".3" x="13" y="4" width="7" height="7" rx="1.6"/><rect fill="currentColor" fill-opacity=".3" x="4" y="13" width="7" height="7" rx="1.6"/><rect fill="currentColor" x="13" y="13" width="7" height="7" rx="1.6"/></symbol>
+    <symbol id="ic-voice" viewBox="0 0 24 24"><g fill="currentColor"><rect x="3.5" y="10" width="2.2" height="4" rx="1.1" fill-opacity=".3"/><rect x="7.5" y="7" width="2.2" height="10" rx="1.1"/><rect x="11" y="4" width="2.2" height="16" rx="1.1" fill-opacity=".3"/><rect x="14.5" y="7" width="2.2" height="10" rx="1.1"/><rect x="18.3" y="10" width="2.2" height="4" rx="1.1" fill-opacity=".3"/></g></symbol>
+    <symbol id="ic-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="currentColor" fill-opacity=".3"/><path fill="currentColor" d="M12 7a1 1 0 0 1 1 1v3.5l2.2 1.3a1 1 0 1 1-1 1.7l-2.7-1.6A1 1 0 0 1 11 12V8a1 1 0 0 1 1-1Z"/></symbol>
+    <symbol id="ic-bars" viewBox="0 0 24 24"><rect fill="currentColor" fill-opacity=".3" x="4" y="12" width="4" height="8" rx="1"/><rect fill="currentColor" x="10" y="7" width="4" height="13" rx="1"/><rect fill="currentColor" fill-opacity=".3" x="16" y="4" width="4" height="16" rx="1"/></symbol>
+    <symbol id="ic-doc" viewBox="0 0 24 24"><path fill="currentColor" fill-opacity=".3" d="M6 2h7l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z"/><path fill="currentColor" d="M13 2v4a1 1 0 0 0 1 1h4z"/><rect fill="currentColor" x="7.5" y="12" width="9" height="1.7" rx=".85"/><rect fill="currentColor" x="7.5" y="15.6" width="6.5" height="1.7" rx=".85"/></symbol>
+    <symbol id="ic-chat" viewBox="0 0 24 24"><path fill="currentColor" d="M5 3.5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-7L8 19v-3.5H5a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2Z"/><g fill="#fff"><circle cx="8.5" cy="9.5" r="1.2"/><circle cx="12" cy="9.5" r="1.2"/><circle cx="15.5" cy="9.5" r="1.2"/></g></symbol>
+    <symbol id="ic-mega" viewBox="0 0 24 24"><path fill="currentColor" d="M3 10v3a1.5 1.5 0 0 0 1.5 1.5H6l1.2 4.3a1 1 0 0 0 1.9-.5v-3.5l9 3.4a1 1 0 0 0 1.4-.95V6.75A1 1 0 0 0 18.1 5.8L4.5 9A1.5 1.5 0 0 0 3 10Z"/><path fill="currentColor" fill-opacity=".3" d="M20.5 9.3a2.6 2.6 0 0 1 0 5.4z"/></symbol>
+    <symbol id="ic-channels" viewBox="0 0 24 24"><rect fill="currentColor" x="2.5" y="9.5" width="6.5" height="5" rx="1.6"/><g fill="currentColor" fill-opacity=".3"><rect x="16" y="3" width="5.5" height="5" rx="1.4"/><rect x="16" y="9.5" width="5.5" height="5" rx="1.4"/><rect x="16" y="16" width="5.5" height="5" rx="1.4"/></g><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.3M12.3 5.5V18.5M12.3 5.5H16M12.3 12H16M12.3 18.5H16"/></symbol>
+    <symbol id="ic-shuffle" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h3.5l3 3"/><path d="M14 14l2.5 3H21"/><path d="M3 17h3.5l10-11H21"/><path d="M18 3.5 21.5 6 18 8.5"/><path d="M18 14.5 21.5 17 18 19.5"/></g></symbol>
+  </defs></svg>
+
+  <p class="eyebrow">Verba · Responsive & Web handoff</p>
+  <h1>반응형 & 웹 전달 가이드</h1>
+  <p class="lede">현재 Verba 시안을 <b>PC 1440+ / Tablet 768+ / Mobile 390</b> 3단계로 리플로우되게 구현했어요. 아래 프레임은 각자 <b>제 폭에 맞춰 실제로 반응</b>합니다(컨테이너 쿼리). 웹 전달 시 주의사항도 함께 정리했습니다.</p>
+
+  <h2 class="sec">웹 전달 주의사항</h2>
+  <div class="notegrid">
+    <div class="note"><h3><span class="n">1</span>브레이크포인트</h3><p><b>Mobile ≤767 · Tablet 768–1023 · Desktop ≥1024</b>. 그 사이는 유동(fluid). 데스크톱은 콘텐츠 <b>max-width로 과확장 방지</b>(1440+에서도 레이아웃 동일, 여백만 넓어짐).</p></div>
+    <div class="note"><h3><span class="n">2</span>내비게이션</h3><p>Desktop 사이드바 → Tablet <b>아이콘 레일(64px)</b> → Mobile <b>하단 탭바 + 상단 햄버거</b>. 데스크톱 nav가 그대로 모바일에 들어가지 않게.</p></div>
+    <div class="note"><h3><span class="n">3</span>그리드 축소</h3><p>액션 카드 4→2→1(또는 2), 대시보드 패널 1.6/1 → 1열. 결과 채널 카드는 항상 세로 스택.</p></div>
+    <div class="note"><h3><span class="n">4</span>터치 & 호버</h3><p>모바일 터치 타깃 <b>≥44px</b>. <b>hover는 데스크톱 전용</b>(모바일은 active/focus). <code>@media (hover:hover)</code>로 분리.</p></div>
+    <div class="note"><h3><span class="n">5</span>폰트</h3><p><b>Pretendard 웹폰트</b> 로드(SIL OFL) + 시스템 폴백. 한글 잘림·자간 확인. 무게는 라이트(700/600/400).</p></div>
+    <div class="note"><h3><span class="n">6</span>가로 스크롤 금지</h3><p>표·긴 카피는 컨테이너 내부에서만 <code>overflow-x:auto</code>. 긴 텍스트 말줄임(ellipsis). 바디는 절대 가로 스크롤 X.</p></div>
+    <div class="note"><h3><span class="n">7</span>뷰포트 단위</h3><p>모바일 주소창 때문에 <code>100vh</code> 대신 <code>100dvh</code>. 하단 고정 탭바는 <code>safe-area-inset</code> 고려.</p></div>
+    <div class="note"><h3><span class="n">8</span>접근성</h3><p>대비 AA(무게 낮춘 뒤 재확인), 포커스 링, 키보드 내비, <code>prefers-reduced-motion</code> 대응.</p></div>
+  </div>
+
+  <h2 class="sec">브레이크포인트 시스템</h2>
+  <div class="tblwrap"><table>
+    <thead><tr><th>구간</th><th>폭</th><th>사이드바</th><th>액션 카드</th><th>대시보드 패널</th><th>랜딩</th></tr></thead>
+    <tbody>
+      <tr><td><b class="bp">Mobile</b></td><td>390 ~ 767</td><td>하단 탭바 + 상단 햄버거</td><td>2열</td><td>1열</td><td>히어로 세로, 기능 1열, nav 로고+CTA</td></tr>
+      <tr><td><b class="bp">Tablet</b></td><td>768 ~ 1023</td><td>아이콘 레일 64px</td><td>2열</td><td>1열</td><td>기능 3열, nav 링크 노출</td></tr>
+      <tr><td><b class="bp">Desktop</b></td><td>1024 ~ 1440+</td><td>풀 사이드바 212px</td><td>4열</td><td>1.6 / 1</td><td>풀 레이아웃(콘텐츠 max-width)</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2 class="sec">대시보드 · 3폭 리플로우</h2>
+
+  <div class="framelabel"><span class="k">Desktop</span><span class="w">≥ 1024px · 1440+ 동일</span></div>
+  <div class="stage"><div class="device w-desktop">
+    <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">verba.app</span></div>
+    <div class="app" data-dash></div>
+  </div></div>
+
+  <div class="framelabel"><span class="k">Tablet</span><span class="w">768 ~ 1023px</span></div>
+  <div class="stage"><div class="device w-tablet">
+    <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">verba.app</span></div>
+    <div class="app" data-dash></div>
+  </div></div>
+
+  <div class="framelabel"><span class="k">Mobile</span><span class="w">390px</span></div>
+  <div class="stage"><div class="device w-mobile">
+    <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">verba.app</span></div>
+    <div class="app" data-dash></div>
+  </div></div>
+
+  <h2 class="sec">랜딩 · 3폭 리플로우</h2>
+
+  <div class="framelabel"><span class="k">Desktop</span><span class="w">≥ 1024px</span></div>
+  <div class="stage"><div class="device w-desktop">
+    <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">verba.app</span></div>
+    <div class="app" data-land></div>
+  </div></div>
+
+  <div class="framelabel"><span class="k">Tablet</span><span class="w">768 ~ 1023px</span></div>
+  <div class="stage"><div class="device w-tablet">
+    <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">verba.app</span></div>
+    <div class="app" data-land></div>
+  </div></div>
+
+  <div class="framelabel"><span class="k">Mobile</span><span class="w">390px</span></div>
+  <div class="stage"><div class="device w-mobile">
+    <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">verba.app</span></div>
+    <div class="app" data-land></div>
+  </div></div>
+
+  <p class="lede" style="margin-top:40px;font-size:13px;">각 프레임 폭을 기준으로 <b>실제 리플로우</b>됩니다(미디어쿼리 아닌 컨테이너쿼리라 한 페이지에서 동시 확인 가능). 실제 구현은 뷰포트 미디어쿼리로 옮기면 됩니다 — 규칙은 위 표·주의사항 그대로.</p>
+
+</div></div>
+
+<script>
+  var NAV = [['ic-home','대시보드',1],['ic-pencil','카피 생성',0],['ic-grid','템플릿',0],['ic-voice','브랜드 보이스',0],['ic-clock','히스토리',0],['ic-bars','인사이트',0]];
+  function ic(id){return '<svg class="vic"><use href="#'+id+'"/></svg>';}
+  function sidebar(){
+    var nav = NAV.map(function(n){return '<a class="'+(n[2]?'on':'')+'"><span class="i">'+ic(n[0])+'</span><span class="lbl">'+n[1]+'</span></a>';}).join('');
+    return '<aside class="sidebar"><div class="slogo"><b>V</b>erba</div><nav class="snav">'+nav+'</nav>'+
+      '<div class="sfoot"><div class="creditbox"><div class="l">남은 크레딧</div><div class="v">18 / 50</div><div class="bar"><i></i></div></div></div></aside>';
+  }
+  function mbnav(){
+    return '<nav class="mbnav">'+NAV.slice(0,5).map(function(n){return '<a class="'+(n[2]?'on':'')+'"><span class="i">'+ic(n[0])+'</span>'+n[1]+'</a>';}).join('')+'</nav>';
+  }
+  var DASH =
+    '<div class="mtop"><span class="burger"><i></i><i></i><i></i></span><span class="lg"><b>V</b>erba</span><span class="credit">18 / 50</span></div>'+
+    '<div class="shell">'+sidebar()+
+    '<main class="content">'+
+      '<div class="chead"><div><h2>안녕하세요, Sam님 👋</h2><div class="sub">오늘은 어떤 카피를 만들어 볼까요?</div></div><button class="btn-primary">＋ 새 카피 생성</button></div>'+
+      '<div class="seclabel">빠른 생성</div>'+
+      '<div class="actiongrid">'+
+        '<div class="acard"><div class="ico c-purple">'+ic('ic-doc')+'</div><div class="t">상세페이지</div><div class="d">제품 상세 설명</div></div>'+
+        '<div class="acard"><div class="ico c-teal">'+ic('ic-chat')+'</div><div class="t">SNS</div><div class="d">인스타·스레드</div></div>'+
+        '<div class="acard"><div class="ico c-coral">'+ic('ic-mega')+'</div><div class="t">광고</div><div class="d">검색·배너</div></div>'+
+        '<div class="acard dash"><div class="plus">＋</div><div class="t">새 상품</div><div class="d">정보로 한 번에</div></div>'+
+      '</div>'+
+      '<div class="dgrid">'+
+        '<div class="panel"><div class="ph"><span class="t">최근 생성</span><a>전체 →</a></div>'+
+          '<div class="mini"><span class="l">새싹비빔밥 <small>요식업 · 3채널</small></span><span class="go">→</span></div>'+
+          '<div class="mini"><span class="l">수분 진정 크림 <small>화장품 · 2채널</small></span><span class="go">→</span></div>'+
+          '<div class="mini"><span class="l">무선 이어폰 <small>전자기기 · 3채널</small></span><span class="go">→</span></div></div>'+
+        '<div class="panel"><div class="ph"><span class="t">이번 달</span></div><div class="stat"><div class="row"><span class="big">34</span><span class="cap">건 생성</span></div><div class="hr"></div><div class="row"><span class="big">~3.2h</span><span class="cap">아낀 시간</span></div><div class="hr"></div><div class="row"><span class="big">SNS</span><span class="cap">최다 채널</span></div></div></div>'+
+      '</div>'+
+    '</main></div>'+mbnav();
+  var LAND =
+    '<div class="lp"><div class="lpnav"><span class="lg"><b>V</b>erba</span><div class="links"><span>기능</span><span>요금</span><span>사례</span><span>문의</span></div><div class="right"><button class="login">로그인</button><button class="btn-sm">무료로 시작하기</button></div></div>'+
+    '<div class="lphero"><span class="tag">AI 카피라이팅</span><h3>쓸 문구 고민하는 시간, Verba가 아껴드려요</h3><p>상품 정보만 넣으면 상세페이지·SNS·광고 카피를 한 번에.</p><div class="ctas"><button class="btn-sm">무료로 시작하기</button><button class="btn-outline">데모 보기</button></div></div>'+
+    '<div class="lpfeat">'+
+      '<div class="f"><div class="ic i-teal">'+ic('ic-channels')+'</div><h4>채널 한 번에</h4><p>상세·SNS·광고를 한 번의 입력으로.</p></div>'+
+      '<div class="f"><div class="ic i-purple">'+ic('ic-shuffle')+'</div><h4>A/B 변형</h4><p>전략 2안을 만들어 비교·선택.</p></div>'+
+      '<div class="f"><div class="ic i-coral">'+ic('ic-voice')+'</div><h4>브랜드 보이스</h4><p>한 번 설정하면 톤 자동 유지.</p></div>'+
+    '</div></div>';
+  document.querySelectorAll('[data-dash]').forEach(function(e){e.innerHTML=DASH;});
+  document.querySelectorAll('[data-land]').forEach(function(e){e.innerHTML=LAND;});
+</script>

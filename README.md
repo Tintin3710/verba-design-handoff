@@ -14,9 +14,11 @@ verba-handoff/
 ├─ icons/              19개 2톤 SVG 아이콘 + 사용 규칙(README)
 ├─ spec/
 │  ├─ components.md     컴포넌트 상태 · 인터랙션 동작
-│  └─ flow.md           11개 화면 플로우
+│  ├─ flow.md           11개 화면 플로우
+│  └─ responsive.md     반응형(390/768/1440) 규칙 + 웹 전달 주의사항
 └─ prototype/
-   └─ verba.html        레퍼런스 구현 (모든 값·컴포넌트·인터랙션의 원본)
+   ├─ verba.html            레퍼런스 구현 (모든 값·컴포넌트·인터랙션의 원본)
+   └─ verba-responsive.html PC/Tablet/Mobile 3폭 리플로우 데모(컨테이너쿼리)
 ```
 
 ## 개발자에게
