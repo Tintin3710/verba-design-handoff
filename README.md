@@ -8,6 +8,7 @@ AI 카피라이팅 SaaS **Verba**의 개발 전달용 디자인 패키지. 디�
 verba-handoff/
 ├─ DESIGN.md            디자인 언어(브랜드·색·타이포·스페이싱·Do/Don't)
 ├─ tokens/
+│  ├─ brand-color.md    브랜드 팔레트(50~900) + WCAG AA 대비표
 │  ├─ tokens.css        CSS 변수 (구현 기준값)
 │  ├─ tokens.json       기계 판독용 토큰
 │  └─ tailwind.config.js Tailwind theme.extend
@@ -27,7 +28,7 @@ verba-handoff/
 - 아이콘은 `currentColor` 2톤 — 색은 CSS `color`로, 크기는 width/height로.
 
 ## 핵심 원칙 한 줄
-> 미니멀 화이트 + Pretendard. 브랜드 퍼플 `#6B58EC`는 **화면당 하나의 주요 액션**에만,
+> 미니멀 화이트 + Pretendard. 브랜드 퍼플 `#5F3EFF`는 **화면당 하나의 주요 액션**에만,
 > 아이콘 보조색(퍼플·틸·코랄)은 절제되게. 나머지는 흰 배경 + 헤어라인.
 
 ## 레퍼런스

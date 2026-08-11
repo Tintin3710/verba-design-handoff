@@ -6,7 +6,7 @@
 ## Usage
 ```html
 <!-- color = the icon color; size via width/height -->
-<span style="color:#6B58EC">
+<span style="color:#5F3EFF">
   <svg width="22" height="22"><use href="/icons/ic-doc.svg#..."></use></svg>
 </span>
 ```
