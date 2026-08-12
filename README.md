@@ -15,17 +15,25 @@ verba-handoff/
 ├─ icons/              19개 2톤 SVG 아이콘 + 사용 규칙(README)
 ├─ spec/
 │  ├─ components.md     컴포넌트 상태 · 인터랙션 동작
-│  ├─ flow.md           11개 화면 플로우
+│  ├─ flow.md           12개 화면 플로우
 │  └─ responsive.md     반응형(390/768/1440) 규칙 + 웹 전달 주의사항
 └─ prototype/
-   ├─ verba.html            레퍼런스 구현 (모든 값·컴포넌트·인터랙션의 원본)
-   └─ verba-responsive.html PC/Tablet/Mobile 3폭 리플로우 데모(컨테이너쿼리)
+   ├─ verba.html               참고 구현 (전체 12화면·값·컴포넌트·인터랙션)
+   ├─ verba-responsive.html    PC/Tablet/Mobile 3폭 리플로우 데모(컨테이너쿼리)
+   ├─ verba-history.html       히스토리 단독 화면 (개별 임포트용)
+   └─ verba-voice-loading.html 브랜드 보이스 생성 로딩 (온보딩)
 ```
 
-## 개발자에게
-- **값의 기준은 `tokens/` + `prototype/verba.html`의 `:root`.** DESIGN.md는 원칙, tokens는 구현값.
-- 화면 '모양'은 Figma, **'동작·상태'는 `spec/components.md`** 를 보세요 (hover/focus/loading/empty/A-B 토글/크레딧 차감 등).
-- 아이콘은 `currentColor` 2톤 — 색은 CSS `color`로, 크기는 width/height로.
+## 개발자에게 — 기준 우선순위
+
+> **Figma 파일이 디자인 최종본입니다.** 디자이너가 Figma에서 계속 다듬으므로, 아래 자료와 갈리면 **항상 Figma를 따르세요.**
+> Figma: https://www.figma.com/design/0EHUDXn78I7rgtrXuox7jS/AI-카피생성-웹
+
+1. **화면 '모양'(레이아웃·간격·구성) → Figma.** 시각적 판단이 갈리면 Figma가 이깁니다. 이 레포와 다르면 Figma 기준.
+2. **정확한 값(색·타이포·라운드·상태색) → `tokens/`.** Figma 변수와 토큰이 다르면 Figma로 맞추고 알려주세요.
+3. **'동작·상태' → `spec/components.md`** (hover/focus/loading/empty/A·B 토글/크레딧 차감 등). Figma에 없는 인터랙션은 여기 기준.
+4. `prototype/verba.html`은 값·컴포넌트·인터랙션을 한눈에 보는 **참고 구현**입니다(최종 아님). `DESIGN.md`는 원칙.
+5. 아이콘은 `currentColor` 2톤 — 색은 CSS `color`로, 크기는 width/height로.
 
 ## 핵심 원칙 한 줄
 > 미니멀 화이트 + Pretendard. 브랜드 퍼플 `#5F3EFF`는 **화면당 하나의 주요 액션**에만,
