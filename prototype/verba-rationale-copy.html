@@ -1,0 +1,142 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>Verba — A/B 생성 근거 문구</title>
+<style>
+  :root{
+    --brand:#5F3EFF; --brand-press:#4F2BEA; --brand-pale:#F2EEFF; --brand-border:#DCD2FF;
+    --page:#F4F4F6; --surface:#fff; --surface-soft:#F8F8FA;
+    --ink:#17171B; --body:#4B4B57; --mute:#6E6E7A; --border:#E5E5EA; --border2:#EDEDF1; --warn:#B45309;
+    --acc-tl:#3FB3A6; --acc-tl-bg:#DDF2EE; --acc-co:#E0795A; --acc-co-bg:#FBE7E1; --acc-pl:#5F3EFF; --acc-pl-bg:#F2EEFF;
+    --r-btn:10px; --r-card:16px; --r-pill:9999px;
+    --sans:"Pretendard",-apple-system,BlinkMacSystemFont,"Inter",system-ui,"Apple SD Gothic Neo",sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--page);-webkit-font-smoothing:antialiased;padding:40px 22px 80px;}
+  .page{max-width:860px;margin:0 auto;}
+  .lead h1{font-size:25px;font-weight:700;letter-spacing:-.02em;margin:0 0 8px;}
+  .lead p{font-size:14.5px;line-height:1.65;color:var(--body);margin:0;max-width:74ch;} .lead b{color:var(--ink);font-weight:600;}
+  .sec{margin-top:38px;}
+  .seclabel{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:700;color:var(--brand);margin-bottom:14px;text-transform:uppercase;letter-spacing:.03em;}
+  .seclabel .where{font-size:11.5px;font-weight:600;color:var(--mute);background:var(--surface-soft);border:1px solid var(--border2);padding:3px 9px;border-radius:var(--r-pill);letter-spacing:0;text-transform:none;}
+
+  .cmp{display:flex;flex-direction:column;gap:12px;}
+  .box{border-radius:12px;padding:15px 17px;}
+  .box .tag{font-size:11.5px;font-weight:700;margin-bottom:8px;display:inline-flex;align-items:center;gap:6px;}
+  .bad{background:#FBF3F1;border:1px solid #F0D9D2;} .bad .tag{color:#B4402A;}
+  .bad .txt{font-size:13.5px;line-height:1.6;color:#6B5450;}
+  .note-x{font-size:12px;color:var(--warn);margin-top:8px;}
+
+  /* revised banner rendered in context */
+  .good{background:#F7FBF8;border:1px solid #CDEBD6;} .good .tag{color:#15803D;}
+  .stage{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;margin-top:2px;}
+  .rbanner{display:flex;gap:11px;background:var(--brand-pale);border:1px solid var(--brand-border);border-radius:12px;padding:14px 16px;}
+  .rbanner .ic{color:var(--brand);flex-shrink:0;font-weight:800;font-size:15px;line-height:1.5;}
+  .rbanner .bd{font-size:13.5px;line-height:1.62;color:var(--body);}
+  .rbanner .bd .h{color:var(--ink);font-weight:700;} .rbanner .bd b{color:var(--ink);font-weight:600;}
+  .rbanner .bd .pill{display:inline-flex;align-items:center;gap:2px;font-size:11.5px;font-weight:700;color:var(--brand);background:#fff;border:1px solid var(--brand-border);border-radius:var(--r-pill);padding:1px 8px;vertical-align:middle;}
+
+  /* mini channel cards for result context */
+  .mini{display:flex;flex-direction:column;gap:10px;margin-top:12px;}
+  .mc{border:1px solid var(--border);border-radius:12px;padding:13px 15px;}
+  .mc .top{display:flex;align-items:center;gap:9px;margin-bottom:7px;}
+  .mc .cico{width:22px;height:22px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;}
+  .cico.t{background:var(--acc-tl-bg);color:var(--acc-tl);} .cico.c{background:var(--acc-co-bg);color:var(--acc-co);} .cico.p{background:var(--acc-pl-bg);color:var(--acc-pl);}
+  .cico svg{width:13px;height:13px;}
+  .mc .nm{font-size:13px;font-weight:700;}
+  .mc .ab{margin-left:auto;display:flex;background:var(--surface-soft);border:1px solid var(--border2);border-radius:var(--r-pill);padding:2px;}
+  .mc .ab span{font-size:11px;font-weight:700;padding:3px 10px;border-radius:var(--r-pill);color:var(--mute);}
+  .mc .ab span.on{background:var(--brand);color:#fff;}
+  .mc .strat{font-size:11.5px;font-weight:600;color:var(--brand);display:flex;align-items:center;gap:5px;}
+  .mc .strat::before{content:"✦";}
+
+  /* generate form hint */
+  .fhint{margin-top:12px;border:1px dashed var(--border);border-radius:10px;padding:12px 14px;font-size:12.5px;color:var(--mute);}
+  .abbar{display:flex;align-items:center;gap:11px;margin-top:12px;padding:11px 14px;border:1px solid var(--border2);border-radius:12px;background:var(--surface-soft);}
+  .sw{width:38px;height:22px;border-radius:99px;background:var(--brand);position:relative;flex-shrink:0;}
+  .sw::after{content:"";position:absolute;top:2.5px;left:18px;width:17px;height:17px;border-radius:50%;background:#fff;}
+  .abbar .t{font-size:12.5px;font-weight:600;} .abbar .t small{display:block;font-size:11px;color:var(--mute);font-weight:400;}
+  .abbar .btn{margin-left:auto;background:var(--brand);color:#fff;border-radius:9px;padding:9px 16px;font-size:13px;font-weight:700;}
+
+  .why{margin-top:14px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px 16px;font-size:12.5px;color:var(--body);line-height:1.6;}
+  .why b{color:var(--ink);font-weight:700;}
+  .foot{margin-top:38px;font-size:12px;color:var(--mute);text-align:center;}
+</style></head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="ic-doc" viewBox="0 0 24 24"><path fill="currentColor" fill-opacity=".3" d="M6 2h7l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z"/><path fill="currentColor" d="M13 2v4a1 1 0 0 0 1 1h4z"/><rect fill="currentColor" x="7.5" y="12" width="9" height="1.7" rx=".85"/><rect fill="currentColor" x="7.5" y="15.6" width="6.5" height="1.7" rx=".85"/></symbol>
+  <symbol id="ic-chat" viewBox="0 0 24 24"><path fill="currentColor" d="M5 3.5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-7L8 19v-3.5H5a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2Z"/><g fill="#fff"><circle cx="8.5" cy="9.5" r="1.1"/><circle cx="12" cy="9.5" r="1.1"/><circle cx="15.5" cy="9.5" r="1.1"/></g></symbol>
+  <symbol id="ic-mega" viewBox="0 0 24 24"><path fill="currentColor" d="M3 10v3a1.5 1.5 0 0 0 1.5 1.5H6l1.2 4.3a1 1 0 0 0 1.9-.5v-3.5l9 3.4a1 1 0 0 0 1.4-.95V6.75A1 1 0 0 0 18.1 5.8L4.5 9A1.5 1.5 0 0 0 3 10Z"/><path fill="currentColor" fill-opacity=".3" d="M20.5 9.3a2.6 2.6 0 0 1 0 5.4z"/></symbol>
+</defs></svg>
+
+<div class="page">
+  <div class="lead">
+    <h1>A/B 차이를 ‘생성 전·후’ 모두 쉽게 알려주기</h1>
+    <p>지금은 <b>결과를 봐야</b> A안·B안이 뭐가 다른지 알 수 있어요. 두 배너가 <b>“강조하는 메시지가 다른 2가지 버전”</b>이라는 걸 미리·쉽게 풀어주면 됩니다. 타깃에 1인 셀러·소상공인이 있어 <b>‘소구 전략’ 같은 마케팅 용어는 쉬운 말로</b> 바꿨어요.</p>
+  </div>
+
+  <!-- ============ RESULT: 생성 근거 ============ -->
+  <div class="sec">
+    <div class="seclabel">① 생성 근거 <span class="where">결과 화면 · 상단 배너</span></div>
+    <div class="cmp">
+      <div class="box bad">
+        <div class="tag">✕ 기존</div>
+        <div class="txt">생성 근거 — 상품·업종·톤을 바탕으로, 채널별 규칙에 맞춰 <b>서로 다른 소구 전략 2안(A·B)</b>을 만들었어요. 각 채널의 안 A / 안 B를 눌러 전략을 비교해 보세요.</div>
+        <div class="note-x">→ ‘소구 전략 2안’이 무슨 뜻인지, A/B가 <b>왜</b> 다른지 직관적으로 안 와닿음.</div>
+      </div>
+
+      <div class="box good">
+        <div class="tag">✓ 수정 (실제 배치 미리보기)</div>
+        <div class="stage">
+          <div class="rbanner">
+            <span class="ic">✦</span>
+            <div class="bd">
+              <span class="h">이렇게 만들었어요</span> — 상품·업종·톤에 맞춰 채널별 규칙(글자수·구조·해시태그)을 지켜 썼어요.<br>
+              <b>A안·B안은 ‘강조하는 메시지’가 달라요.</b> 채널마다 어떤 전략인지는 카드 라벨에 있어요 — 예: <b>‘점심 고민 공감’</b> vs <b>‘2030 트렌드’</b>. <span class="pill">안 A</span> <span class="pill">안 B</span>를 눌러 비교하고 좋은 쪽을 복사하세요.
+            </div>
+          </div>
+          <div class="mini">
+            <div class="mc"><div class="top"><span class="cico t"><svg><use href="#ic-chat"/></svg></span><span class="nm">SNS · 인스타그램</span><span class="ab"><span class="on">A</span><span>B</span></span></div><div class="strat">혜택·세련미 강조 · ‘2030 라이프’ 훅</div></div>
+            <div class="mc"><div class="top"><span class="cico c"><svg><use href="#ic-mega"/></svg></span><span class="nm">광고 · 구글 검색</span><span class="ab"><span class="on">A</span><span>B</span></span></div><div class="strat">긴급 행동 유도 · ‘바로 주문’ CTA</div></div>
+            <div class="mc"><div class="top"><span class="cico p"><svg><use href="#ic-doc"/></svg></span><span class="nm">상세페이지</span><span class="ab"><span class="on">A</span><span>B</span></span></div><div class="strat">타깃·탄생 스토리 중심</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ GENERATE: 생성 프로세스 ============ -->
+  <div class="sec">
+    <div class="seclabel">② 생성 프로세스 <span class="where">카피 생성 화면 · 입력 전 배너</span></div>
+    <div class="cmp">
+      <div class="box bad">
+        <div class="tag">✕ 기존</div>
+        <div class="txt">생성 프로세스 — 채널별 규칙(글자수·구조·해시태그)에 맞춰 <b>서로 다른 소구 전략 2안(A·B)</b>을 생성해요.</div>
+        <div class="note-x">→ 아직 결과를 안 본 상태. A/B가 <b>어떤 선택인지</b>, 아래 토글과 어떻게 연결되는지 안 보임.</div>
+      </div>
+
+      <div class="box good">
+        <div class="tag">✓ 수정 (실제 배치 미리보기)</div>
+        <div class="stage">
+          <div class="rbanner">
+            <span class="ic">⚡</span>
+            <div class="bd">
+              <span class="h">이렇게 만들어드려요</span> — 채널마다 규칙(글자수·구조·해시태그)이 달라서, <b>채널에 딱 맞게 각각</b> 써드려요.<br>
+              아래 <b>A/B 변형을 켜면</b>, 강조 포인트가 다른 <b>2가지 버전</b>을 만들어 비교하고 고를 수 있어요.
+            </div>
+          </div>
+          <div class="fhint">상품명 · 업종 · 기본 톤 · 핵심 소구점 · 채널 … (입력 폼)</div>
+          <div class="abbar">
+            <span class="sw"></span>
+            <span class="t">A/B 변형 생성<small>강조 포인트가 다른 2안 비교</small></span>
+            <span class="btn">카피 생성</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="why">
+    <b>용어 정리</b> — ‘소구(訴求) 전략’은 마케팅 용어라 마케터는 알지만, 타깃의 1인 셀러·소상공인은 갸웃할 수 있어요. 뜻은 그대로 두되 표현을 <b>‘강조하는 메시지 / 미는 포인트’</b>로 풀었습니다(마케터에게도 자연스러움). A/B는 <b>‘같은 상품을 다른 각도로 민 2가지 버전’</b>으로 정의해, 입력 전 배너(기대 설정)와 결과 배너(사용 안내)에서 같은 개념을 반복 노출합니다.
+  </div>
+
+  <p class="foot">Verba · 생성 근거 / 생성 프로세스 문구 · 브랜드 #5F3EFF</p>
+</div>
+</body></html>

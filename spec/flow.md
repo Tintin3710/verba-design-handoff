@@ -17,7 +17,7 @@ History (첫 유저) ──▶ Empty state ──▶ Generate
 
 ## Screens (12)
 1. **Dashboard** — greeting, quick-generate action cards, recent (row → detail), monthly stat.
-2. **Generate (입력)** — 상품명/업종/소구점/채널(복수) + 브랜드 보이스 + A/B 토글 → 생성.
+2. **Generate (입력)** — 상단 안내 배너('이렇게 만들어드려요') + 상품명/업종/기본 톤(chips)/소구점/채널(복수) + 브랜드 보이스 선택. **하단 고정 바**에 A/B 토글 + 카피 생성 CTA(2크레딧). 상태: 로그인 / 게스트(무료 체험 3크레딧) / 크레딧 부족. 참고: `prototype/verba-generate-cta.html`.
 3. **Result** — 생성 근거 배너 + 채널별 A/B 카드(전략 캡션·글자수·복사) + 내보내기.
 4. **Templates** — 목적별 프리셋 카드 + 카테고리 필터 → '사용'하면 Generate 프리필.
 5. **Insights** — KPI + 채널별/주간 차트.
@@ -32,4 +32,5 @@ History (첫 유저) ──▶ Empty state ──▶ Generate
 ## Key rules
 - **하나의 primary 액션**만 brand 퍼플로 채움 / 화면.
 - 브랜드 보이스는 **온보딩에서 생성 → Brand Voice에서 관리 → Generate에서 선택**.
-- 크레딧 = 채널 수만큼 차감. 소진 근접 시 Pricing 유도.
+- 생성 1회 = **2크레딧**(가입 유저). **게스트**는 최초 진입 시 무료 체험 **3크레딧** 지급 → 1회 생성(2크레딧) 후 부족 시 가입 유도.
+- 크레딧 부족 시: 카피 생성 버튼 비활성 + 사유 배너 + **하단 고정 바 CTA**(로그인 유저 = 크레딧 충전/Pricing · 게스트 = 가입). 참고: `prototype/verba-generate-cta.html`, `verba-signup-wall.html`.

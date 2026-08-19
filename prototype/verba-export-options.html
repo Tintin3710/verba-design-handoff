@@ -1,0 +1,132 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>Verba — 내보내기 옵션</title>
+<style>
+  :root{
+    --brand:#5F3EFF; --brand-press:#4F2BEA; --brand-pale:#F2EEFF; --brand-border:#DCD2FF;
+    --page:#F4F4F6; --surface:#fff; --surface-soft:#F8F8FA;
+    --ink:#17171B; --body:#4B4B57; --mute:#6E6E7A; --border:#E5E5EA; --border2:#EDEDF1;
+    --acc-pl:#5F3EFF; --acc-pl-bg:#F2EEFF; --acc-tl:#3FB3A6; --acc-tl-bg:#DDF2EE; --acc-co:#E0795A; --acc-co-bg:#FBE7E1;
+    --ok:#15803D; --ok-bg:#E9F6EE; --warn:#B45309; --warn-bg:#FBF1E4;
+    --r-btn:10px; --r-card:14px; --r-pill:9999px;
+    --sans:"Pretendard",-apple-system,BlinkMacSystemFont,"Inter",system-ui,"Apple SD Gothic Neo",sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--page);-webkit-font-smoothing:antialiased;padding:40px 22px 80px;}
+  .page{max-width:860px;margin:0 auto;}
+  .lead h1{font-size:25px;font-weight:700;letter-spacing:-.02em;margin:0 0 8px;}
+  .lead p{font-size:14.5px;line-height:1.65;color:var(--body);margin:0;max-width:76ch;} .lead b{color:var(--ink);font-weight:600;}
+  .seclabel{font-size:13px;font-weight:700;color:var(--brand);margin:38px 0 14px;text-transform:uppercase;letter-spacing:.03em;}
+
+  /* modal */
+  .scrim{background:#EEEDF3;border:1px solid var(--border);border-radius:18px;padding:34px;display:flex;justify-content:center;}
+  .modal{width:100%;max-width:440px;background:#fff;border-radius:18px;box-shadow:0 24px 60px -28px rgba(23,20,60,.4);padding:24px 24px 22px;}
+  .mhead{display:flex;align-items:flex-start;justify-content:space-between;}
+  .mhead h2{font-size:18px;font-weight:700;margin:0;}
+  .mx{width:28px;height:28px;border:none;background:var(--surface-soft);border-radius:8px;color:var(--mute);font-size:15px;cursor:pointer;}
+  .msub{font-size:13px;color:var(--body);margin:6px 0 16px;}
+
+  .scope{background:var(--surface-soft);border:1px solid var(--border2);border-radius:12px;padding:11px 13px;margin-bottom:18px;}
+  .scope .sl{font-size:11px;font-weight:700;color:var(--mute);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;}
+  .scope .row{display:flex;gap:7px;flex-wrap:wrap;}
+  .seg{display:flex;background:#fff;border:1px solid var(--border);border-radius:var(--r-pill);padding:2px;}
+  .seg span{font-size:12px;font-weight:600;padding:5px 12px;border-radius:var(--r-pill);color:var(--body);cursor:pointer;}
+  .seg span.on{background:var(--brand);color:#fff;}
+  .chipx{font-size:12px;font-weight:600;padding:6px 12px;border-radius:var(--r-pill);border:1px solid var(--brand-border);background:var(--brand-pale);color:var(--brand);}
+
+  .grp{font-size:11px;font-weight:700;color:var(--mute);text-transform:uppercase;letter-spacing:.05em;margin:4px 0 8px;}
+  .opt{display:flex;align-items:center;gap:13px;border:1px solid var(--border);border-radius:12px;padding:13px 14px;margin-bottom:9px;cursor:pointer;transition:border-color .15s,background .15s;}
+  .opt:hover{border-color:var(--brand);background:#FCFBFF;}
+  .opt .tile{width:38px;height:38px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+  .tile.p{background:var(--acc-pl-bg);color:var(--acc-pl);} .tile.t{background:var(--acc-tl-bg);color:var(--acc-tl);} .tile.c{background:var(--acc-co-bg);color:var(--acc-co);}
+  .tile svg{width:19px;height:19px;}
+  .opt .tx{flex:1;min-width:0;} .opt .tx .nm{font-size:14px;font-weight:700;display:flex;align-items:center;gap:7px;} .opt .tx .ds{font-size:12px;color:var(--mute);margin-top:2px;}
+  .soon{font-size:10px;font-weight:700;color:var(--warn);background:var(--warn-bg);padding:2px 7px;border-radius:var(--r-pill);}
+  .opt .go{color:var(--mute);font-size:15px;}
+  .opt.dim{opacity:.62;} .opt.dim:hover{border-color:var(--border);background:#fff;}
+
+  /* removed row */
+  .removed{display:flex;align-items:center;gap:13px;border:1px dashed var(--border);border-radius:12px;padding:12px 14px;background:var(--surface-soft);margin-top:6px;}
+  .removed .tile{width:34px;height:34px;border-radius:9px;background:#ECECEF;color:#B7B7C0;display:flex;align-items:center;justify-content:center;}
+  .removed .tile svg{width:17px;height:17px;}
+  .removed .nm{font-size:13.5px;font-weight:700;color:var(--mute);text-decoration:line-through;}
+  .removed .ds{font-size:12px;color:var(--mute);}
+  .removed .rtag{margin-left:auto;font-size:11px;font-weight:700;color:var(--warn);background:var(--warn-bg);padding:4px 10px;border-radius:var(--r-pill);}
+
+  /* recommendation table */
+  .tbl{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;font-size:13px;}
+  .tbl th,.tbl td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--border2);vertical-align:top;}
+  .tbl th{background:var(--surface-soft);font-size:11.5px;font-weight:700;color:var(--mute);text-transform:uppercase;letter-spacing:.03em;}
+  .tbl td .f{font-weight:700;color:var(--ink);}
+  .tbl tr:last-child td{border-bottom:none;}
+  .pill{display:inline-block;font-size:11px;font-weight:700;padding:3px 9px;border-radius:var(--r-pill);}
+  .pill.low{background:var(--ok-bg);color:var(--ok);} .pill.mid{background:var(--warn-bg);color:var(--warn);}
+  .pill.now{background:var(--brand-pale);color:var(--brand);} .pill.next{background:var(--surface-soft);color:var(--mute);border:1px solid var(--border2);}
+  .foot{margin-top:36px;font-size:12px;color:var(--mute);text-align:center;}
+</style></head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="ic-copy" viewBox="0 0 24 24"><rect fill="currentColor" fill-opacity=".3" x="4" y="4" width="12" height="14" rx="2.5"/><rect fill="none" stroke="currentColor" stroke-width="2" x="8" y="7" width="12" height="14" rx="2.5"/></symbol>
+  <symbol id="ic-txt" viewBox="0 0 24 24"><path fill="currentColor" fill-opacity=".3" d="M6 2h7l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z"/><path fill="currentColor" d="M13 2v4a1 1 0 0 0 1 1h4z"/><rect fill="currentColor" x="7.5" y="12" width="9" height="1.7" rx=".85"/><rect fill="currentColor" x="7.5" y="15.6" width="6.5" height="1.7" rx=".85"/></symbol>
+  <symbol id="ic-csv" viewBox="0 0 24 24"><rect fill="currentColor" fill-opacity=".3" x="3.5" y="5" width="17" height="14" rx="2"/><path fill="none" stroke="currentColor" stroke-width="1.8" d="M9 5.5v13M15 5.5v13M3.5 10.5h17M3.5 14.5h17"/></symbol>
+  <symbol id="ic-code" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M8.5 8.5 4.5 12l4 3.5M15.5 8.5l4 3.5-4 3.5"/><path stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M13.5 6.5l-3 11" opacity=".4"/></symbol>
+  <symbol id="ic-print" viewBox="0 0 24 24"><rect fill="currentColor" fill-opacity=".3" x="4" y="9" width="16" height="8" rx="2"/><path fill="none" stroke="currentColor" stroke-width="2" d="M7 9V4h10v5"/><rect fill="none" stroke="currentColor" stroke-width="2" x="7" y="14" width="10" height="6" rx="1"/></symbol>
+  <symbol id="ic-link" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" d="M10 14a3.5 3.5 0 0 0 5 0l3-3a3.5 3.5 0 0 0-5-5l-1 1"/><path fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" opacity=".45" d="M14 10a3.5 3.5 0 0 0-5 0l-3 3a3.5 3.5 0 0 0 5 5l1-1"/></symbol>
+  <symbol id="ic-img" viewBox="0 0 24 24"><rect fill="currentColor" fill-opacity=".3" x="3.5" y="5" width="17" height="14" rx="2.5"/><circle fill="currentColor" cx="8.5" cy="10" r="1.6"/><path fill="currentColor" d="m5 17 4.5-4.5 3.5 3.5 3-2.5 3 3.5z"/></symbol>
+</defs></svg>
+
+<div class="page">
+  <div class="lead">
+    <h1>내보내기 — 이미지 카드 제외, 무엇을 더 넣을까</h1>
+    <p><b>SNS 이미지 카드는 제외</b>(이미지 렌더링이라 개발 부담 큼 → 후속). 남은 HTML·CSV는 텍스트라 가벼우니, <b>같은 결의 저비용·고효용 옵션</b>부터 채우고 무거운 건 나중에.</p>
+  </div>
+
+  <!-- ── REVISED MODAL ── -->
+  <div class="seclabel">수정한 내보내기 모달</div>
+  <div class="scrim">
+    <div class="modal">
+      <div class="mhead"><h2>내보내기</h2><button class="mx">✕</button></div>
+      <p class="msub">새싹비빔밥 · 3개 채널 카피를 원하는 형식으로 내보내요.</p>
+
+      <div class="scope">
+        <div class="sl">내보낼 대상</div>
+        <div class="row">
+          <div class="seg"><span class="on">선택한 안</span><span>A·B 모두</span></div>
+          <span class="chipx">채널 3개</span>
+        </div>
+      </div>
+
+      <div class="grp">빠른 복사</div>
+      <div class="opt"><span class="tile p"><svg><use href="#ic-copy"/></svg></span><div class="tx"><div class="nm">전체 복사</div><div class="ds">3개 채널 · 선택한 안을 한 번에 클립보드로</div></div><span class="go">›</span></div>
+
+      <div class="grp" style="margin-top:14px">다운로드</div>
+      <div class="opt"><span class="tile p"><svg><use href="#ic-txt"/></svg></span><div class="tx"><div class="nm">텍스트 (.txt)</div><div class="ds">간단 저장 · 어디에나 붙여넣기</div></div><span class="go">›</span></div>
+      <div class="opt"><span class="tile c"><svg><use href="#ic-csv"/></svg></span><div class="tx"><div class="nm">CSV</div><div class="ds">채널별 카피 일괄 · 스프레드시트 관리</div></div><span class="go">›</span></div>
+      <div class="opt"><span class="tile t"><svg><use href="#ic-code"/></svg></span><div class="tx"><div class="nm">상세페이지 HTML</div><div class="ds">스마트스토어 붙여넣기용</div></div><span class="go">›</span></div>
+      <div class="opt"><span class="tile c"><svg><use href="#ic-print"/></svg></span><div class="tx"><div class="nm">인쇄 · PDF 저장</div><div class="ds">클라이언트 보고 · 보관용 시안</div></div><span class="go">›</span></div>
+
+      <div class="grp" style="margin-top:14px">공유</div>
+      <div class="opt dim"><span class="tile p"><svg><use href="#ic-link"/></svg></span><div class="tx"><div class="nm">공유 링크 <span class="soon">곧</span></div><div class="ds">읽기 전용 URL로 팀·클라이언트 리뷰</div></div><span class="go">›</span></div>
+    </div>
+  </div>
+
+  <!-- ── REMOVED ── -->
+  <div class="seclabel">제외</div>
+  <div class="removed">
+    <span class="tile"><svg><use href="#ic-img"/></svg></span>
+    <div><div class="nm">SNS 이미지 카드</div><div class="ds">인스타 업로드용 이미지(9:16·1:1)</div></div>
+    <span class="rtag">개발 범위 밖 · 후속</span>
+  </div>
+
+  <!-- ── RECOMMENDATION ── -->
+  <div class="seclabel">추천 우선순위</div>
+  <table class="tbl">
+    <tr><th>옵션</th><th>왜 좋은가</th><th>개발 비용</th><th>시점</th></tr>
+    <tr><td><span class="f">전체 복사</span></td><td>가장 자주 쓰는 동작 — 채널마다 개별 복사 대신 한 번에. 즉시 체감.</td><td><span class="pill low">낮음</span> 클립보드</td><td><span class="pill now">지금</span></td></tr>
+    <tr><td><span class="f">텍스트 (.txt)</span></td><td>범용 저장. 노션·메모·문서 어디든. CSV보다 가벼운 단건 저장.</td><td><span class="pill low">낮음</span> Blob</td><td><span class="pill now">지금</span></td></tr>
+    <tr><td><span class="f">인쇄 · PDF 저장</span></td><td>대행사가 클라이언트에 <b>시안 보고·승인</b> 받을 때. 보관용.</td><td><span class="pill low">낮음</span> 인쇄 스타일시트</td><td><span class="pill now">지금</span></td></tr>
+    <tr><td><span class="f">공유 링크</span></td><td>팀·클라이언트가 <b>로그인 없이 결과 열람·리뷰</b>. 협업 훅.</td><td><span class="pill mid">중간</span> 공개 라우트·BE</td><td><span class="pill next">후속</span></td></tr>
+    <tr><td style="color:var(--mute);text-decoration:line-through">SNS 이미지 카드</td><td style="color:var(--mute)">인스타 즉시 업로드엔 좋지만 이미지 렌더링 필요.</td><td><span class="pill mid">높음</span> 이미지 렌더</td><td><span class="pill next">후속</span></td></tr>
+  </table>
+
+  <div class="foot">Verba · 내보내기 옵션 재구성 · 브랜드 #5F3EFF</div>
+</div>
+</body></html>

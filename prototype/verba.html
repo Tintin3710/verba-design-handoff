@@ -110,6 +110,12 @@
   .toggle-row .t{font-size:13.5px;font-weight:600;}.toggle-row .d{font-size:11.5px;color:var(--mute);margin-top:1px;}
   .sw{width:42px;height:24px;border-radius:99px;background:var(--brand);position:relative;flex-shrink:0;}
   .sw::after{content:"";position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;background:#fff;}
+  .sw.off{background:var(--border);} .sw.off::after{right:auto;left:3px;}
+  .genbar{display:flex;align-items:center;gap:16px;padding:14px 22px;border-top:1px solid var(--border2);background:var(--surface-soft);}
+  .genbar .gl{display:flex;align-items:center;gap:12px;flex:1;}
+  .genbar .abtog .t{font-size:13.5px;font-weight:600;} .genbar .abtog .d{font-size:11.5px;color:var(--mute);margin-top:1px;}
+  .genbar .warn-in{font-size:12.5px;font-weight:600;color:var(--warn);} .genbar .warn-in b{color:var(--ink);}
+  .btn-primary.disabled{background:var(--border);color:var(--mute);cursor:not-allowed;} .btn-primary.disabled .cost{background:rgba(0,0,0,.05);color:var(--mute);}
 
   .rhead{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:18px;flex-wrap:wrap;}
   .rhead .title{font-size:24px;font-weight:700;letter-spacing:-0.02em;display:flex;align-items:center;gap:10px;}
@@ -382,10 +388,14 @@
       </aside>
       <main class="content">
         <div class="chead"><div><h2>카피 생성</h2><div class="sub">상품 정보를 넣으면 채널에 맞는 카피를 만들어 드려요.</div></div></div>
+        <div class="why"><span class="ic"><svg class="vic"><use href="#ic-bolt"/></svg></span><p><b>이렇게 만들어드려요</b> — 채널마다 규칙(글자수·구조·해시태그)이 달라서, 채널에 딱 맞게 각각 써드려요. 아래 <b>A/B 변형을 켜면</b>, 강조 포인트가 다른 <b>2가지 버전</b>을 만들어 비교하고 고를 수 있어요.</p></div>
         <div class="gengrid">
           <div class="panel">
             <div class="field"><div class="lab">상품명</div><input class="inp" placeholder="예: 수분 진정 크림"></div>
             <div class="field"><div class="lab">업종</div><input class="inp" placeholder="예: 화장품"></div>
+            <div class="field"><div class="lab">기본 톤 <span class="opt">직접 입력하거나 골라주세요</span></div><input class="inp" placeholder="예: 다정하지만 전문적으로, 살짝 위트 있게">
+              <div class="chips" style="margin-top:10px"><span class="chip on">친근함</span><span class="chip on">신뢰감</span><span class="chip">고급스러움</span><span class="chip">발랄함</span><span class="chip">전문적</span><span class="chip">감성적</span><span class="chip">유머러스</span><span class="chip">미니멀</span><span class="chip">트렌디</span><span class="chip">따뜻함</span><span class="chip">단호함</span><span class="chip">위트있게</span></div>
+            </div>
             <div class="field"><div class="lab">핵심 소구점 <span class="opt">선택</span></div><input class="inp" placeholder="예: 자극 없는 저자극 · 24시간 보습"></div>
             <div class="field"><div class="lab">채널 <span class="opt">복수 선택</span></div>
               <div class="chips"><span class="chip on">상세페이지</span><span class="chip on">SNS</span><span class="chip">광고</span></div>
@@ -397,13 +407,17 @@
               <div class="vopt on"><span class="rad"></span><div><div class="t">우리 브랜드 · 기본</div><div class="d">친근하고 신뢰감 있게</div></div></div>
               <div class="vopt"><span class="rad"></span><div><div class="t">프리미엄</div><div class="d">차분하고 고급스럽게</div></div></div>
             </div>
-            <div class="toggle-row"><div><div class="t">A/B 변형 생성</div><div class="d">채널별 2안 비교</div></div><span class="sw"></span></div>
-            <button class="btn-primary" style="width:100%;justify-content:center;margin-top:14px;">카피 생성 <span class="cost">−2 크레딧</span></button>
+            <div class="toggle-row"><div><div class="t">A/B 변형 생성</div><div class="d">강조 포인트가 다른 2안 비교</div></div><span class="sw"></span></div>
           </div>
         </div>
       </main>
     </div>
+    <div class="genbar">
+      <div class="gl"><span class="sw"></span><div class="abtog"><div class="t">A/B 변형 생성</div><div class="d">강조 포인트가 다른 2안 비교</div></div></div>
+      <button class="btn-primary">카피 생성 <span class="cost">2 크레딧</span></button>
+    </div>
   </div>
+  <ul class="points"><li>상단 <b>‘이렇게 만들어드려요’</b> 안내 배너로 A/B가 무엇인지 생성 전에 설명</li><li>CTA·A/B 토글은 <b>하단 고정 바</b>로 이동(폼이 길어도 항상 보임 · 생성형 툴 표준)</li></ul>
 
   <!-- 3 RESULT -->
   <div class="screentag"><span class="n">3</span><span class="t">생성 결과</span><span class="d">생성 근거 · 변형 전략 · A/B 실제 전환</span></div>
@@ -420,7 +434,7 @@
           <div><div class="title">새싹비빔밥 <span class="badge">요식업</span></div><div class="meta">방금 생성 · 3개 채널 · A/B 변형 · 톤: 친근하고 세련되게</div></div>
           <div style="display:flex;gap:9px;"><button class="btn-sm">↻ 다시 생성</button><button class="btn-sm solid" id="exportBtn">↥ 내보내기</button></div>
         </div>
-        <div class="why"><span class="ic"><svg class="vic"><use href="#ic-bolt"/></svg></span><p><b>생성 근거</b> — 상품(새싹비빔밥)·업종(요식업)·톤(친근·세련)을 바탕으로, 채널별 규칙(글자수·구조·해시태그)에 맞춰 <b>서로 다른 소구 전략 2안(A·B)</b>을 만들었어요. 각 채널의 <b>안 A / 안 B</b>를 눌러 전략을 비교해 보세요.</p></div>
+        <div class="why"><span class="ic"><svg class="vic"><use href="#ic-bolt"/></svg></span><p><b>이렇게 만들었어요</b> — 상품·업종·톤에 맞춰 채널별 규칙(글자수·구조·해시태그)을 지켜 썼어요. <b>A안·B안은 ‘강조하는 메시지’가 달라요</b> — 채널마다 어떤 전략인지는 카드 라벨에 있어요(예: ‘점심 고민 공감’ vs ‘2030 트렌드’). <b>안 A / 안 B</b>를 눌러 비교하고 좋은 쪽을 복사하세요.</p></div>
         <div class="channels">
           <div class="ch">
             <div class="ch-top"><span class="ch-name"><span class="ch-ic c-teal"><svg class="vic"><use href="#ic-chat"/></svg></span>SNS · 인스타그램</span><span class="abtabs" data-ch="sns"><span class="on" data-v="a">안 A</span><span data-v="b">안 B</span></span></div>
@@ -447,7 +461,7 @@
       <div class="modal">
         <div class="mh"><h3>내보내기</h3><button class="x" id="exportClose">✕</button></div>
         <p class="ms">새싹비빔밥 · 3개 채널 카피를 원하는 형식으로 내보내요.</p>
-        <div class="exopt"><span class="ei c-purple"><svg class="vic"><use href="#ic-image"/></svg></span><div><div class="t">SNS 이미지 카드</div><div class="d">인스타 업로드용 이미지(9:16 · 1:1)</div></div></div>
+        <div class="exopt"><span class="ei c-purple"><svg class="vic"><use href="#ic-doc"/></svg></span><div><div class="t">전체 복사</div><div class="d">3개 채널 · 선택한 안을 한 번에</div></div></div>
         <div class="exopt"><span class="ei c-teal"><svg class="vic"><use href="#ic-code"/></svg></span><div><div class="t">상세페이지 HTML</div><div class="d">스마트스토어 붙여넣기용</div></div></div>
         <div class="exopt"><span class="ei c-coral"><svg class="vic"><use href="#ic-table"/></svg></span><div><div class="t">텍스트 · CSV</div><div class="d">채널별 카피 일괄 저장</div></div></div>
       </div>
@@ -730,7 +744,7 @@
   </div>
   <ul class="points"><li><b>히스토리(채워진 상태)</b> 추가 — 검색·채널 필터·<b>행별 복사</b>로 과거 카피를 자산으로 재사용. 첫 유저는 빈 상태(9) → 생성 후 이 화면</li></ul>
 
-  <p class="foot"><b>이번 반영(v9.1)</b> — <b>히스토리(기록) 페이지 신규</b>(검색·필터·행별 복사). 전체 12화면, 미니멀 화이트 · 브랜드 #5F3EFF · 2D 아이콘. <b>다음</b> — 케이스 스터디 정리, 또는 Figma 이식.</p>
+  <p class="foot"><b>이번 반영(v9.2)</b> — Figma 최종본 기준 <b>카피 생성 최신화</b>: ‘이렇게 만들어드려요’ 안내 배너 · 하단 고정 바(CTA·A/B 토글) · 기본 톤 chips. 결과 화면 생성 근거 문구 개선, 내보내기 <b>SNS 이미지 카드 제외</b>(후속). 전체 12화면 · 미니멀 화이트 · #5F3EFF.</p>
 
 </div></div>
 

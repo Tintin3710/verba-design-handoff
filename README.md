@@ -21,7 +21,12 @@ verba-handoff/
    ├─ verba.html               참고 구현 (전체 12화면·값·컴포넌트·인터랙션)
    ├─ verba-responsive.html    PC/Tablet/Mobile 3폭 리플로우 데모(컨테이너쿼리)
    ├─ verba-history.html       히스토리 단독 화면 (개별 임포트용)
-   └─ verba-voice-loading.html 브랜드 보이스 생성 로딩 (온보딩)
+   ├─ verba-voice-loading.html 브랜드 보이스 생성 로딩 (온보딩)
+   ├─ verba-generate-cta.html  카피 생성 하단 고정 바(CTA·A/B) + 게스트/크레딧 부족 상태
+   ├─ verba-signup-wall.html   결과 위 가입 소프트월 모달(구글·카카오)
+   ├─ verba-rationale-copy.html A/B 생성 근거·프로세스 배너 문구(기존→수정)
+   ├─ verba-export-options.html 내보내기 옵션 재구성(SNS 이미지 카드 제외)
+   └─ verba-case-study.html    포트폴리오 케이스 스터디 페이지
 ```
 
 ## 개발자에게 — 기준 우선순위
