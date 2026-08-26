@@ -34,3 +34,4 @@ History (첫 유저) ──▶ Empty state ──▶ Generate
 - 브랜드 보이스는 **온보딩에서 생성 → Brand Voice에서 관리 → Generate에서 선택**.
 - 생성 1회 = **2크레딧**(가입 유저). **게스트**는 최초 진입 시 무료 체험 **3크레딧** 지급 → 1회 생성(2크레딧) 후 부족 시 가입 유도.
 - 크레딧 부족 시: 카피 생성 버튼 비활성 + 사유 배너 + **하단 고정 바 CTA**(로그인 유저 = 크레딧 충전/Pricing · 게스트 = 가입). 참고: `prototype/verba-generate-cta.html`, `verba-signup-wall.html`.
+- **인증**: 로그인 = **패스워드리스**(이메일 인증 링크) + 구글·카카오 / 회원가입 = **이름·이메일**(패스워드리스) + 구글·카카오. 디자인 최종 = **Figma**, 인터랙션 참고 = `prototype/verba-login.html`·`verba-signup.html`.

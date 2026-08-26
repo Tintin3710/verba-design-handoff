@@ -25,8 +25,12 @@ verba-handoff/
    ├─ verba-generate-cta.html  카피 생성 하단 고정 바(CTA·A/B) + 게스트/크레딧 부족 상태
    ├─ verba-signup-wall.html   결과 위 가입 소프트월 모달(구글·카카오)
    ├─ verba-rationale-copy.html A/B 생성 근거·프로세스 배너 문구(기존→수정)
-   └─ verba-export-options.html 내보내기 옵션 재구성(SNS 이미지 카드 제외)
+   ├─ verba-export-options.html 내보내기 옵션 재구성(SNS 이미지 카드 제외)
+   ├─ verba-login.html         로그인(패스워드리스) · 인터랙션 참고 — 디자인 최종=Figma
+   └─ verba-signup.html        회원가입(이름·이메일, 패스워드리스) · 인터랙션 참고 — 디자인 최종=Figma
 ```
+
+> **인증(로그인·회원가입)**: 위 두 HTML은 **인터랙션 참고용**입니다. **디자인 최종본은 Figma** — 갈리면 Figma를 따르세요.
 
 ## 개발자에게 — 기준 우선순위
 
