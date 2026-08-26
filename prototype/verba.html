@@ -480,18 +480,19 @@
       </aside>
       <main class="content">
         <div class="chead"><div><h2>템플릿</h2><div class="sub">목적을 고르면 바로 채워진 카피로 시작해요.</div></div></div>
-        <div class="filterrow"><span class="ft on">전체</span><span class="ft">세일·프로모</span><span class="ft">신제품</span><span class="ft">재입고</span><span class="ft">브랜드</span></div>
+        <div class="filterrow"><span class="ft on">전체</span><span class="ft">세일·프로모션</span><span class="ft">신제품</span><span class="ft">재입고</span><span class="ft">브랜드</span></div>
         <div class="tplgrid">
-          <div class="tpl"><div class="top"><span class="ico c-coral"><svg class="vic"><use href="#ic-clock"/></svg></span><span class="use">사용 →</span></div><h3>타임세일 D-1</h3><p>마감 임박 긴급 할인으로 구매 전환을 유도해요.</p><div class="tags"><span class="tg">SNS</span><span class="tg">광고</span></div></div>
-          <div class="tpl"><div class="top"><span class="ico c-purple"><svg class="vic"><use href="#ic-spark"/></svg></span><span class="use">사용 →</span></div><h3>신제품 런칭</h3><p>새 상품의 첫인상을 강조하는 소개 카피.</p><div class="tags"><span class="tg">상세</span><span class="tg">SNS</span></div></div>
-          <div class="tpl"><div class="top"><span class="ico c-teal"><svg class="vic"><use href="#ic-bell"/></svg></span><span class="use">사용 →</span></div><h3>재입고 알림</h3><p>품절 인기 상품의 재입고를 알려 재구매를 유도.</p><div class="tags"><span class="tg">SNS</span></div></div>
-          <div class="tpl"><div class="top"><span class="ico c-coral"><svg class="vic"><use href="#ic-thumb"/></svg></span><span class="use">사용 →</span></div><h3>리뷰 이벤트</h3><p>구매 후기 작성을 부드럽게 유도하는 문구.</p><div class="tags"><span class="tg">SNS</span><span class="tg">상세</span></div></div>
-          <div class="tpl"><div class="top"><span class="ico c-purple"><svg class="vic"><use href="#ic-doc"/></svg></span><span class="use">사용 →</span></div><h3>브랜드 스토리</h3><p>브랜드의 시작과 가치를 담은 스토리텔링.</p><div class="tags"><span class="tg">상세</span></div></div>
-          <div class="tpl"><div class="top"><span class="ico c-teal"><svg class="vic"><use href="#ic-gift"/></svg></span><span class="use">사용 →</span></div><h3>번들·세트 제안</h3><p>묶음 구성의 혜택을 강조해 객단가를 높여요.</p><div class="tags"><span class="tg">상세</span><span class="tg">광고</span></div></div>
+          <div class="tpl"><div class="top"><span class="ico c-coral"><svg class="vic"><use href="#ic-clock"/></svg></span><span class="use">사용 →</span></div><h3>타임세일 D-1</h3><p>마감 임박 긴급 할인으로 구매 전환을 유도해요</p><div class="tags"><span class="tg">SNS</span><span class="tg">광고</span></div></div>
+          <div class="tpl"><div class="top"><span class="ico c-purple"><svg class="vic"><use href="#ic-spark"/></svg></span><span class="use">사용 →</span></div><h3>신제품 런칭</h3><p>새 상품의 첫인상을 강조하는 소개 카피</p><div class="tags"><span class="tg">상세</span><span class="tg">SNS</span></div></div>
+          <div class="tpl"><div class="top"><span class="ico c-teal"><svg class="vic"><use href="#ic-bell"/></svg></span><span class="use">사용 →</span></div><h3>재입고 알림</h3><p>품절 인기 상품의 재입고를 알려 재구매를 유도</p><div class="tags"><span class="tg">SNS</span></div></div>
+          <div class="tpl"><div class="top"><span class="ico c-coral"><svg class="vic"><use href="#ic-thumb"/></svg></span><span class="use">사용 →</span></div><h3>리뷰 이벤트</h3><p>구매 후기 작성을 부드럽게 유도하는 문구</p><div class="tags"><span class="tg">SNS</span><span class="tg">광고</span></div></div>
+          <div class="tpl"><div class="top"><span class="ico c-purple"><svg class="vic"><use href="#ic-doc"/></svg></span><span class="use">사용 →</span></div><h3>브랜드 스토리</h3><p>브랜드의 시작과 가치를 담은 스토리텔링</p><div class="tags"><span class="tg">상세</span></div></div>
+          <div class="tpl"><div class="top"><span class="ico c-teal"><svg class="vic"><use href="#ic-gift"/></svg></span><span class="use">사용 →</span></div><h3>번들·세트 제안</h3><p>묶음 구성의 혜택을 강조해 객단가를 높여요</p><div class="tags"><span class="tg">상세</span><span class="tg">SNS</span></div></div>
         </div>
       </main>
     </div>
   </div>
+  <ul class="points"><li><b>실 데이터 반영</b> — <b>GET /templates</b> 6개 시드와 1:1(제목·설명·채널). 필터 = category enum(sale·new·restock·brand).</li><li><b>‘사용 →’</b> = 채널·소구점(·톤)만 generate 폼에 프리필 · <b>상품명·업종은 안 채움</b>.</li></ul>
 
   <!-- 5 INSIGHTS -->
   <div class="screentag"><span class="n">5</span><span class="t">인사이트</span><span class="d">생성량 · 아낀 시간 · 채널 분포</span></div>
@@ -743,7 +744,7 @@
   </div>
   <ul class="points"><li><b>히스토리(채워진 상태)</b> 추가 — 검색·채널 필터·<b>행별 복사</b>로 과거 카피를 자산으로 재사용. 첫 유저는 빈 상태(9) → 생성 후 이 화면</li></ul>
 
-  <p class="foot"><b>이번 반영(v9.2)</b> — Figma 최종본 기준 <b>카피 생성 최신화</b>: ‘이렇게 만들어드려요’ 안내 배너 · 하단 고정 바(CTA·A/B 토글) · 기본 톤 chips. 결과 화면 생성 근거 문구 개선, 내보내기 <b>SNS 이미지 카드 제외</b>(후속). 전체 12화면 · 미니멀 화이트 · #5F3EFF.</p>
+  <p class="foot"><b>이번 반영(v9.3)</b> — <b>템플릿 갤러리</b>를 백엔드 <b>GET /templates</b> 6개 시드와 1:1 동기화(리뷰·번들 채널 교정 · 필터=category enum). 이전: 카피 생성 최신화(안내 배너·하단 고정 바·기본 톤 chips), 내보내기 SNS 이미지 카드 제외. 전체 12화면 · 미니멀 화이트 · #5F3EFF.</p>
 
 </div></div>
 

@@ -1,0 +1,140 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>Verba — 템플릿 갤러리</title>
+<style>
+  :root{
+    --brand:#5F3EFF; --brand-press:#4F2BEA; --brand-pale:#F2EEFF; --brand-border:#DCD2FF;
+    --acc-pl:#5F3EFF; --acc-pl-bg:#F2EEFF; --acc-tl:#3FB3A6; --acc-tl-bg:#DDF2EE; --acc-co:#E0795A; --acc-co-bg:#FBE7E1;
+    --page:#F4F4F6; --surface:#fff; --surface-soft:#F7F7FA;
+    --ink:#17171B; --body:#4B4B57; --mute:#6E6E7A; --border:#E5E5EA; --border2:#EDEDF1;
+    --r-btn:10px; --r-card:16px; --r-pill:9999px;
+    --sans:"Pretendard",-apple-system,BlinkMacSystemFont,"Inter",system-ui,"Apple SD Gothic Neo",sans-serif;
+  }
+  *{box-sizing:border-box;} .vic{display:block;width:16px;height:16px;flex-shrink:0;}
+  body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--surface);-webkit-font-smoothing:antialiased;}
+  .shell{display:grid;grid-template-columns:216px 1fr;min-height:100vh;}
+  .sidebar{background:#fff;border-right:1px solid var(--border2);padding:22px 14px;display:flex;flex-direction:column;}
+  .slogo{font-size:22px;font-weight:800;letter-spacing:-.03em;padding:6px 10px 20px;color:var(--brand);}
+  .snav a{display:flex;align-items:center;gap:11px;font-size:14px;font-weight:500;color:var(--body);padding:10px 12px;border-radius:8px;margin-bottom:2px;text-decoration:none;}
+  .snav a.on{background:var(--brand-pale);color:var(--brand);font-weight:600;}
+  .snav a .vic{width:18px;height:18px;}
+  .sfoot{margin-top:auto;} .creditbox{background:var(--surface-soft);border:1px solid var(--border2);border-radius:10px;padding:12px;} .creditbox .l{font-size:11px;color:var(--mute);font-weight:600;} .creditbox .v{font-size:18px;font-weight:700;margin-top:2px;} .creditbox .bar{height:5px;background:var(--border);border-radius:9px;margin-top:8px;overflow:hidden;} .creditbox .bar i{display:block;height:100%;width:36%;background:var(--brand);border-radius:9px;}
+  .sprofile{display:flex;align-items:center;gap:9px;padding:12px 6px 0;} .sprofile .av{width:28px;height:28px;border-radius:50%;background:var(--brand-pale);border:1px solid var(--brand-border);} .sprofile .nm{font-size:12.5px;font-weight:600;}
+
+  .content{padding:34px 40px;}
+  .chead h1{font-size:28px;font-weight:800;letter-spacing:-.025em;margin:0;} .chead .sub{font-size:14px;color:var(--body);margin-top:8px;}
+
+  .tabs{display:flex;gap:9px;flex-wrap:wrap;margin:26px 0 22px;}
+  .tab{border:1px solid var(--border);background:#fff;color:var(--body);border-radius:var(--r-pill);padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:.15s;}
+  .tab.on{background:var(--ink);color:#fff;border-color:var(--ink);}
+
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  @media(max-width:1100px){.grid{grid-template-columns:repeat(2,1fr);}} @media(max-width:680px){.grid{grid-template-columns:1fr;}}
+  .tcard{background:#fff;border:1px solid var(--border);border-radius:var(--r-card);padding:22px;transition:border-color .15s,box-shadow .15s;}
+  .tcard:hover{border-color:var(--brand-border);box-shadow:0 10px 30px -22px rgba(30,27,75,.4);}
+  .tc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;}
+  .tile{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;} .tile .vic{width:21px;height:21px;}
+  .tile.coral{background:var(--acc-co-bg);color:var(--acc-co);} .tile.purple{background:var(--acc-pl-bg);color:var(--acc-pl);} .tile.teal{background:var(--acc-tl-bg);color:var(--acc-tl);}
+  .use{display:inline-flex;align-items:center;gap:5px;font-size:13.5px;font-weight:700;color:var(--brand);text-decoration:none;} .use:hover{color:var(--brand-press);}
+  .tcard h3{font-size:17px;font-weight:700;letter-spacing:-.01em;margin:0 0 7px;}
+  .tcard p{font-size:13.5px;line-height:1.55;color:var(--body);margin:0 0 16px;min-height:2.4em;}
+  .chips{display:flex;gap:7px;flex-wrap:wrap;}
+  .ch{font-size:11.5px;font-weight:600;color:var(--mute);background:var(--surface-soft);border:1px solid var(--border2);border-radius:var(--r-pill);padding:5px 12px;}
+  .empty{grid-column:1/-1;text-align:center;color:var(--mute);font-size:14px;padding:50px 0;}
+  .note{margin:26px 0 0;font-size:12px;color:var(--mute);line-height:1.6;} .note b{color:var(--body);}
+</style></head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="ic-home" viewBox="0 0 24 24"><path fill="currentColor" fill-opacity=".3" d="M5 10.8 12 5.2l7 5.6V19a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1z"/><path fill="currentColor" d="M3.4 11 12 4.2 20.6 11l-1.3 1.6L12 6.9 4.7 12.6z"/></symbol>
+  <symbol id="ic-pencil" viewBox="0 0 24 24"><path fill="currentColor" d="M4 17.3 14.6 6.7l2.7 2.7L6.7 20H4z"/><path fill="currentColor" fill-opacity=".3" d="M15.6 5.7 18.3 8.4l1.4-1.4a1.6 1.6 0 0 0 0-2.3l-.4-.4a1.6 1.6 0 0 0-2.3 0z"/></symbol>
+  <symbol id="ic-grid" viewBox="0 0 24 24"><rect fill="currentColor" x="4" y="4" width="7" height="7" rx="1.6"/><rect fill="currentColor" fill-opacity=".3" x="13" y="4" width="7" height="7" rx="1.6"/><rect fill="currentColor" fill-opacity=".3" x="4" y="13" width="7" height="7" rx="1.6"/><rect fill="currentColor" x="13" y="13" width="7" height="7" rx="1.6"/></symbol>
+  <symbol id="ic-voice" viewBox="0 0 24 24"><g fill="currentColor"><rect x="3.5" y="10" width="2.2" height="4" rx="1.1" fill-opacity=".3"/><rect x="7.5" y="7" width="2.2" height="10" rx="1.1"/><rect x="11" y="4" width="2.2" height="16" rx="1.1" fill-opacity=".3"/><rect x="14.5" y="7" width="2.2" height="10" rx="1.1"/><rect x="18.3" y="10" width="2.2" height="4" rx="1.1" fill-opacity=".3"/></g></symbol>
+  <symbol id="ic-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="currentColor" fill-opacity=".3"/><path fill="currentColor" d="M12 7a1 1 0 0 1 1 1v3.5l2.2 1.3a1 1 0 1 1-1 1.7l-2.7-1.6A1 1 0 0 1 11 12V8a1 1 0 0 1 1-1Z"/></symbol>
+  <symbol id="ic-bars" viewBox="0 0 24 24"><rect fill="currentColor" fill-opacity=".3" x="4" y="12" width="4" height="8" rx="1"/><rect fill="currentColor" x="10" y="7" width="4" height="13" rx="1"/><rect fill="currentColor" fill-opacity=".3" x="16" y="4" width="4" height="16" rx="1"/></symbol>
+  <symbol id="ic-spark" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8z"/><path fill="currentColor" fill-opacity=".35" d="M18.5 14l.9 2.6L22 17.5l-2.6.9L18.5 21l-.9-2.6L15 17.5l2.6-.9z"/></symbol>
+  <symbol id="ic-bell" viewBox="0 0 24 24"><path fill="currentColor" fill-opacity=".3" d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2.2a.6.6 0 0 1-.5.9H5a.6.6 0 0 1-.5-.9z"/><path fill="currentColor" d="M9.5 19a2.5 2.5 0 0 0 5 0z"/></symbol>
+  <symbol id="ic-thumb" viewBox="0 0 24 24"><path fill="currentColor" fill-opacity=".3" d="M3.5 10.5h3v9h-3z"/><path fill="currentColor" d="M8 10.2 12 3.5c1.3 0 2.2 1.2 1.9 2.5L13.2 9H19a2 2 0 0 1 2 2.3l-1 6a2 2 0 0 1-2 1.7H8z"/></symbol>
+  <symbol id="ic-doc" viewBox="0 0 24 24"><path fill="currentColor" fill-opacity=".3" d="M6 2h7l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z"/><path fill="currentColor" d="M13 2v4a1 1 0 0 0 1 1h4z"/><rect fill="currentColor" x="7.5" y="12" width="9" height="1.7" rx=".85"/><rect fill="currentColor" x="7.5" y="15.6" width="6.5" height="1.7" rx=".85"/></symbol>
+  <symbol id="ic-table" viewBox="0 0 24 24"><rect fill="currentColor" fill-opacity=".3" x="3.5" y="5" width="17" height="14" rx="2"/><path fill="none" stroke="currentColor" stroke-width="1.8" d="M3.5 10.5h17M9.5 10.5v8.5"/></symbol>
+  <symbol id="ic-arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M5 12h13M12 6l6 6-6 6"/></symbol>
+</defs></svg>
+
+<div class="shell">
+  <aside class="sidebar">
+    <div class="slogo">Verba</div>
+    <nav class="snav">
+      <a><span class="i"><svg class="vic"><use href="#ic-home"/></svg></span>대시보드</a>
+      <a><span class="i"><svg class="vic"><use href="#ic-pencil"/></svg></span>카피 생성</a>
+      <a class="on"><span class="i"><svg class="vic"><use href="#ic-grid"/></svg></span>템플릿</a>
+      <a><span class="i"><svg class="vic"><use href="#ic-voice"/></svg></span>브랜드 보이스</a>
+      <a><span class="i"><svg class="vic"><use href="#ic-clock"/></svg></span>히스토리</a>
+      <a><span class="i"><svg class="vic"><use href="#ic-bars"/></svg></span>인사이트</a>
+    </nav>
+    <div class="sfoot"><div class="creditbox"><div class="l">남은 크레딧</div><div class="v">18 / 50</div><div class="bar"><i></i></div></div><div class="sprofile"><span class="av"></span><span class="nm">Sam Lee</span></div></div>
+  </aside>
+
+  <main class="content">
+    <div class="chead"><h1>템플릿</h1><div class="sub">목적을 고르면 바로 채워진 카피로 시작해요.</div></div>
+
+    <div class="tabs" id="tabs">
+      <button class="tab on" data-cat="all">전체</button>
+      <button class="tab" data-cat="sale">세일·프로모션</button>
+      <button class="tab" data-cat="new">신제품</button>
+      <button class="tab" data-cat="restock">재입고</button>
+      <button class="tab" data-cat="brand">브랜드</button>
+    </div>
+
+    <div class="grid" id="grid">
+      <!-- timesale-d1 · sale · ad,sns -->
+      <div class="tcard" data-cat="sale">
+        <div class="tc-top"><span class="tile coral"><svg class="vic"><use href="#ic-clock"/></svg></span><a class="use" href="#">사용 <svg class="vic" style="width:14px;height:14px"><use href="#ic-arrow"/></svg></a></div>
+        <h3>타임세일 D-1</h3><p>마감 임박 긴급 할인으로 구매 전환을 유도해요</p>
+        <div class="chips"><span class="ch">SNS</span><span class="ch">광고</span></div>
+      </div>
+      <!-- new-launch · new · detail,sns -->
+      <div class="tcard" data-cat="new">
+        <div class="tc-top"><span class="tile purple"><svg class="vic"><use href="#ic-spark"/></svg></span><a class="use" href="#">사용 <svg class="vic" style="width:14px;height:14px"><use href="#ic-arrow"/></svg></a></div>
+        <h3>신제품 런칭</h3><p>새 상품의 첫인상을 강조하는 소개 카피</p>
+        <div class="chips"><span class="ch">상세</span><span class="ch">SNS</span></div>
+      </div>
+      <!-- restock · restock · sns -->
+      <div class="tcard" data-cat="restock">
+        <div class="tc-top"><span class="tile teal"><svg class="vic"><use href="#ic-bell"/></svg></span><a class="use" href="#">사용 <svg class="vic" style="width:14px;height:14px"><use href="#ic-arrow"/></svg></a></div>
+        <h3>재입고 알림</h3><p>품절 인기 상품의 재입고를 알려 재구매를 유도</p>
+        <div class="chips"><span class="ch">SNS</span></div>
+      </div>
+      <!-- review-event · sale · ad,sns  (FIX: 상세→광고) -->
+      <div class="tcard" data-cat="sale">
+        <div class="tc-top"><span class="tile coral"><svg class="vic"><use href="#ic-thumb"/></svg></span><a class="use" href="#">사용 <svg class="vic" style="width:14px;height:14px"><use href="#ic-arrow"/></svg></a></div>
+        <h3>리뷰 이벤트</h3><p>구매 후기 작성을 부드럽게 유도하는 문구</p>
+        <div class="chips"><span class="ch">SNS</span><span class="ch">광고</span></div>
+      </div>
+      <!-- brand-story · brand · detail -->
+      <div class="tcard" data-cat="brand">
+        <div class="tc-top"><span class="tile purple"><svg class="vic"><use href="#ic-doc"/></svg></span><a class="use" href="#">사용 <svg class="vic" style="width:14px;height:14px"><use href="#ic-arrow"/></svg></a></div>
+        <h3>브랜드 스토리</h3><p>브랜드의 시작과 가치를 담은 스토리텔링</p>
+        <div class="chips"><span class="ch">상세</span></div>
+      </div>
+      <!-- bundle · sale · detail,sns  (FIX: 광고→SNS) -->
+      <div class="tcard" data-cat="sale">
+        <div class="tc-top"><span class="tile teal"><svg class="vic"><use href="#ic-table"/></svg></span><a class="use" href="#">사용 <svg class="vic" style="width:14px;height:14px"><use href="#ic-arrow"/></svg></a></div>
+        <h3>번들·세트 제안</h3><p>묶음 구성의 혜택을 강조해 객단가를 높여요</p>
+        <div class="chips"><span class="ch">상세</span><span class="ch">SNS</span></div>
+      </div>
+    </div>
+
+    <p class="note"><b>실 데이터 반영</b> — <code>GET /templates</code>의 6개 시드와 1:1(제목·설명·채널). 필터 = category enum(sale·new·restock·brand). ‘사용 →’는 채널·소구점(·톤)을 generate 폼에 프리필하고 <b>상품명·업종은 채우지 않아요</b>.</p>
+  </main>
+</div>
+
+<script>
+  var tabs=document.getElementById('tabs'), cards=[].slice.call(document.querySelectorAll('.tcard'));
+  tabs.addEventListener('click',function(e){
+    var b=e.target.closest('.tab'); if(!b)return;
+    tabs.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on');}); b.classList.add('on');
+    var c=b.dataset.cat, shown=0;
+    cards.forEach(function(card){var ok=(c==='all'||card.dataset.cat===c); card.style.display=ok?'':'none'; if(ok)shown++;});
+    var g=document.getElementById('grid'), ex=g.querySelector('.empty');
+    if(shown===0){ if(!ex){ex=document.createElement('p');ex.className='empty';ex.textContent='이 분류에 아직 템플릿이 없어요.';g.appendChild(ex);} }
+    else if(ex){ ex.remove(); }
+  });
+</script>
+</body></html>

@@ -27,7 +27,8 @@ verba-handoff/
    ├─ verba-rationale-copy.html A/B 생성 근거·프로세스 배너 문구(기존→수정)
    ├─ verba-export-options.html 내보내기 옵션 재구성(SNS 이미지 카드 제외)
    ├─ verba-login.html         로그인(패스워드리스) · 인터랙션 참고 — 디자인 최종=Figma
-   └─ verba-signup.html        회원가입(이름·이메일, 패스워드리스) · 인터랙션 참고 — 디자인 최종=Figma
+   ├─ verba-signup.html        회원가입(이름·이메일, 패스워드리스) · 인터랙션 참고 — 디자인 최종=Figma
+   └─ verba-templates.html     템플릿 갤러리 — GET /templates 실 데이터 6개 + 카테고리 필터
 ```
 
 > **인증(로그인·회원가입)**: 위 두 HTML은 **인터랙션 참고용**입니다. **디자인 최종본은 Figma** — 갈리면 Figma를 따르세요.
