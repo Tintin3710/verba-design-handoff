@@ -313,6 +313,30 @@
   .points li b{color:var(--ink);font-weight:600;}
   .foot{margin-top:56px;border-top:1px solid var(--border);padding-top:22px;font-size:13px;color:var(--body);line-height:1.65;}
   .foot b{color:var(--ink);font-weight:600;}
+  /* ── 상품(그리드) 화면 ── */
+  .phead{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;}
+  .phead h2{font-size:23px;font-weight:700;letter-spacing:-.02em;margin:0;} .phead .sub{font-size:13.5px;color:var(--body);margin-top:6px;}
+  .padd{display:inline-flex;align-items:center;gap:8px;background:var(--brand);color:#fff;border:none;border-radius:var(--r-btn);padding:11px 18px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;}
+  .ptabs{display:flex;justify-content:center;margin:6px 0 24px;}
+  .ptabwrap{display:inline-flex;align-items:center;gap:2px;border:1px solid var(--border);background:var(--surface-soft);border-radius:var(--r-pill);padding:4px;}
+  .ptab{border:none;background:transparent;border-radius:var(--r-pill);padding:9px 18px;font-size:13.5px;font-weight:600;color:var(--mute);cursor:pointer;font-family:inherit;}
+  .ptab.on{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08);}
+  .pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  .jcard{background:#fff;border-radius:22px;display:flex;flex-direction:column;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(0,0,0,.05), 0 0 0 .5px rgba(0,0,0,.05);}
+  .jtile{background:var(--surface-soft);border-radius:22px;padding:15px 18px 18px;display:flex;flex-direction:column;gap:14px;box-shadow:inset 0 1px 0 0 rgba(255,255,255,.6), inset 0 0 0 1px rgba(0,0,0,.05), 0 1px 2px -1px rgba(0,0,0,.04), 0 2px 4px rgba(0,0,0,.04);}
+  .jtop{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
+  .ppill{border:1px solid var(--border);background:#fff;color:var(--mute);border-radius:var(--r-pill);padding:3px 11px;font-size:11.5px;font-weight:600;white-space:nowrap;}
+  .jext{color:#C7C7CF;display:inline-flex;} .jext .vic{width:16px;height:16px;} .jcard:hover .jext{color:var(--brand);}
+  .jtitle{display:flex;align-items:center;gap:11px;}
+  .jic{width:38px;height:38px;border-radius:50%;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;} .jic .vic{width:18px;height:18px;}
+  .jtitle h3{font-size:18px;font-weight:700;letter-spacing:-.01em;margin:0;}
+  .jtags{display:flex;flex-wrap:wrap;gap:6px;}
+  .jtag{border:1px solid var(--border);background:#fff;color:var(--body);border-radius:var(--r-pill);padding:3px 10px;font-size:11.5px;font-weight:500;display:inline-flex;align-items:center;gap:5px;} .jtag .vic{width:12px;height:12px;}
+  .pc-pl{color:var(--brand);} .pc-teal{color:#3FB3A6;} .pc-coral{color:#E0795A;}
+  .jfoot{display:flex;align-items:center;justify-content:space-between;padding:13px 18px;}
+  .jstat{font-size:14px;font-weight:700;margin:0;} .jloc{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--mute);margin:4px 0 0;} .jloc .vic{width:12px;height:12px;}
+  .jbtn{background:var(--brand);color:#fff;border:none;border-radius:11px;padding:9px 15px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;}
+  .pgrow{margin-top:30px;display:flex;flex-direction:column;align-items:center;gap:6px;} .pgrow p{font-size:13px;color:var(--mute);margin:0;} .pgrow a{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:var(--ink);text-decoration:none;} .pgrow a .vic{width:13px;height:13px;}
 </style>
 
 <div class="wrap"><div class="inner">
@@ -338,6 +362,8 @@
     <symbol id="ic-bolt" viewBox="0 0 24 24"><path fill="currentColor" d="M13 2 4 13.2h6L9 22l9-11.2h-6z"/></symbol>
     <symbol id="ic-home" viewBox="0 0 24 24"><path fill="currentColor" fill-opacity=".3" d="M5 10.8 12 5.2l7 5.6V19a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1z"/><path fill="currentColor" d="M3.4 11 12 4.2 20.6 11l-1.3 1.6L12 6.9 4.7 12.6z"/></symbol>
     <symbol id="ic-box" viewBox="0 0 24 24"><path fill="currentColor" fill-opacity=".35" d="M4 7.5 12 4l8 3.5V16l-8 3.5L4 16z"/><path fill="currentColor" d="M4 7.5 12 11l8-3.5-2-.9L12 9.1 6 6.6z"/></symbol>
+  <symbol id="ic-ext" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M14 5h5v5M19 5l-8 8M18 14v4a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h4"/></symbol>
+  <symbol id="ic-arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></symbol>
 </defs></svg>
 
   <p class="eyebrow">Verba · Redesign v9 · Minimal White</p>
@@ -745,7 +771,34 @@
   </div>
   <ul class="points"><li><b>히스토리(채워진 상태)</b> 추가 — 검색·채널 필터·<b>행별 복사</b>로 과거 카피를 자산으로 재사용. 첫 유저는 빈 상태(9) → 생성 후 이 화면</li></ul>
 
-  <p class="foot"><b>이번 반영(v9.3)</b> — <b>템플릿 갤러리</b>를 백엔드 <b>GET /templates</b> 6개 시드와 1:1 동기화(리뷰·번들 채널 교정 · 필터=category enum). 이전: 카피 생성 최신화(안내 배너·하단 고정 바·기본 톤 chips), 내보내기 SNS 이미지 카드 제외. 전체 12화면 · 미니멀 화이트 · #5F3EFF.</p>
+  <!-- 13 PRODUCTS -->
+  <div class="screentag"><span class="n">13</span><span class="t">상품</span><span class="d">등록 상품 카드 그리드 · 불러오기 · 업종 필터</span></div>
+  <div class="frame">
+    <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">verba.app / products</span></div>
+    <div class="shell">
+      <aside class="sidebar">
+        <div class="slogo"><b>V</b>erba</div>
+        <nav class="snav"><a><span class="i"><svg class="vic"><use href="#ic-home"/></svg></span>대시보드</a><a><span class="i"><svg class="vic"><use href="#ic-pencil"/></svg></span>카피 생성</a><a><span class="i"><svg class="vic"><use href="#ic-grid"/></svg></span>템플릿</a><a><span class="i"><svg class="vic"><use href="#ic-voice"/></svg></span>브랜드 보이스</a><a class="on"><span class="i"><svg class="vic"><use href="#ic-box"/></svg></span>상품</a><a><span class="i"><svg class="vic"><use href="#ic-clock"/></svg></span>히스토리</a><a><span class="i"><svg class="vic"><use href="#ic-bars"/></svg></span>인사이트</a></nav>
+        <div class="sfoot"><div class="creditbox"><div class="l">남은 크레딧</div><div class="v">18 / 50</div><div class="bar"><i></i></div></div><div class="sprofile"><span class="av"></span><span class="nm">Sam Lee</span></div></div>
+      </aside>
+      <main class="content">
+        <div class="phead"><div><h2>상품</h2><div class="sub">등록한 상품을 불러와 빠르게 생성하고, 상품별 이력을 한눈에.</div></div><button class="padd">＋ 새 상품 추가</button></div>
+        <div class="ptabs"><div class="ptabwrap"><button class="ptab on">전체</button><button class="ptab">요식업</button><button class="ptab">화장품</button><button class="ptab">전자기기</button></div></div>
+        <div class="pgrid">
+          <div class="jcard"><div class="jtile"><div class="jtop"><span class="ppill">요식업</span><span class="jext"><svg class="vic"><use href="#ic-ext"/></svg></span></div><div class="jtitle"><span class="jic"><svg class="vic"><use href="#ic-box"/></svg></span><h3>새싹비빔밥</h3></div><div class="jtags"><span class="jtag"><svg class="vic pc-pl"><use href="#ic-doc"/></svg>상세</span><span class="jtag"><svg class="vic pc-teal"><use href="#ic-chat"/></svg>SNS</span><span class="jtag"><svg class="vic pc-coral"><use href="#ic-mega"/></svg>광고</span></div></div><div class="jfoot"><div><p class="jstat">12회 생성</p><p class="jloc"><svg class="vic"><use href="#ic-clock"/></svg>최근 2일 전</p></div><button class="jbtn">불러오기</button></div></div>
+          <div class="jcard"><div class="jtile"><div class="jtop"><span class="ppill">화장품</span><span class="jext"><svg class="vic"><use href="#ic-ext"/></svg></span></div><div class="jtitle"><span class="jic"><svg class="vic"><use href="#ic-box"/></svg></span><h3>수분 진정 크림</h3></div><div class="jtags"><span class="jtag"><svg class="vic pc-pl"><use href="#ic-doc"/></svg>상세</span><span class="jtag"><svg class="vic pc-teal"><use href="#ic-chat"/></svg>SNS</span></div></div><div class="jfoot"><div><p class="jstat">8회 생성</p><p class="jloc"><svg class="vic"><use href="#ic-clock"/></svg>최근 6일 전</p></div><button class="jbtn">불러오기</button></div></div>
+          <div class="jcard"><div class="jtile"><div class="jtop"><span class="ppill">전자기기</span><span class="jext"><svg class="vic"><use href="#ic-ext"/></svg></span></div><div class="jtitle"><span class="jic"><svg class="vic"><use href="#ic-box"/></svg></span><h3>무선 이어폰</h3></div><div class="jtags"><span class="jtag"><svg class="vic pc-coral"><use href="#ic-mega"/></svg>광고</span></div></div><div class="jfoot"><div><p class="jstat">3회 생성</p><p class="jloc"><svg class="vic"><use href="#ic-clock"/></svg>최근 3주 전</p></div><button class="jbtn">불러오기</button></div></div>
+          <div class="jcard"><div class="jtile"><div class="jtop"><span class="ppill">요식업</span><span class="jext"><svg class="vic"><use href="#ic-ext"/></svg></span></div><div class="jtitle"><span class="jic"><svg class="vic"><use href="#ic-box"/></svg></span><h3>유기농 그래놀라</h3></div><div class="jtags"><span class="jtag"><svg class="vic pc-pl"><use href="#ic-doc"/></svg>상세</span><span class="jtag"><svg class="vic pc-teal"><use href="#ic-chat"/></svg>SNS</span></div></div><div class="jfoot"><div><p class="jstat">5회 생성</p><p class="jloc"><svg class="vic"><use href="#ic-clock"/></svg>최근 1주 전</p></div><button class="jbtn">불러오기</button></div></div>
+          <div class="jcard"><div class="jtile"><div class="jtop"><span class="ppill">화장품</span><span class="jext"><svg class="vic"><use href="#ic-ext"/></svg></span></div><div class="jtitle"><span class="jic"><svg class="vic"><use href="#ic-box"/></svg></span><h3>립 틴트</h3></div><div class="jtags"><span class="jtag"><svg class="vic pc-teal"><use href="#ic-chat"/></svg>SNS</span><span class="jtag"><svg class="vic pc-coral"><use href="#ic-mega"/></svg>광고</span></div></div><div class="jfoot"><div><p class="jstat">7회 생성</p><p class="jloc"><svg class="vic"><use href="#ic-clock"/></svg>최근 4일 전</p></div><button class="jbtn">불러오기</button></div></div>
+          <div class="jcard"><div class="jtile"><div class="jtop"><span class="ppill">전자기기</span><span class="jext"><svg class="vic"><use href="#ic-ext"/></svg></span></div><div class="jtitle"><span class="jic"><svg class="vic"><use href="#ic-box"/></svg></span><h3>블루투스 스피커</h3></div><div class="jtags"><span class="jtag"><svg class="vic pc-pl"><use href="#ic-doc"/></svg>상세</span><span class="jtag"><svg class="vic pc-coral"><use href="#ic-mega"/></svg>광고</span></div></div><div class="jfoot"><div><p class="jstat">2회 생성</p><p class="jloc"><svg class="vic"><use href="#ic-clock"/></svg>최근 2주 전</p></div><button class="jbtn">불러오기</button></div></div>
+        </div>
+        <div class="pgrow"><p>더 많은 상품이 있나요?</p><a href="#">전체 상품 보기 <svg class="vic"><use href="#ic-arrow"/></svg></a></div>
+      </main>
+    </div>
+  </div>
+  <ul class="points"><li>shadcn <b>career-3</b> 카드 그리드 반영 — 업종 배지·상품 아이콘·채널 태그·생성 이력·불러오기</li><li><b>불러오기</b> → 카피 생성 폼에 상품명·업종·소구점 프리필. 카드 클릭 → 상품 상세(= productId 필터 히스토리)</li></ul>
+
+  <p class="foot"><b>이번 반영(v9.4)</b> — <b>상품 화면(그리드) 편입</b> · 사이드바 B(여백·상품 메뉴). 이전: <b>템플릿 갤러리</b>를 백엔드 <b>GET /templates</b> 6개 시드와 1:1 동기화(리뷰·번들 채널 교정 · 필터=category enum). 이전: 카피 생성 최신화(안내 배너·하단 고정 바·기본 톤 chips), 내보내기 SNS 이미지 카드 제외. 전체 13화면 · 미니멀 화이트 · #5F3EFF.</p>
 
 </div></div>
 

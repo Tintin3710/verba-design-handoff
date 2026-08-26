@@ -18,7 +18,7 @@ verba-handoff/
 │  ├─ flow.md           12개 화면 플로우
 │  └─ responsive.md     반응형(390/768/1440) 규칙 + 웹 전달 주의사항
 └─ prototype/
-   ├─ verba.html               참고 구현 (전체 12화면·값·컴포넌트·인터랙션)
+   ├─ verba.html               참고 구현 (전체 13화면·값·컴포넌트·인터랙션)
    ├─ verba-responsive.html    PC/Tablet/Mobile 3폭 리플로우 데모(컨테이너쿼리)
    ├─ verba-history.html       히스토리 단독 화면 (개별 임포트용)
    ├─ verba-voice-loading.html 브랜드 보이스 생성 로딩 (온보딩)
@@ -28,7 +28,8 @@ verba-handoff/
    ├─ verba-export-options.html 내보내기 옵션 재구성(SNS 이미지 카드 제외)
    ├─ verba-login.html         로그인(패스워드리스) · 인터랙션 참고 — 디자인 최종=Figma
    ├─ verba-signup.html        회원가입(이름·이메일, 패스워드리스) · 인터랙션 참고 — 디자인 최종=Figma
-   └─ verba-templates.html     템플릿 갤러리 — GET /templates 실 데이터 6개 + 카테고리 필터
+   ├─ verba-templates.html     템플릿 갤러리 — GET /templates 실 데이터 6개 + 카테고리 필터
+   └─ verba-products-grid.html 상품 카드 그리드(career-3 스타일) — 본편 verba.html 화면 13
 ```
 
 > **인증(로그인·회원가입)**: 위 두 HTML은 **인터랙션 참고용**입니다. **디자인 최종본은 Figma** — 갈리면 Figma를 따르세요.
