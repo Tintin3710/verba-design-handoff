@@ -17,7 +17,7 @@ History (첫 유저) ──▶ Empty state ──▶ Generate
 
 ## Screens (13)
 1. **Dashboard** — greeting, quick-generate action cards, recent (row → detail), monthly stat.
-2. **Generate (입력)** — 상단 안내 배너('이렇게 만들어드려요') + 상품명/업종/기본 톤(chips)/소구점/채널(복수) + 브랜드 보이스 선택. **하단 고정 바**에 A/B 토글 + 카피 생성 CTA(2크레딧). 상태: 로그인 / 게스트(무료 체험 3크레딧) / 크레딧 부족. 참고: `prototype/verba-generate-cta.html`.
+2. **Generate (입력)** — 좌측 상단 **‘저장된 상품 불러오기’**(검색 + 최근 칩 + 모든 상품 보기) → 상품 선택 시 상품명·업종·소구점 자동입력(채널·톤 제외, ‘이번 카피에만 적용’). + 안내 배너('이렇게 만들어드려요') + 상품명/업종/기본 톤(chips)/소구점/채널(복수) + 브랜드 보이스 선택. **하단 고정 바**에 A/B 토글 + 카피 생성 CTA(2크레딧). 상태: 로그인 / 게스트(무료 체험 3크레딧) / 크레딧 부족. 참고: `prototype/verba-generate-cta.html` · `verba-product-loader-final.html`(로더 4상태: Default·Search·Selected·Replace).
 3. **Result** — 생성 근거 배너 + 채널별 A/B 카드(전략 캡션·글자수·복사) + 내보내기.
 4. **Templates** — 목적별 프리셋 카드 + 카테고리 필터 → '사용'하면 Generate 프리필.
 5. **Insights** — KPI + 채널별/주간 차트.

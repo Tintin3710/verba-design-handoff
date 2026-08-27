@@ -1,0 +1,230 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>Verba — 상품 불러오기 리디자인</title>
+<style>
+  :root{
+    --brand:#5F3EFF; --brand-press:#4F2BEA; --brand-pale:#F2EEFF; --brand-tint:#F7F5FF; --brand-border:#DCD2FF;
+    --page:#F4F4F6; --surface:#fff; --surface-soft:#F7F7FA;
+    --ink:#17171B; --body:#4B4B57; --mute:#6E6E7A; --border:#E5E5EA; --border2:#EDEDF1; --ok:#15803D; --warn:#B45309;
+    --r-input:9px; --r-btn:10px; --r-card:16px; --r-chip:9px; --r-pill:9999px;
+    --sans:"Pretendard",-apple-system,BlinkMacSystemFont,"Inter",system-ui,"Apple SD Gothic Neo",sans-serif;
+  }
+  *{box-sizing:border-box;} .vic{display:block;width:16px;height:16px;flex-shrink:0;}
+  body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--surface);-webkit-font-smoothing:antialiased;}
+  .shell{display:grid;grid-template-columns:216px 1fr;min-height:100vh;}
+  .sidebar{background:#fff;border-right:1px solid var(--border2);padding:22px 14px;display:flex;flex-direction:column;}
+  .slogo{font-size:22px;font-weight:800;letter-spacing:-.03em;padding:6px 10px 20px;color:var(--brand);}
+  .snav a{display:flex;align-items:center;gap:11px;font-size:14px;font-weight:500;color:var(--body);padding:10px 12px;border-radius:8px;margin-bottom:2px;text-decoration:none;}
+  .snav a.on{background:var(--brand-pale);color:var(--brand);font-weight:600;} .snav a .vic{width:18px;height:18px;}
+  .sfoot{margin-top:auto;} .creditbox{background:var(--surface-soft);border:1px solid var(--border2);border-radius:10px;padding:12px;} .creditbox .l{font-size:11px;color:var(--mute);font-weight:600;} .creditbox .v{font-size:17px;font-weight:700;margin-top:2px;} .creditbox .bar{height:5px;background:var(--border);border-radius:9px;margin-top:8px;overflow:hidden;} .creditbox .bar i{display:block;height:100%;width:36%;background:var(--brand);border-radius:9px;}
+  .sprofile{display:flex;align-items:center;gap:9px;padding:12px 6px 0;} .sprofile .av{width:28px;height:28px;border-radius:50%;background:var(--brand-pale);border:1px solid var(--brand-border);} .sprofile .nm{font-size:12.5px;font-weight:600;}
+  .content{padding:34px 40px 120px;}
+  .chead h2{font-size:24px;font-weight:800;letter-spacing:-.02em;margin:0;} .chead .sub{font-size:13.5px;color:var(--body);margin:8px 0 22px;}
+
+  .gengrid{display:grid;grid-template-columns:1.5fr 1fr;gap:18px;align-items:start;}
+  @media(max-width:900px){.gengrid{grid-template-columns:1fr;}}
+  .panel{background:#fff;border:1px solid var(--border);border-radius:var(--r-card);padding:22px;}
+  .field{margin-bottom:18px;} .lab{font-size:13.5px;font-weight:700;margin-bottom:8px;} .lab .opt{font-size:12px;font-weight:400;color:var(--mute);margin-left:5px;}
+  .inp{width:100%;background:#fff;border:1px solid var(--border);border-radius:var(--r-input);padding:12px 14px;font-size:14.5px;color:var(--ink);font-family:inherit;} .inp::placeholder{color:var(--mute);}
+  .inp:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-pale);}
+  .helper{font-size:11.5px;color:var(--mute);margin-top:7px;display:none;} .helper.show{display:block;}
+  .chips{display:flex;gap:9px;flex-wrap:wrap;} .chip{font-size:13.5px;font-weight:600;padding:10px 15px;border-radius:var(--r-chip);border:1px solid var(--border);background:#fff;color:var(--body);cursor:pointer;} .chip.on{background:var(--brand-pale);border-color:var(--brand);color:var(--brand);}
+
+  /* ── PRODUCT LOADER (redesigned) ── */
+  .loader{position:relative;border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:20px;background:#fff;}
+  .ld-head{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;margin-bottom:11px;} .ld-head .bx{color:var(--brand);} .ld-head .bx .vic{width:16px;height:16px;}
+  /* searchfield (default/collapsed, acts as button) */
+  .sf{display:flex;align-items:center;gap:9px;border:1px solid var(--border);border-radius:var(--r-input);padding:11px 13px;cursor:text;color:var(--mute);font-size:14px;background:#fff;transition:.12s;}
+  .sf:hover{background:var(--brand-tint);}
+  .sf .vic{width:16px;height:16px;color:var(--mute);}
+  .sf.active{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-pale);cursor:auto;} .sf.active input{flex:1;border:none;outline:none;font-size:14px;font-family:inherit;color:var(--ink);background:transparent;min-width:0;} .sf.active input::placeholder{color:var(--mute);}
+  .recent-lb{font-size:11px;font-weight:700;color:var(--mute);text-transform:uppercase;letter-spacing:.04em;margin:12px 0 8px;}
+  .rchips{display:flex;gap:8px;flex-wrap:wrap;}
+  .rchip{font-size:12.5px;font-weight:500;padding:7px 12px;border:1px solid var(--border);border-radius:var(--r-pill);background:#fff;color:var(--ink);cursor:pointer;transition:.12s;} .rchip b{font-weight:600;} .rchip span{color:var(--mute);}
+  .rchip:hover{background:var(--brand-tint);border-color:var(--brand-border);}
+  .alllink{margin-top:11px;font-size:12.5px;font-weight:600;color:var(--brand);cursor:pointer;display:inline-block;}
+
+  /* dropdown (search open) */
+  .dropdown{position:absolute;left:14px;right:14px;top:84px;z-index:30;border:1px solid var(--border);border-radius:12px;background:#fff;box-shadow:0 18px 44px -20px rgba(23,20,60,.4);max-height:360px;overflow-y:auto;}
+  .dd-sec{font-size:10.5px;font-weight:700;color:var(--mute);text-transform:uppercase;letter-spacing:.05em;padding:11px 14px 5px;}
+  .dd-row{display:flex;align-items:center;gap:12px;padding:10px 14px;cursor:pointer;}
+  .dd-row:hover{background:var(--brand-tint);}
+  .dd-row .bx{width:32px;height:32px;border-radius:8px;background:var(--brand-pale);display:flex;align-items:center;justify-content:center;flex-shrink:0;} .dd-row .bx .vic{width:16px;height:16px;color:var(--brand);}
+  .dd-row .mn{flex:1;min-width:0;} .dd-row .mn .t{font-size:13.5px;font-weight:600;} .dd-row .mn .s{font-size:11.5px;color:var(--mute);margin-top:1px;}
+  .dd-empty{padding:24px 14px;text-align:center;font-size:13px;color:var(--mute);}
+  .dd-foot{border-top:1px solid var(--border2);padding:11px 14px;font-size:12.5px;font-weight:600;color:var(--brand);cursor:pointer;display:flex;align-items:center;gap:7px;position:sticky;bottom:0;background:#fff;} .dd-foot:hover{background:var(--brand-tint);}
+
+  /* selected state */
+  .sel-lb{font-size:11px;font-weight:700;color:var(--mute);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;}
+  .sel-chip{display:inline-flex;align-items:center;gap:9px;background:var(--brand-tint);border:1px solid var(--brand-border);border-radius:var(--r-pill);padding:8px 8px 8px 14px;}
+  .sel-chip .ic{color:var(--brand);} .sel-chip .ic .vic{width:15px;height:15px;} .sel-chip .nm{font-size:14px;font-weight:700;color:var(--brand);} .sel-chip .x{border:none;background:#fff;color:var(--brand);width:22px;height:22px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;} .sel-chip .x:hover{background:var(--brand-pale);}
+  .sel-sub{font-size:12px;color:var(--mute);margin-top:8px;}
+  .find-lb{font-size:11px;font-weight:700;color:var(--mute);text-transform:uppercase;letter-spacing:.04em;margin:16px 0 8px;}
+
+  /* brand voice */
+  .bv-head{display:flex;align-items:center;gap:6px;margin-bottom:12px;} .bv-head .t{font-size:14px;font-weight:700;} .bv-head .opt{font-size:12px;color:var(--mute);}
+  .voice{display:flex;flex-direction:column;gap:10px;}
+  .vopt{display:flex;align-items:flex-start;gap:11px;padding:14px;border:1px solid var(--border);border-radius:12px;cursor:pointer;transition:.12s;} .vopt:hover{background:var(--brand-tint);}
+  .vopt.on{border-color:var(--brand);background:var(--brand-tint);} .vopt .rad{width:18px;height:18px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;margin-top:1px;} .vopt.on .rad{border-color:var(--brand);background:radial-gradient(circle,var(--brand) 0 5px,transparent 5px);}
+  .vopt .t{font-size:14px;font-weight:700;} .vopt .d{font-size:12px;color:var(--mute);margin-top:2px;}
+
+  /* bottom bar */
+  .genbar{position:fixed;left:216px;right:0;bottom:0;display:flex;align-items:center;gap:16px;padding:14px 40px;border-top:1px solid var(--border2);background:rgba(255,255,255,.94);backdrop-filter:blur(8px);}
+  @media(max-width:900px){.genbar{left:0;}}
+  .abtog{display:flex;align-items:center;gap:11px;flex:1;} .sw{width:42px;height:24px;border-radius:99px;background:var(--border);position:relative;flex-shrink:0;} .sw::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;} .abtog .t{font-size:13.5px;font-weight:700;}
+  .btn-primary{display:inline-flex;align-items:center;gap:12px;background:var(--brand);color:#fff;border:none;border-radius:var(--r-btn);padding:13px 24px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;} .btn-primary:hover{background:var(--brand-press);} .btn-primary .cost{font-size:12px;font-weight:600;opacity:.92;background:rgba(255,255,255,.2);padding:3px 9px;border-radius:var(--r-pill);}
+
+  /* modal + toast */
+  .overlay{display:none;position:fixed;inset:0;background:rgba(23,23,27,.5);align-items:center;justify-content:center;padding:24px;z-index:60;} .overlay.open{display:flex;}
+  .modal{width:100%;max-width:410px;background:#fff;border-radius:16px;box-shadow:0 30px 70px -24px rgba(23,20,60,.5);padding:26px;}
+  .modal h3{font-size:18px;font-weight:800;margin:0 0 8px;} .modal p{font-size:13.5px;color:var(--body);line-height:1.6;margin:0 0 22px;}
+  .mact{display:flex;justify-content:flex-end;gap:10px;} .btn-ghost{background:#fff;border:1px solid var(--border);color:var(--body);border-radius:var(--r-btn);padding:11px 18px;font-size:13.5px;font-weight:600;cursor:pointer;font-family:inherit;}
+  .toast{display:none;position:fixed;left:calc(50% + 108px);bottom:88px;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:13px;font-weight:600;padding:11px 18px;border-radius:10px;z-index:70;box-shadow:0 12px 30px -10px rgba(0,0,0,.4);} .toast.show{display:flex;align-items:center;gap:7px;} .toast .vic{width:15px;height:15px;color:#7DE0A6;}
+  @media(max-width:900px){.toast{left:50%;}}
+  .stateguide{position:fixed;top:14px;right:16px;z-index:80;background:var(--ink);color:#fff;font-size:11.5px;font-weight:600;padding:8px 13px;border-radius:8px;opacity:.9;}
+</style></head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="ic-home" viewBox="0 0 24 24"><path fill="currentColor" fill-opacity=".3" d="M5 10.8 12 5.2l7 5.6V19a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1z"/><path fill="currentColor" d="M3.4 11 12 4.2 20.6 11l-1.3 1.6L12 6.9 4.7 12.6z"/></symbol>
+  <symbol id="ic-pencil" viewBox="0 0 24 24"><path fill="currentColor" d="M4 17.3 14.6 6.7l2.7 2.7L6.7 20H4z"/><path fill="currentColor" fill-opacity=".3" d="M15.6 5.7 18.3 8.4l1.4-1.4a1.6 1.6 0 0 0 0-2.3l-.4-.4a1.6 1.6 0 0 0-2.3 0z"/></symbol>
+  <symbol id="ic-grid" viewBox="0 0 24 24"><rect fill="currentColor" x="4" y="4" width="7" height="7" rx="1.6"/><rect fill="currentColor" fill-opacity=".3" x="13" y="4" width="7" height="7" rx="1.6"/><rect fill="currentColor" fill-opacity=".3" x="4" y="13" width="7" height="7" rx="1.6"/><rect fill="currentColor" x="13" y="13" width="7" height="7" rx="1.6"/></symbol>
+  <symbol id="ic-voice" viewBox="0 0 24 24"><g fill="currentColor"><rect x="3.5" y="10" width="2.2" height="4" rx="1.1" fill-opacity=".3"/><rect x="7.5" y="7" width="2.2" height="10" rx="1.1"/><rect x="11" y="4" width="2.2" height="16" rx="1.1" fill-opacity=".3"/><rect x="14.5" y="7" width="2.2" height="10" rx="1.1"/><rect x="18.3" y="10" width="2.2" height="4" rx="1.1" fill-opacity=".3"/></g></symbol>
+  <symbol id="ic-box" viewBox="0 0 24 24"><path fill="currentColor" fill-opacity=".35" d="M4 7.5 12 4l8 3.5V16l-8 3.5L4 16z"/><path fill="currentColor" d="M4 7.5 12 11l8-3.5-2-.9L12 9.1 6 6.6z"/></symbol>
+  <symbol id="ic-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="currentColor" fill-opacity=".3"/><path fill="currentColor" d="M12 7a1 1 0 0 1 1 1v3.5l2.2 1.3a1 1 0 1 1-1 1.7l-2.7-1.6A1 1 0 0 1 11 12V8a1 1 0 0 1 1-1Z"/></symbol>
+  <symbol id="ic-bars" viewBox="0 0 24 24"><rect fill="currentColor" fill-opacity=".3" x="4" y="12" width="4" height="8" rx="1"/><rect fill="currentColor" x="10" y="7" width="4" height="13" rx="1"/><rect fill="currentColor" fill-opacity=".3" x="16" y="4" width="4" height="16" rx="1"/></symbol>
+  <symbol id="ic-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.4-3.4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="ic-plus" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="ic-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M5 12.5 10 17.5 19 7"/></symbol>
+</defs></svg>
+
+<div class="stateguide" id="guide">상태: Default</div>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="slogo">Verba</div>
+    <nav class="snav">
+      <a><span class="i"><svg class="vic"><use href="#ic-home"/></svg></span>대시보드</a>
+      <a class="on"><span class="i"><svg class="vic"><use href="#ic-pencil"/></svg></span>카피 생성</a>
+      <a><span class="i"><svg class="vic"><use href="#ic-grid"/></svg></span>템플릿</a>
+      <a><span class="i"><svg class="vic"><use href="#ic-voice"/></svg></span>브랜드 보이스</a>
+      <a><span class="i"><svg class="vic"><use href="#ic-box"/></svg></span>상품</a>
+      <a><span class="i"><svg class="vic"><use href="#ic-clock"/></svg></span>히스토리</a>
+      <a><span class="i"><svg class="vic"><use href="#ic-bars"/></svg></span>인사이트</a>
+    </nav>
+    <div class="sfoot"><div class="creditbox"><div class="l">남은 크레딧</div><div class="v">18 / 50</div><div class="bar"><i></i></div></div><div class="sprofile"><span class="av"></span><span class="nm">Sam Lee</span></div></div>
+  </aside>
+
+  <main class="content">
+    <div class="chead"><h2>카피 생성</h2><div class="sub">상품 정보를 넣으면 채널에 맞는 카피를 만들어 드려요.</div></div>
+    <div class="gengrid">
+      <div class="panel">
+        <!-- LOADER -->
+        <div class="loader" id="loader"></div>
+        <!-- FORM -->
+        <div class="field"><div class="lab">상품명</div><input class="inp" id="fName" placeholder="예: 수분 진정 크림"></div>
+        <div class="field"><div class="lab">업종</div><input class="inp" id="fInd" placeholder="예: 화장품"></div>
+        <div class="field"><div class="lab">핵심 소구점 <span class="opt">선택</span></div><input class="inp" id="fKp" placeholder="예: 자극 없는 저자극 · 24시간 보습"><div class="helper" id="helper">수정한 내용은 이번 카피에만 적용돼요.</div></div>
+        <div class="field" style="margin-bottom:0"><div class="lab">채널 <span class="opt">복수 선택</span></div><div class="chips"><span class="chip on">상세페이지</span><span class="chip on">SNS</span><span class="chip">광고</span></div></div>
+      </div>
+      <div class="panel">
+        <div class="bv-head"><span class="t">브랜드 보이스</span><span class="opt">저장된 톤</span></div>
+        <div class="voice">
+          <div class="vopt on"><span class="rad"></span><div><div class="t">우리 브랜드 · 기본</div><div class="d">친근하고 신뢰감 있게</div></div></div>
+          <div class="vopt"><span class="rad"></span><div><div class="t">모던</div><div class="d">심플하고 세련된 느낌</div></div></div>
+          <div class="vopt"><span class="rad"></span><div><div class="t">빈티지</div><div class="d">따뜻하고 클래식한 분위기</div></div></div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="genbar"><div class="abtog"><span class="sw"></span><div class="t">A/B 변형 생성</div></div><button class="btn-primary">카피 생성 <span class="cost">2 크레딧</span></button></div>
+
+<div class="overlay" id="confirm"><div class="modal">
+  <h3>작성 중인 내용을 변경할까요?</h3>
+  <p>저장된 상품을 불러오면 현재 입력한 상품 정보가 변경됩니다.</p>
+  <div class="mact"><button class="btn-ghost" id="cfCancel">취소</button><button class="btn-primary" id="cfOk" style="padding:11px 18px;font-size:14px">상품 불러오기</button></div>
+</div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+  var PRODUCTS=[
+    {n:"새싹비빔밥", ind:"요식업", kp:"신선한 새싹 · 3분 완성 · 건강 한 끼", cnt:12, ago:"2일 전"},
+    {n:"수분 진정 크림", ind:"화장품", kp:"자극 없는 저자극 · 24시간 보습", cnt:8, ago:"6일 전"},
+    {n:"무선 이어폰", ind:"전자기기", kp:"노이즈 캔슬링 · 30시간 재생", cnt:3, ago:"3주 전"},
+    {n:"유기농 그래놀라", ind:"요식업", kp:"무설탕 · 통곡물 아침", cnt:5, ago:"1주 전"},
+    {n:"립 틴트", ind:"화장품", kp:"물광 발색 · 종일 지속", cnt:7, ago:"4일 전"},
+    {n:"블루투스 스피커", ind:"전자기기", kp:"방수 · 야외용 사운드", cnt:2, ago:"2주 전"}
+  ];
+  var loader=document.getElementById('loader'), guide=document.getElementById('guide');
+  var fName=document.getElementById('fName'), fInd=document.getElementById('fInd'), fKp=document.getElementById('fKp'), helper=document.getElementById('helper');
+  var confirmEl=document.getElementById('confirm'), toast=document.getElementById('toast');
+  var state='default', selected=null, pending=null, query='';
+
+  function hasContent(){return (fName.value||fInd.value||fKp.value).trim().length>0;}
+  function fillForm(p){fName.value=p.n;fInd.value=p.ind;fKp.value=p.kp;helper.classList.add('show');}
+  function showToast(t){toast.innerHTML='<svg class="vic"><use href="#ic-check"/></svg>'+t;toast.classList.add('show');clearTimeout(showToast._t);showToast._t=setTimeout(function(){toast.classList.remove('show');},2200);}
+
+  function requestSelect(p){
+    if(hasContent() && (!selected || selected.n!==p.n)){ pending=p; confirmEl.classList.add('open'); return; }
+    applySelect(p);
+  }
+  function applySelect(p){selected=p;fillForm(p);state='selected';render();showToast('‘'+p.n+'’ 정보를 불러왔어요.');}
+
+  document.getElementById('cfCancel').onclick=function(){confirmEl.classList.remove('open');pending=null;};
+  document.getElementById('cfOk').onclick=function(){confirmEl.classList.remove('open');if(pending){applySelect(pending);pending=null;}};
+  confirmEl.onclick=function(e){if(e.target===confirmEl){confirmEl.classList.remove('open');pending=null;}};
+
+  function guideText(){guide.textContent='상태: '+({'default':'A · Default','search':'B · Search Open','selected':'C · Product Selected'}[state]);}
+
+  function render(){
+    guideText();
+    if(state==='default'){
+      var rc=PRODUCTS.slice(0,3).map(function(p,i){return '<span class="rchip" data-i="'+i+'"><b>'+p.n+'</b> <span>· '+p.ind+'</span></span>';}).join('');
+      loader.innerHTML=
+        '<div class="ld-head"><span class="bx"><svg class="vic"><use href="#ic-box"/></svg></span>저장된 상품 불러오기</div>'+
+        '<div class="sf" id="sfBtn"><svg class="vic"><use href="#ic-search"/></svg>상품명 또는 업종 검색</div>'+
+        '<div class="recent-lb">최근</div><div class="rchips">'+rc+'</div>'+
+        '<span class="alllink" id="allBtn">모든 상품 보기</span>';
+      document.getElementById('sfBtn').onclick=openSearch;
+      document.getElementById('allBtn').onclick=openSearch;
+      loader.querySelectorAll('.rchip').forEach(function(el){el.onclick=function(){requestSelect(PRODUCTS[+el.dataset.i]);};});
+    }
+    else if(state==='search'){
+      loader.innerHTML=
+        '<div class="ld-head"><span class="bx"><svg class="vic"><use href="#ic-box"/></svg></span>저장된 상품 불러오기</div>'+
+        '<div class="sf active"><svg class="vic"><use href="#ic-search"/></svg><input id="sfInput" placeholder="상품명 또는 업종 검색"></div>'+
+        '<div class="dropdown" id="dd"></div>';
+      var inp=document.getElementById('sfInput'); inp.value=query;
+      inp.addEventListener('input',function(){query=inp.value;renderList();});
+      renderList(); inp.focus();
+    }
+    else if(state==='selected'){
+      loader.innerHTML=
+        '<div class="ld-head"><span class="bx"><svg class="vic"><use href="#ic-box"/></svg></span>저장된 상품 불러오기</div>'+
+        '<div class="sel-lb">현재 선택</div>'+
+        '<div class="sel-chip"><span class="ic"><svg class="vic"><use href="#ic-box"/></svg></span><span class="nm">'+selected.n+'</span><button class="x" id="clearSel" title="변경">✕</button></div>'+
+        '<div class="sel-sub">'+selected.ind+' · 최근 사용 '+selected.ago+'</div>'+
+        '<div class="find-lb">다른 상품 찾기</div>'+
+        '<div class="sf" id="findBtn"><svg class="vic"><use href="#ic-search"/></svg>상품명 또는 업종 검색</div>';
+      document.getElementById('clearSel').onclick=openSearch;
+      document.getElementById('findBtn').onclick=openSearch;
+    }
+  }
+  function renderList(){
+    var dd=document.getElementById('dd'); if(!dd)return;
+    var q=query.trim(), list=PRODUCTS.filter(function(p){return !q||p.n.indexOf(q)>=0||p.ind.indexOf(q)>=0;});
+    var h=q?'':'<div class="dd-sec">최근</div>';
+    if(list.length===0){h+='<div class="dd-empty">‘'+q+'’ 검색 결과가 없어요</div>';}
+    list.forEach(function(p){h+='<div class="dd-row" data-i="'+PRODUCTS.indexOf(p)+'"><span class="bx"><svg class="vic"><use href="#ic-box"/></svg></span><span class="mn"><span class="t">'+p.n+'</span><span class="s">'+p.ind+' · '+p.cnt+'회 생성 · '+p.ago+'</span></span></div>';});
+    h+='<div class="dd-foot" id="ddAdd"><svg class="vic"><use href="#ic-plus"/></svg>새 상품 등록</div>';
+    dd.innerHTML=h;
+    dd.querySelectorAll('.dd-row').forEach(function(el){el.onclick=function(){requestSelect(PRODUCTS[+el.dataset.i]);};});
+  }
+  function openSearch(e){if(e&&e.stopPropagation)e.stopPropagation();query='';state='search';render();}
+
+  // 바깥 클릭 시 검색 닫기 → 선택 있으면 selected, 없으면 default
+  document.addEventListener('mousedown',function(e){
+    if(state==='search' && !e.target.closest('#loader') && !e.target.closest('.overlay')){ state=selected?'selected':'default'; render(); }
+  });
+
+  render();
+</script>
+</body></html>
