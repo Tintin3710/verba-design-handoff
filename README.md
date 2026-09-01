@@ -30,7 +30,8 @@ verba-handoff/
    ├─ verba-signup.html        회원가입(이름·이메일, 패스워드리스) · 인터랙션 참고 — 디자인 최종=Figma
    ├─ verba-templates.html     템플릿 갤러리 — GET /templates 실 데이터 6개 + 카테고리 필터
    ├─ verba-products-grid.html 상품 카드 그리드(career-3 스타일) — 본편 verba.html 화면 13
-   └─ verba-product-loader-final.html 저장 상품 불러오기 로더 — Default·Search·Selected·Replace 4상태(본편 화면 2 편입)
+   ├─ verba-product-loader-final.html 저장 상품 불러오기 로더 — Default·Search·Selected·Replace 4상태(본편 화면 2 편입)
+   └─ verba-mobile-generate.html 카피 생성 Mobile 390 — 상품 불러오기 바텀시트·풀폭 sticky(반응형 데모 편입)
 ```
 
 > **인증(로그인·회원가입)**: 위 두 HTML은 **인터랙션 참고용**입니다. **디자인 최종본은 Figma** — 갈리면 Figma를 따르세요.

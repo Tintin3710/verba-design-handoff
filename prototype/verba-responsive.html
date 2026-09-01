@@ -132,6 +132,34 @@
     .dgrid{grid-template-columns:1.6fr 1fr;}
     .lphero h3{font-size:42px;}
   }
+
+  /* ── 카피 생성 · 모바일 뷰 (바텀시트) ── */
+  .mg{position:relative;height:640px;display:flex;flex-direction:column;background:#fff;overflow:hidden;}
+  .mg-top{display:flex;align-items:center;padding:14px 16px;border-bottom:1px solid var(--border2);} .mg-top .ti{font-size:18px;font-weight:800;}
+  .mg-scr{flex:1;overflow-y:auto;padding:14px 16px 130px;}
+  .mg-loader{border:1px solid var(--border);border-radius:12px;padding:13px;margin-bottom:16px;}
+  .mg-lh{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:700;margin-bottom:10px;} .mg-lh .vic{width:15px;height:15px;color:var(--brand);}
+  .mg-sf{width:100%;display:flex;align-items:center;gap:8px;border:1px solid var(--border);border-radius:10px;padding:13px;font-size:14.5px;color:var(--mute);background:#fff;text-align:left;font-family:inherit;cursor:pointer;} .mg-sf .vic{width:15px;height:15px;color:var(--mute);}
+  .mg-rl{font-size:10.5px;font-weight:700;color:var(--mute);text-transform:uppercase;letter-spacing:.04em;margin:12px 0 8px;}
+  .mg-chips{display:flex;gap:8px;flex-wrap:wrap;} .mg-chip{font-size:12.5px;font-weight:600;padding:11px 13px;border:1px solid var(--border);border-radius:999px;background:#fff;min-height:44px;display:flex;align-items:center;} .mg-chip span{color:var(--mute);}
+  .mg-fld{margin-bottom:16px;} .mg-lab{font-size:13px;font-weight:700;margin-bottom:7px;}
+  .mg-inp{width:100%;border:1px solid var(--border);border-radius:10px;padding:13px;font-size:14.5px;font-family:inherit;color:var(--ink);}
+  .mg-tc{display:flex;gap:7px;flex-wrap:wrap;} .mg-tc span{font-size:12.5px;font-weight:600;padding:10px 13px;border:1px solid var(--border);border-radius:9px;background:#fff;color:var(--body);min-height:44px;display:flex;align-items:center;} .mg-tc span.on{background:var(--brand-pale);border-color:var(--brand);color:var(--brand);}
+  .mg-bvh{font-size:13.5px;font-weight:700;margin:22px 0 11px;}
+  .mg-vopt{display:flex;gap:10px;padding:14px;border:1px solid var(--border);border-radius:11px;margin-bottom:9px;} .mg-vopt.on{border-color:var(--brand);background:#F7F5FF;} .mg-vopt .rad{width:19px;height:19px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;margin-top:1px;} .mg-vopt.on .rad{border-color:var(--brand);background:radial-gradient(circle,var(--brand) 0 6px,transparent 6px);} .mg-vopt .t{font-size:14px;font-weight:700;} .mg-vopt .d{font-size:12px;color:var(--mute);margin-top:2px;}
+  .mg-bar{position:absolute;left:0;right:0;bottom:0;background:rgba(255,255,255,.97);border-top:1px solid var(--border2);padding:12px 16px;}
+  .mg-abrow{display:flex;align-items:center;gap:10px;margin-bottom:10px;} .mg-sw{width:42px;height:24px;border-radius:99px;background:var(--brand);position:relative;flex-shrink:0;} .mg-sw::after{content:"";position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;background:#fff;}
+  .mg-abrow .t{font-size:13.5px;font-weight:700;} .mg-abrow .t small{display:block;font-size:11px;color:var(--mute);font-weight:400;}
+  .mg-cta{width:100%;height:52px;background:var(--brand);color:#fff;border:none;border-radius:12px;font-size:15.5px;font-weight:800;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:9px;cursor:pointer;} .mg-cta .cost{font-size:12px;font-weight:600;opacity:.9;background:rgba(255,255,255,.2);padding:3px 9px;border-radius:999px;}
+  .mg-bd{position:absolute;inset:0;background:rgba(20,20,25,.4);opacity:0;pointer-events:none;transition:.2s;z-index:8;} .mg-bd.open{opacity:1;pointer-events:auto;}
+  .mg-sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:18px 18px 0 0;box-shadow:0 -14px 34px -14px rgba(23,20,60,.4);transform:translateY(100%);transition:transform .26s cubic-bezier(.25,.8,.3,1);z-index:9;max-height:74%;display:flex;flex-direction:column;} .mg-sheet.open{transform:translateY(0);}
+  .mg-grab{width:36px;height:4px;border-radius:9px;background:var(--border);margin:10px auto 4px;}
+  .mg-sh-h{padding:4px 16px 10px;font-size:15px;font-weight:800;}
+  .mg-sh-s{margin:0 16px 6px;display:flex;align-items:center;gap:8px;border:1px solid var(--brand);box-shadow:0 0 0 3px var(--brand-pale);border-radius:10px;padding:12px;} .mg-sh-s .vic{width:16px;height:16px;color:var(--mute);} .mg-sh-s input{flex:1;border:none;outline:none;font-size:14.5px;font-family:inherit;min-width:0;color:var(--ink);}
+  .mg-sh-sec{font-size:10.5px;font-weight:700;color:var(--mute);text-transform:uppercase;letter-spacing:.05em;padding:9px 16px 3px;}
+  .mg-sh-list{overflow-y:auto;flex:1;}
+  .mg-row{display:flex;align-items:center;gap:11px;padding:12px 16px;min-height:58px;cursor:pointer;} .mg-row:active{background:#F7F5FF;} .mg-row .bx{width:36px;height:36px;border-radius:9px;background:var(--brand-pale);display:flex;align-items:center;justify-content:center;color:var(--brand);flex-shrink:0;} .mg-row .bx .vic{width:18px;height:18px;} .mg-row .t{font-size:14.5px;font-weight:700;} .mg-row .s{font-size:12px;color:var(--mute);margin-top:1px;}
+  .mg-add{border-top:1px solid var(--border2);padding:14px 16px;font-size:14px;font-weight:700;color:var(--brand);display:flex;align-items:center;gap:8px;} .mg-add .vic{width:16px;height:16px;}
 </style>
 
 <div class="wrap"><div class="inner">
@@ -148,6 +176,10 @@
     <symbol id="ic-mega" viewBox="0 0 24 24"><path fill="currentColor" d="M3 10v3a1.5 1.5 0 0 0 1.5 1.5H6l1.2 4.3a1 1 0 0 0 1.9-.5v-3.5l9 3.4a1 1 0 0 0 1.4-.95V6.75A1 1 0 0 0 18.1 5.8L4.5 9A1.5 1.5 0 0 0 3 10Z"/><path fill="currentColor" fill-opacity=".3" d="M20.5 9.3a2.6 2.6 0 0 1 0 5.4z"/></symbol>
     <symbol id="ic-channels" viewBox="0 0 24 24"><rect fill="currentColor" x="2.5" y="9.5" width="6.5" height="5" rx="1.6"/><g fill="currentColor" fill-opacity=".3"><rect x="16" y="3" width="5.5" height="5" rx="1.4"/><rect x="16" y="9.5" width="5.5" height="5" rx="1.4"/><rect x="16" y="16" width="5.5" height="5" rx="1.4"/></g><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.3M12.3 5.5V18.5M12.3 5.5H16M12.3 12H16M12.3 18.5H16"/></symbol>
     <symbol id="ic-shuffle" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h3.5l3 3"/><path d="M14 14l2.5 3H21"/><path d="M3 17h3.5l10-11H21"/><path d="M18 3.5 21.5 6 18 8.5"/><path d="M18 14.5 21.5 17 18 19.5"/></g></symbol>
+  <symbol id="ic-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.4-3.4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="ic-box" viewBox="0 0 24 24"><path fill="currentColor" fill-opacity=".35" d="M4 7.5 12 4l8 3.5V16l-8 3.5L4 16z"/><path fill="currentColor" d="M4 7.5 12 11l8-3.5-2-.9L12 9.1 6 6.6z"/></symbol>
+  <symbol id="ic-plus" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="ic-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M5 12.5 10 17.5 19 7"/></symbol>
   </defs></svg>
 
   <p class="eyebrow">Verba · Responsive & Web handoff</p>
@@ -218,6 +250,47 @@
 
   <p class="lede" style="margin-top:40px;font-size:13px;">각 프레임 폭을 기준으로 <b>실제 리플로우</b>됩니다(미디어쿼리 아닌 컨테이너쿼리라 한 페이지에서 동시 확인 가능). 실제 구현은 뷰포트 미디어쿼리로 옮기면 됩니다 — 규칙은 위 표·주의사항 그대로.</p>
 
+  <h2 class="sec">카피 생성 · 모바일 (바텀시트)</h2>
+  <p class="lede" style="font-size:13px;margin-bottom:14px;">데스크톱의 인라인 combobox·좌우 2컬럼을, 모바일에선 <b>바텀시트 · 세로 stack · 풀폭 sticky CTA · 터치 44px+</b>로 재설계. (검색 필드를 탭하면 시트가 올라옵니다)</p>
+  <div class="framelabel"><span class="k">Mobile</span><span class="w">390px · 상품 불러오기 = 바텀시트</span></div>
+  <div class="stage"><div class="device w-mobile">
+    <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">verba.app / generate</span></div>
+    <div class="app">
+      <div class="mg" id="mg">
+        <div class="mg-top"><span class="ti">카피 생성</span></div>
+        <div class="mg-scr">
+          <div class="mg-loader">
+            <div class="mg-lh"><svg class="vic"><use href="#ic-box"/></svg>저장된 상품 불러오기</div>
+            <button class="mg-sf" id="mgOpen"><svg class="vic"><use href="#ic-search"/></svg>상품명 또는 업종 검색</button>
+            <div class="mg-rl">최근 사용</div>
+            <div class="mg-chips" id="mgRecent"></div>
+          </div>
+          <div class="mg-fld"><div class="mg-lab">상품명</div><input class="mg-inp" id="mgName" placeholder="예: 수분 진정 크림"></div>
+          <div class="mg-fld"><div class="mg-lab">업종</div><input class="mg-inp" id="mgInd" placeholder="예: 화장품"></div>
+          <div class="mg-fld"><div class="mg-lab">기본 톤</div><div class="mg-tc"><span class="on">친근함</span><span class="on">신뢰감</span><span>전문적</span><span>감성적</span></div></div>
+          <div class="mg-fld"><div class="mg-lab">핵심 소구점</div><input class="mg-inp" id="mgKp" placeholder="예: 자극 없는 저자극"></div>
+          <div class="mg-fld"><div class="mg-lab">채널</div><div class="mg-tc"><span class="on">상세페이지</span><span class="on">SNS</span><span>광고</span></div></div>
+          <div class="mg-bvh">브랜드 보이스</div>
+          <div class="mg-vopt on"><span class="rad"></span><div><div class="t">우리 브랜드 · 기본</div><div class="d">친근하고 신뢰감 있게</div></div></div>
+          <div class="mg-vopt"><span class="rad"></span><div><div class="t">모던</div><div class="d">심플하고 세련된 느낌</div></div></div>
+        </div>
+        <div class="mg-bar">
+          <div class="mg-abrow"><span class="mg-sw"></span><div class="t">A/B 변형 생성<small>강조 포인트가 다른 2안</small></div></div>
+          <button class="mg-cta">카피 생성 <span class="cost">2 크레딧</span></button>
+        </div>
+        <div class="mg-bd" id="mgBd"></div>
+        <div class="mg-sheet" id="mgSheet">
+          <div class="mg-grab"></div>
+          <div class="mg-sh-h">상품 불러오기</div>
+          <div class="mg-sh-s"><svg class="vic"><use href="#ic-search"/></svg><input id="mgSearch" placeholder="상품명 또는 업종 검색"></div>
+          <div class="mg-sh-sec" id="mgSec">최근 사용</div>
+          <div class="mg-sh-list" id="mgList"></div>
+          <div class="mg-add"><svg class="vic"><use href="#ic-plus"/></svg>새 상품 등록</div>
+        </div>
+      </div>
+    </div>
+  </div></div>
+
 </div></div>
 
 <script>
@@ -261,4 +334,16 @@
     '</div></div>';
   document.querySelectorAll('[data-dash]').forEach(function(e){e.innerHTML=DASH;});
   document.querySelectorAll('[data-land]').forEach(function(e){e.innerHTML=LAND;});
+  (function(){
+    var P=[{n:'새싹비빔밥',i:'요식업',k:'신선한 새싹 · 3분 완성 · 건강 한 끼',c:12,a:'2일 전'},{n:'수분 진정 크림',i:'화장품',k:'자극 없는 저자극 · 24시간 보습',c:8,a:'6일 전'},{n:'무선 이어폰',i:'전자기기',k:'노이즈 캔슬링 · 30시간 재생',c:3,a:'3주 전'},{n:'유기농 그래놀라',i:'요식업',k:'무설탕 · 통곡물 아침',c:5,a:'1주 전'}];
+    var sheet=document.getElementById('mgSheet'),bd=document.getElementById('mgBd'),list=document.getElementById('mgList'),sec=document.getElementById('mgSec'),si=document.getElementById('mgSearch');
+    function bx(){return '<svg class="vic"><use href="#ic-box"/></svg>';}
+    function open(){render('');si.value='';bd.classList.add('open');sheet.classList.add('open');}
+    function close(){bd.classList.remove('open');sheet.classList.remove('open');}
+    function render(q){q=(q||'').trim();var l=P.filter(function(p){return !q||p.n.indexOf(q)>=0||p.i.indexOf(q)>=0;});sec.style.display=q?'none':'block';list.innerHTML=l.length?l.map(function(p){return '<div class="mg-row" data-i="'+P.indexOf(p)+'"><span class="bx">'+bx()+'</span><span><div class="t">'+p.n+'</div><div class="s">'+p.i+' \u00b7 '+p.c+'\ud68c \uc0dd\uc131 \u00b7 '+p.a+'</div></span></div>';}).join(''):'<div style="padding:26px;text-align:center;color:#9297A2;font-size:14px">\uac80\uc0c9 \uacb0\uacfc\uac00 \uc5c6\uc5b4\uc694</div>';[].forEach.call(list.querySelectorAll('.mg-row'),function(el){el.onclick=function(){pick(P[+el.dataset.i]);};});}
+    function pick(p){document.getElementById('mgName').value=p.n;document.getElementById('mgInd').value=p.i;document.getElementById('mgKp').value=p.k;close();}
+    document.getElementById('mgOpen').onclick=open; bd.onclick=close; si.addEventListener('input',function(){render(si.value);});
+    document.getElementById('mgRecent').innerHTML=P.slice(0,2).map(function(p,i){return '<span class="mg-chip" data-i="'+i+'"><b>'+p.n+'</b> <span>\u00b7 '+p.i+'</span></span>';}).join('');
+    [].forEach.call(document.querySelectorAll('#mgRecent .mg-chip'),function(el){el.onclick=function(){pick(P[+el.dataset.i]);};});
+  })();
 </script>

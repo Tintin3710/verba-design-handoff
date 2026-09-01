@@ -1,0 +1,161 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>Verba — Mobile 카피 생성</title>
+<style>
+  :root{
+    --brand:#5F3EFF; --brand-press:#4F2BEA; --brand-pale:#F2EEFF; --brand-tint:#F7F5FF; --brand-border:#DCD2FF;
+    --page:#EDEEF1; --surface:#fff; --soft:#F5F5F7;
+    --ink:#17171B; --body:#4B4B57; --mute:#6E6E7A; --border:#E5E5EA; --border2:#EDEDF1; --ok:#15803D;
+    --r:12px; --sans:"Pretendard",-apple-system,BlinkMacSystemFont,"Inter",system-ui,"Apple SD Gothic Neo",sans-serif;
+  }
+  *{box-sizing:border-box;} .vic{display:block;width:16px;height:16px;flex-shrink:0;}
+  body{margin:0;font-family:var(--sans);background:var(--page);color:var(--ink);-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px 16px 40px;gap:14px;}
+  .cap{font-size:12.5px;color:var(--mute);text-align:center;} .cap b{color:var(--brand);font-weight:700;}
+
+  .phone{width:390px;max-width:100%;height:800px;background:var(--surface);border-radius:34px;box-shadow:0 30px 70px -30px rgba(20,20,40,.5);position:relative;overflow:hidden;border:1px solid var(--border);display:flex;flex-direction:column;}
+  .status{height:42px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;font-size:12px;font-weight:700;flex-shrink:0;}
+  .status .dots{display:flex;gap:4px;align-items:center;} .status .dots i{width:4px;height:4px;border-radius:50%;background:var(--ink);} .status .bat{width:20px;height:11px;border:1.5px solid var(--ink);border-radius:3px;position:relative;} .status .bat::after{content:"";position:absolute;inset:2px;background:var(--ink);border-radius:1px;}
+  .topbar{display:flex;align-items:center;gap:10px;padding:6px 18px 12px;flex-shrink:0;}
+  .topbar .mb{width:24px;height:2px;background:var(--ink);border-radius:2px;position:relative;} .topbar .mb::before,.topbar .mb::after{content:"";position:absolute;left:0;width:24px;height:2px;background:var(--ink);border-radius:2px;} .topbar .mb::before{top:-7px;} .topbar .mb::after{top:7px;}
+  .topbar .ti{font-size:19px;font-weight:800;letter-spacing:-.02em;flex:1;}
+  .topbar .av{width:30px;height:30px;border-radius:50%;background:var(--brand-pale);border:1px solid var(--brand-border);}
+
+  .scroll{flex:1;overflow-y:auto;padding:6px 18px 140px;}
+  .sub{font-size:13.5px;color:var(--body);margin:0 0 18px;}
+
+  /* loader card */
+  .loader{border:1px solid var(--border);border-radius:var(--r);padding:15px;margin-bottom:18px;}
+  .lhead{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:700;margin-bottom:11px;} .lhead .vic{width:16px;height:16px;color:var(--brand);}
+  .lfield{width:100%;display:flex;align-items:center;gap:9px;border:1px solid var(--border);border-radius:10px;padding:14px 14px;font-size:15px;color:var(--mute);background:#fff;font-family:inherit;text-align:left;cursor:pointer;} .lfield:active{background:var(--brand-tint);} .lfield .vic{color:var(--mute);}
+  .lrec{font-size:11px;font-weight:700;color:var(--mute);text-transform:uppercase;letter-spacing:.04em;margin:14px 0 9px;}
+  .lchips{display:flex;gap:8px;flex-wrap:wrap;}
+  .lchip{font-size:13px;font-weight:600;padding:11px 14px;border:1px solid var(--border);border-radius:9999px;background:#fff;color:var(--ink);min-height:44px;display:flex;align-items:center;} .lchip:active{background:var(--brand-tint);border-color:var(--brand-border);} .lchip span{color:var(--mute);font-weight:500;}
+
+  /* form */
+  .fld{margin-bottom:18px;} .lab{font-size:13.5px;font-weight:700;margin-bottom:8px;} .lab .opt{font-size:12px;font-weight:400;color:var(--mute);margin-left:5px;}
+  .inp{width:100%;background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 14px;font-size:15px;color:var(--ink);font-family:inherit;} .inp::placeholder{color:var(--mute);}
+  .helper{font-size:12px;color:var(--mute);margin-top:7px;display:none;} .helper.show{display:block;}
+  .tchips{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px;} .tchip{font-size:13px;font-weight:600;padding:10px 14px;border-radius:9px;border:1px solid var(--border);background:#fff;color:var(--body);min-height:44px;display:flex;align-items:center;} .tchip.on{background:var(--brand-pale);border-color:var(--brand);color:var(--brand);}
+  .chan{display:flex;gap:9px;flex-wrap:wrap;} .chan .c{font-size:14px;font-weight:600;padding:12px 18px;border-radius:10px;border:1px solid var(--border);background:#fff;color:var(--body);min-height:46px;display:flex;align-items:center;} .chan .c.on{background:var(--brand-pale);border-color:var(--brand);color:var(--brand);}
+
+  /* brand voice (stacked below) */
+  .bvh{font-size:14px;font-weight:700;margin:26px 0 12px;} .bvh .opt{font-size:12px;color:var(--mute);font-weight:400;margin-left:5px;}
+  .voice{display:flex;flex-direction:column;gap:10px;}
+  .vopt{display:flex;align-items:flex-start;gap:11px;padding:15px;border:1px solid var(--border);border-radius:11px;} .vopt.on{border-color:var(--brand);background:var(--brand-tint);} .vopt .rad{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;margin-top:1px;} .vopt.on .rad{border-color:var(--brand);background:radial-gradient(circle,var(--brand) 0 6px,transparent 6px);} .vopt .t{font-size:14.5px;font-weight:700;} .vopt .d{font-size:12.5px;color:var(--mute);margin-top:2px;}
+
+  /* sticky bar (full width) */
+  .bar{position:absolute;left:0;right:0;bottom:0;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--border2);padding:12px 18px calc(12px + env(safe-area-inset-bottom));}
+  .abrow{display:flex;align-items:center;gap:11px;margin-bottom:11px;} .sw{width:44px;height:26px;border-radius:99px;background:var(--brand);position:relative;flex-shrink:0;cursor:pointer;} .sw::after{content:"";position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.15s;} .sw.off{background:var(--border);} .sw.off::after{right:auto;left:3px;}
+  .abrow .t{font-size:14px;font-weight:700;} .abrow .t small{display:block;font-size:11.5px;color:var(--mute);font-weight:400;}
+  .cta{width:100%;height:54px;background:var(--brand);color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:800;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;} .cta:active{background:var(--brand-press);} .cta .cost{font-size:12.5px;font-weight:600;opacity:.92;background:rgba(255,255,255,.2);padding:3px 10px;border-radius:9999px;}
+
+  /* bottom sheet */
+  .backdrop{position:absolute;inset:0;background:rgba(20,20,25,.4);opacity:0;pointer-events:none;transition:.2s;z-index:20;} .backdrop.open{opacity:1;pointer-events:auto;}
+  .sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:20px 20px 0 0;box-shadow:0 -16px 40px -16px rgba(23,20,60,.4);transform:translateY(100%);transition:transform .26s cubic-bezier(.25,.8,.3,1);z-index:21;max-height:76%;display:flex;flex-direction:column;} .sheet.open{transform:translateY(0);}
+  .grab{width:38px;height:4px;border-radius:9px;background:var(--border);margin:10px auto 4px;}
+  .sh-head{padding:6px 18px 12px;} .sh-head .h{font-size:16px;font-weight:800;}
+  .sh-search{margin:0 18px 6px;display:flex;align-items:center;gap:9px;border:1px solid var(--brand);box-shadow:0 0 0 3px var(--brand-pale);border-radius:10px;padding:13px 14px;} .sh-search .vic{width:17px;height:17px;color:var(--mute);} .sh-search input{flex:1;border:none;outline:none;font-size:15px;font-family:inherit;color:var(--ink);background:transparent;min-width:0;} .sh-search input::placeholder{color:var(--mute);}
+  .sh-sec{font-size:11px;font-weight:700;color:var(--mute);text-transform:uppercase;letter-spacing:.05em;padding:10px 18px 4px;}
+  .sh-list{overflow-y:auto;flex:1;padding-bottom:6px;}
+  .sh-row{display:flex;align-items:center;gap:12px;padding:13px 18px;min-height:60px;cursor:pointer;} .sh-row:active{background:var(--brand-tint);}
+  .sh-row .bx{width:38px;height:38px;border-radius:9px;background:var(--brand-pale);display:flex;align-items:center;justify-content:center;color:var(--brand);flex-shrink:0;} .sh-row .bx .vic{width:19px;height:19px;}
+  .sh-row .mn{flex:1;min-width:0;} .sh-row .mn .t{font-size:15px;font-weight:700;} .sh-row .mn .s{font-size:12.5px;color:var(--mute);margin-top:2px;}
+  .sh-empty{padding:30px;text-align:center;font-size:14px;color:var(--mute);}
+  .sh-add{border-top:1px solid var(--border2);padding:16px 18px calc(16px + env(safe-area-inset-bottom));font-size:14.5px;font-weight:700;color:var(--brand);display:flex;align-items:center;gap:8px;}
+
+  .toast{position:absolute;left:50%;bottom:96px;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:13px;font-weight:600;padding:11px 18px;border-radius:10px;z-index:30;display:none;align-items:center;gap:7px;white-space:nowrap;} .toast.show{display:flex;} .toast .vic{width:15px;height:15px;color:#7DE0A6;}
+</style></head>
+<body>
+  <div class="cap">Verba · <b>Mobile 390</b> — 상품 불러오기 = 바텀시트 · 폼/보이스 stack · 풀폭 sticky CTA · 터치 44px+</div>
+
+  <div class="phone">
+    <div class="status"><span>9:41</span><div class="dots"><span>5G</span><i></i><i></i><i></i><span class="bat"></span></div></div>
+    <div class="topbar"><span class="mb"></span><span class="ti">카피 생성</span><span class="av"></span></div>
+
+    <div class="scroll" id="scroll">
+      <p class="sub">상품 정보를 넣으면 채널에 맞는 카피를 만들어 드려요.</p>
+
+      <!-- loader -->
+      <div class="loader">
+        <div class="lhead"><svg class="vic"><use href="#ic-box"/></svg>저장된 상품 불러오기</div>
+        <button class="lfield" id="openSheet"><svg class="vic"><use href="#ic-search"/></svg>상품명 또는 업종 검색</button>
+        <div class="lrec">최근 사용</div>
+        <div class="lchips" id="recentChips"></div>
+      </div>
+
+      <!-- form -->
+      <div class="fld"><div class="lab">상품명</div><input class="inp" id="fName" placeholder="예: 수분 진정 크림"></div>
+      <div class="fld"><div class="lab">업종</div><input class="inp" id="fInd" placeholder="예: 화장품"></div>
+      <div class="fld"><div class="lab">기본 톤 <span class="opt">골라주세요</span></div>
+        <div class="tchips"><span class="tchip on">친근함</span><span class="tchip on">신뢰감</span><span class="tchip">고급스러움</span><span class="tchip">전문적</span><span class="tchip">감성적</span></div>
+      </div>
+      <div class="fld"><div class="lab">핵심 소구점 <span class="opt">선택</span></div><input class="inp" id="fKp" placeholder="예: 자극 없는 저자극 · 24시간 보습"><div class="helper" id="helper">수정한 내용은 이번 카피에만 적용돼요.</div></div>
+      <div class="fld"><div class="lab">채널 <span class="opt">복수 선택</span></div><div class="chan"><span class="c on">상세페이지</span><span class="c on">SNS</span><span class="c">광고</span></div></div>
+
+      <!-- brand voice (stacked) -->
+      <div class="bvh">브랜드 보이스 <span class="opt">저장된 톤</span></div>
+      <div class="voice">
+        <div class="vopt on"><span class="rad"></span><div><div class="t">우리 브랜드 · 기본</div><div class="d">친근하고 신뢰감 있게</div></div></div>
+        <div class="vopt"><span class="rad"></span><div><div class="t">모던</div><div class="d">심플하고 세련된 느낌</div></div></div>
+        <div class="vopt"><span class="rad"></span><div><div class="t">빈티지</div><div class="d">따뜻하고 클래식한 분위기</div></div></div>
+      </div>
+    </div>
+
+    <!-- sticky bar -->
+    <div class="bar">
+      <div class="abrow"><span class="sw" id="ab"></span><div class="t">A/B 변형 생성<small>강조 포인트가 다른 2안 비교</small></div></div>
+      <button class="cta">카피 생성 <span class="cost">2 크레딧</span></button>
+    </div>
+
+    <!-- bottom sheet -->
+    <div class="backdrop" id="backdrop"></div>
+    <div class="sheet" id="sheet">
+      <div class="grab"></div>
+      <div class="sh-head"><div class="h">상품 불러오기</div></div>
+      <div class="sh-search"><svg class="vic"><use href="#ic-search"/></svg><input id="shInput" placeholder="상품명 또는 업종 검색"></div>
+      <div class="sh-sec" id="shSec">최근 사용</div>
+      <div class="sh-list" id="shList"></div>
+      <div class="sh-add"><svg class="vic" style="width:16px;height:16px"><use href="#ic-plus"/></svg>새 상품 등록</div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+  </div>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+    <symbol id="ic-box" viewBox="0 0 24 24"><path fill="currentColor" fill-opacity=".35" d="M4 7.5 12 4l8 3.5V16l-8 3.5L4 16z"/><path fill="currentColor" d="M4 7.5 12 11l8-3.5-2-.9L12 9.1 6 6.6z"/></symbol>
+    <symbol id="ic-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.4-3.4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="ic-plus" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="ic-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M5 12.5 10 17.5 19 7"/></symbol>
+  </defs></svg>
+
+<script>
+  var PRODUCTS=[
+    {n:"새싹비빔밥",ind:"요식업",kp:"신선한 새싹 · 3분 완성 · 건강 한 끼",cnt:12,ago:"2일 전"},
+    {n:"수분 진정 크림",ind:"화장품",kp:"자극 없는 저자극 · 24시간 보습",cnt:8,ago:"6일 전"},
+    {n:"무선 이어폰",ind:"전자기기",kp:"노이즈 캔슬링 · 30시간 재생",cnt:3,ago:"3주 전"},
+    {n:"유기농 그래놀라",ind:"요식업",kp:"무설탕 · 통곡물 아침",cnt:5,ago:"1주 전"},
+    {n:"립 틴트",ind:"화장품",kp:"물광 발색 · 종일 지속",cnt:7,ago:"4일 전"}
+  ];
+  var sheet=document.getElementById('sheet'),backdrop=document.getElementById('backdrop'),shInput=document.getElementById('shInput'),shList=document.getElementById('shList'),shSec=document.getElementById('shSec'),toast=document.getElementById('toast');
+  function openSheet(){renderList('');shInput.value='';backdrop.classList.add('open');sheet.classList.add('open');}
+  function closeSheet(){backdrop.classList.remove('open');sheet.classList.remove('open');}
+  document.getElementById('openSheet').onclick=openSheet;
+  backdrop.onclick=closeSheet;
+  shInput.addEventListener('input',function(){renderList(shInput.value);});
+  function renderList(q){
+    q=(q||'').trim(); var list=PRODUCTS.filter(function(p){return !q||p.n.indexOf(q)>=0||p.ind.indexOf(q)>=0;});
+    shSec.style.display=q?'none':'block';
+    if(list.length===0){shList.innerHTML='<div class="sh-empty">‘'+q+'’ 검색 결과가 없어요</div>';return;}
+    shList.innerHTML=list.map(function(p){return '<div class="sh-row" data-i="'+PRODUCTS.indexOf(p)+'"><span class="bx"><svg class="vic"><use href="#ic-box"/></svg></span><span class="mn"><span class="t">'+p.n+'</span><span class="s">'+p.ind+' · '+p.cnt+'회 생성 · '+p.ago+'</span></span></div>';}).join('');
+    [].forEach.call(shList.querySelectorAll('.sh-row'),function(el){el.onclick=function(){pick(PRODUCTS[+el.dataset.i]);};});
+  }
+  function pick(p){
+    document.getElementById('fName').value=p.n;document.getElementById('fInd').value=p.ind;document.getElementById('fKp').value=p.kp;
+    document.getElementById('helper').classList.add('show');
+    closeSheet();showToast('‘'+p.n+'’ 정보를 불러왔어요');
+  }
+  function showToast(t){toast.innerHTML='<svg class="vic"><use href="#ic-check"/></svg>'+t;toast.classList.add('show');clearTimeout(showToast._t);showToast._t=setTimeout(function(){toast.classList.remove('show');},1900);}
+  // recent chips
+  document.getElementById('recentChips').innerHTML=PRODUCTS.slice(0,2).map(function(p,i){return '<span class="lchip" data-i="'+i+'"><b>'+p.n+'</b>&nbsp;<span>· '+p.ind+'</span></span>';}).join('');
+  [].forEach.call(document.querySelectorAll('#recentChips .lchip'),function(el){el.onclick=function(){pick(PRODUCTS[+el.dataset.i]);};});
+  document.getElementById('ab').onclick=function(){this.classList.toggle('off');};
+</script>
+</body></html>
