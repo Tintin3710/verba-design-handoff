@@ -41,6 +41,7 @@
   .ch{font-size:11.5px;font-weight:600;color:var(--mute);background:var(--surface-soft);border:1px solid var(--border2);border-radius:var(--r-pill);padding:5px 12px;}
   .empty{grid-column:1/-1;text-align:center;color:var(--mute);font-size:14px;padding:50px 0;}
   .note{margin:26px 0 0;font-size:12px;color:var(--mute);line-height:1.6;} .note b{color:var(--body);}
+  .slogo .logo-mark{height:24px;width:84px;display:block;} .logo-inline{height:.82em;width:2.86em;display:inline-block;vertical-align:-0.04em;}
 </style></head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -57,11 +58,11 @@
   <symbol id="ic-doc" viewBox="0 0 24 24"><path fill="currentColor" fill-opacity=".3" d="M6 2h7l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z"/><path fill="currentColor" d="M13 2v4a1 1 0 0 0 1 1h4z"/><rect fill="currentColor" x="7.5" y="12" width="9" height="1.7" rx=".85"/><rect fill="currentColor" x="7.5" y="15.6" width="6.5" height="1.7" rx=".85"/></symbol>
   <symbol id="ic-table" viewBox="0 0 24 24"><rect fill="currentColor" fill-opacity=".3" x="3.5" y="5" width="17" height="14" rx="2"/><path fill="none" stroke="currentColor" stroke-width="1.8" d="M3.5 10.5h17M9.5 10.5v8.5"/></symbol>
   <symbol id="ic-arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M5 12h13M12 6l6 6-6 6"/></symbol>
-</defs></svg>
+<symbol id="ic-logo" viewBox="0 0 76.812 22"><path fill="#111827" d="M10.3411 1.94792H13.8073V15.1536L7.27604 22H4.72656L0 15.0104V1.94792H3.46615V14.3516L6.21615 18.4479L10.3411 14.1224V1.94792Z"/><path fill="#111827" d="M18.4367 6.15885H26.8872L29.494 10.0547L24.4237 15.2682H19.1815V17.3307L20.0982 18.6771H25.5982L27.1737 17.0443L29.1789 19.5651L26.83 22H18.3794L15.8872 18.276V8.79427L18.4367 6.15885ZM19.1815 10.1693V12.375H23.1633L25.2831 10.1406L24.8247 9.48177H19.8404L19.1815 10.1693Z"/><path fill="#111827" d="M31.2302 6.21615H33.2068L35.699 7.67708L37.1026 6.21615H43.6052L45.5531 9.13802L42.8891 10.9427L41.9151 9.42448H38.4776L37.561 10.3984V18.7917H41.6287V22H31.2302V18.7917H34.1235V10.6562L33.2927 9.42448H31.2302V6.21615Z"/><path fill="#111827" d="M47.2034 0H50.6696V7.13281L52.1878 6.1875H58.4612L61.068 10.0833V19.2214L58.4039 22H52.2737L50.6696 21.0547V22H47.2034V0ZM50.6696 10.026V18.763H57.0576L57.6018 18.1901V10.6849L56.7425 9.42448H51.2425L50.6696 10.026Z"/><path fill="#111827" d="M65.2391 6.15885H74.8068L76.812 9.10938V22H73.3459V21.0547L71.7703 22H65.5256L62.9474 18.1615V16.6432L67.5594 11.8307H73.3459V9.33854H65.2391V6.15885ZM66.5282 17.5313L67.0724 18.763H73.2313V15.0964H68.8485L66.5282 17.474V17.5313Z"/></symbol></defs></svg>
 
 <div class="shell">
   <aside class="sidebar">
-    <div class="slogo">Verba</div>
+    <div class="slogo"><svg class="logo-mark"><use href="#ic-logo"/></svg></div>
     <nav class="snav">
       <a><span class="i"><svg class="vic"><use href="#ic-home"/></svg></span>대시보드</a>
       <a><span class="i"><svg class="vic"><use href="#ic-pencil"/></svg></span>카피 생성</a>
