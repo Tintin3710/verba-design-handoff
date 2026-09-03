@@ -31,7 +31,8 @@ verba-handoff/
    ├─ verba-templates.html     템플릿 갤러리 — GET /templates 실 데이터 6개 + 카테고리 필터
    ├─ verba-products-grid.html 상품 카드 그리드(career-3 스타일) — 본편 verba.html 화면 13
    ├─ verba-product-loader-final.html 저장 상품 불러오기 로더 — Default·Search·Selected·Replace 4상태(본편 화면 2 편입)
-   └─ verba-mobile-generate.html 카피 생성 Mobile 390 — 상품 불러오기 바텀시트·풀폭 sticky(반응형 데모 편입)
+   ├─ verba-mobile-generate.html 카피 생성 Mobile 390 — 상품 불러오기 바텀시트·풀폭 sticky(반응형 데모 편입)
+   └─ verba-mobile-insights.html 인사이트 Mobile 375 — 스탯 2×2·채널/7일 차트 스택·상단바+하단 탭바(데스크톱 화면 5 모바일 대응)
 ```
 
 > **인증(로그인·회원가입)**: 위 두 HTML은 **인터랙션 참고용**입니다. **디자인 최종본은 Figma** — 갈리면 Figma를 따르세요.

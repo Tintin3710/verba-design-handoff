@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Verba — 인사이트 · Mobile 375</title>
+<style>
+  :root{
+    --brand:#5F3EFF; --brand-pale:#F2EEFF; --brand-selago:#F1EFFD; --brand-border:#DCD2FF;
+    --ink:#171719; --body:#4B4B57; --mute:#6E6E7A;
+    --surface:#FFFFFF; --page:#F4F4F6; --soft:#F8F8FA;
+    --border:#E6E6EB; --border-subtle:#EDEDF1; --track:#ECECF2;
+    --ok:#12A150;
+    --r-card:16px; --r-btn:10px; --r-input:9px;
+    --font:"Pretendard","Pretendard Variable",-apple-system,"Inter",system-ui,"Apple SD Gothic Neo",sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:var(--font); color:var(--ink); background:#E9E9EE;
+    -webkit-font-smoothing:antialiased; display:flex; justify-content:center;
+    min-height:100vh; padding:28px 16px;
+  }
+  a{color:inherit;text-decoration:none}
+
+  /* phone frame (presentation only) */
+  .phone{
+    width:375px; background:var(--page); border-radius:38px;
+    box-shadow:0 30px 70px -34px rgba(30,27,75,.5), 0 0 0 10px #0d0d12, 0 0 0 11px #2a2a33;
+    overflow:hidden; position:relative; align-self:flex-start;
+  }
+  .screen{height:812px; overflow-y:auto; overflow-x:hidden; position:relative; scrollbar-width:none}
+  .screen::-webkit-scrollbar{display:none}
+
+  /* status bar */
+  .status{
+    height:44px; display:flex; align-items:center; justify-content:space-between;
+    padding:0 22px 0 26px; font-size:13px; font-weight:600; color:var(--ink);
+    position:sticky; top:0; z-index:20; background:var(--page);
+  }
+  .status .dots{display:flex; gap:5px; align-items:center}
+  .status .dots svg{display:block}
+
+  /* app bar */
+  .appbar{
+    position:sticky; top:44px; z-index:19; background:var(--page);
+    display:flex; align-items:center; justify-content:space-between;
+    padding:6px 18px 12px; border-bottom:1px solid var(--border-subtle);
+  }
+  .wordmark{font-size:20px; font-weight:800; letter-spacing:-.02em; color:var(--ink)}
+  .iconbtn{
+    width:38px; height:38px; border-radius:11px; border:1px solid var(--border);
+    background:var(--surface); display:grid; place-items:center; color:var(--body); cursor:pointer;
+  }
+  .iconbtn:active{background:var(--soft)}
+
+  /* content */
+  .content{padding:20px 16px 108px}
+  .titlewrap{margin-bottom:16px}
+  .h1{font-size:27px; font-weight:700; letter-spacing:-.025em; line-height:1.05}
+  .sub{margin-top:7px; font-size:13.5px; color:var(--mute)}
+
+  /* credit strip */
+  .creditbar{
+    display:flex; align-items:center; gap:12px; margin:0 0 18px;
+    padding:12px 14px; background:var(--surface); border:1px solid var(--border);
+    border-radius:12px;
+  }
+  .creditbar .lab{font-size:11.5px; font-weight:600; color:var(--mute); white-space:nowrap}
+  .creditbar .track{flex:1; height:7px; border-radius:99px; background:var(--track); overflow:hidden}
+  .creditbar .fill{display:block; height:100%; width:36%; background:var(--brand); border-radius:99px; transform-origin:left; animation:growX .8s .1s cubic-bezier(.22,1,.36,1) both}
+  .creditbar .val{font-size:12.5px; font-weight:700; color:var(--ink); white-space:nowrap}
+
+  /* stat grid 2x2 */
+  .stats{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px}
+  .stat{
+    background:var(--surface); border:1px solid var(--border); border-radius:14px;
+    padding:15px 15px 14px; min-height:104px; display:flex; flex-direction:column;
+  }
+  .stat .k{font-size:11.5px; font-weight:600; color:var(--mute)}
+  .stat .v{font-size:26px; font-weight:700; letter-spacing:-.02em; margin-top:8px; line-height:1}
+  .stat .v.sm{font-size:24px}
+  .stat .d{font-size:11.5px; font-weight:600; color:var(--mute); margin-top:auto; padding-top:8px}
+  .stat .d.up{color:var(--ok)}
+
+  /* card */
+  .card{
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--r-card);
+    padding:18px 16px; margin-bottom:14px;
+  }
+  .card h3{font-size:15px; font-weight:700; letter-spacing:-.01em; margin-bottom:16px}
+
+  /* channel bars */
+  .bar-row{display:flex; align-items:center; gap:12px; margin-bottom:14px}
+  .bar-row:last-child{margin-bottom:0}
+  .bar-row .name{width:34px; font-size:13px; font-weight:600; color:var(--body); flex:none}
+  .bar-row .track{flex:1; height:12px; border-radius:99px; background:var(--track); overflow:hidden}
+  .bar-row .fill{display:block; height:100%; border-radius:99px; background:var(--brand); transform-origin:left; animation:growX .9s .12s cubic-bezier(.22,1,.36,1) both}
+  .bar-row .num{width:22px; text-align:right; font-size:13px; font-weight:700; color:var(--ink); flex:none}
+
+  /* 7-day columns */
+  .cols{display:flex; align-items:flex-end; justify-content:space-between; height:132px; padding:0 2px}
+  .col{flex:1; display:flex; flex-direction:column; align-items:center; gap:8px; height:100%; justify-content:flex-end}
+  .col .bar{width:26px; border-radius:7px 7px 6px 6px; background:var(--brand-selago); transform-origin:bottom; animation:growY .9s .12s cubic-bezier(.22,1,.36,1) both}
+  .col.peak .bar{background:var(--brand)}
+  .col .dow{font-size:11px; font-weight:500; color:var(--mute)}
+  .col.peak .dow{color:var(--brand); font-weight:700}
+
+  /* bottom tab bar */
+  .tabbar{
+    position:absolute; left:0; right:0; bottom:0; z-index:20;
+    background:rgba(255,255,255,.94); backdrop-filter:saturate(180%) blur(12px);
+    border-top:1px solid var(--border); display:flex;
+    padding:8px 6px calc(8px + env(safe-area-inset-bottom));
+  }
+  .tab{
+    flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;
+    padding:5px 0; color:var(--mute); font-size:10.5px; font-weight:600; cursor:pointer;
+    background:none; border:0; font-family:inherit;
+  }
+  .tab svg{width:23px; height:23px; display:block}
+  .tab.active{color:var(--brand)}
+
+  /* two-tone icon convention */
+  .ico .fg{fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round}
+  .ico .bg{fill:currentColor; opacity:.16}
+
+  @keyframes growX{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  @keyframes growY{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+  @media (prefers-reduced-motion:reduce){.creditbar .fill,.bar-row .fill,.col .bar{animation:none}}
+
+  .home-ind{position:absolute; bottom:8px; left:50%; transform:translateX(-50%); width:120px; height:5px; border-radius:99px; background:#0c0c11; opacity:.28; z-index:21}
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="screen" id="screen">
+
+    <!-- status bar -->
+    <div class="status">
+      <span>9:41</span>
+      <span class="dots">
+        <svg width="17" height="11" viewBox="0 0 17 11"><rect x="0" y="7" width="3" height="4" rx="1" fill="#171719"/><rect x="4" y="5" width="3" height="6" rx="1" fill="#171719"/><rect x="8" y="3" width="3" height="8" rx="1" fill="#171719"/><rect x="12" y="1" width="3" height="10" rx="1" fill="#171719"/></svg>
+        <svg width="16" height="11" viewBox="0 0 16 11"><path d="M8 2.2c2 0 3.8.8 5.1 2.1l1.3-1.4A9.2 9.2 0 0 0 8 .2 9.2 9.2 0 0 0 1.6 2.9L2.9 4.3A7.2 7.2 0 0 1 8 2.2Z" fill="#171719"/><path d="M8 6c1 0 2 .4 2.7 1.1l1.3-1.4A6 6 0 0 0 8 4a6 6 0 0 0-4 1.7l1.3 1.4A4 4 0 0 1 8 6Z" fill="#171719" opacity=".55"/><circle cx="8" cy="9.4" r="1.5" fill="#171719"/></svg>
+        <svg width="25" height="12" viewBox="0 0 25 12"><rect x="1" y="1" width="21" height="10" rx="3" fill="none" stroke="#171719" stroke-opacity=".4"/><rect x="3" y="3" width="16" height="6" rx="1.5" fill="#171719"/><rect x="23" y="4" width="1.5" height="4" rx=".75" fill="#171719" opacity=".4"/></svg>
+      </span>
+    </div>
+
+    <!-- app bar -->
+    <div class="appbar">
+      <span class="wordmark">Verba</span>
+      <button class="iconbtn" aria-label="메뉴">
+        <svg class="ico" width="20" height="20" viewBox="0 0 24 24"><path class="fg" d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+
+    <!-- content -->
+    <div class="content">
+      <div class="titlewrap">
+        <div class="h1">인사이트</div>
+        <div class="sub">이번 달 활동 요약</div>
+      </div>
+
+      <div class="creditbar">
+        <span class="lab">남은 크레딧</span>
+        <span class="track"><span class="fill"></span></span>
+        <span class="val">18 / 50</span>
+      </div>
+
+      <!-- stat grid -->
+      <div class="stats">
+        <div class="stat">
+          <div class="k">총 생성</div>
+          <div class="v">34건</div>
+          <div class="d up">▲ 12% vs 지난달</div>
+        </div>
+        <div class="stat">
+          <div class="k">아낀 시간</div>
+          <div class="v sm">~3.2h</div>
+          <div class="d">건당 ~5.6분</div>
+        </div>
+        <div class="stat">
+          <div class="k">크레딧 사용</div>
+          <div class="v sm">34 / 50</div>
+          <div class="d">68% 소진</div>
+        </div>
+        <div class="stat">
+          <div class="k">활용 채널</div>
+          <div class="v">3</div>
+          <div class="d">SNS 최다</div>
+        </div>
+      </div>
+
+      <!-- channel bars -->
+      <div class="card">
+        <h3>채널별 생성</h3>
+        <div class="bar-row"><span class="name">SNS</span><span class="track"><span class="fill" style="width:82%"></span></span><span class="num">18</span></div>
+        <div class="bar-row"><span class="name">상세</span><span class="track"><span class="fill" style="width:45%"></span></span><span class="num">10</span></div>
+        <div class="bar-row"><span class="name">광고</span><span class="track"><span class="fill" style="width:27%"></span></span><span class="num">6</span></div>
+      </div>
+
+      <!-- 7-day -->
+      <div class="card">
+        <h3>최근 7일</h3>
+        <div class="cols">
+          <div class="col"><span class="bar" style="height:37%"></span><span class="dow">월</span></div>
+          <div class="col"><span class="bar" style="height:68%"></span><span class="dow">화</span></div>
+          <div class="col"><span class="bar" style="height:50%"></span><span class="dow">수</span></div>
+          <div class="col peak"><span class="bar" style="height:100%"></span><span class="dow">목</span></div>
+          <div class="col"><span class="bar" style="height:81%"></span><span class="dow">금</span></div>
+          <div class="col"><span class="bar" style="height:25%"></span><span class="dow">토</span></div>
+          <div class="col"><span class="bar" style="height:44%"></span><span class="dow">일</span></div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /screen -->
+
+    <!-- bottom tab bar (pinned to frame) -->
+    <nav class="tabbar">
+      <button class="tab">
+        <svg class="ico" viewBox="0 0 24 24"><path class="bg" d="M4 10.5 12 4l8 6.5V20H4z"/><path class="fg" d="M4 10.5 12 4l8 6.5V20H4zM9.5 20v-6h5v6"/></svg>
+        대시보드
+      </button>
+      <button class="tab">
+        <svg class="ico" viewBox="0 0 24 24"><rect class="bg" x="4" y="4" width="16" height="16" rx="4"/><path class="fg" d="M8 9h8M8 13h8M8 17h5"/></svg>
+        카피 생성
+      </button>
+      <button class="tab">
+        <svg class="ico" viewBox="0 0 24 24"><path class="bg" d="M4 8 12 4l8 4-8 4z"/><path class="fg" d="M4 8 12 4l8 4-8 4-8-4Zm0 0v8l8 4 8-4V8"/></svg>
+        상품
+      </button>
+      <button class="tab">
+        <svg class="ico" viewBox="0 0 24 24"><circle class="bg" cx="12" cy="12" r="8"/><path class="fg" d="M12 7v5l3 2M12 4a8 8 0 1 1-8 8"/><path class="fg" d="M4 12H2m2 0 1.6-1.6"/></svg>
+        히스토리
+      </button>
+      <button class="tab active">
+        <svg class="ico" viewBox="0 0 24 24"><rect class="bg" x="4" y="4" width="16" height="16" rx="4"/><path class="fg" d="M8 15l3-3 2 2 3-4M8 4v16"/></svg>
+        인사이트
+      </button>
+    </nav>
+    <div class="home-ind"></div>
+</div>
+
+<script>
+  // bottom tab active swap (demo)
+  document.querySelectorAll('.tab').forEach(function(t){
+    t.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active')});
+      t.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
