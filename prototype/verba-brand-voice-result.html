@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verba — 브랜드 보이스 생성 완료</title>
+<style>
+  :root{
+    --brand:#5F3EFF; --brand-pale:#F2EEFF; --brand-selago:#F1EFFD; --brand-border:#DCD2FF; --brand-pressed:#4F2BEA;
+    --ink:#17171B; --body:#4B4B57; --mute:#6E6E7A; --faint:#9A9AA6;
+    --surface:#FFFFFF; --page:#F4F4F6; --soft:#F8F8FA; --soft2:#F5F5F8;
+    --border:#E6E6EB; --border-subtle:#EDEDF1;
+    --teal:#2F9E92; --teal-pale:#DEF1EE;
+    --coral:#D9694A; --coral-pale:#FBE7E1;
+    --ok:#12A150; --warn:#B45309;
+    --danger:#C0342B; --danger-pale:#FBECEC; --danger-border:#F2CFCF;
+    --r-card:16px; --r-btn:10px; --r-input:12px;
+    --font:"Pretendard","Pretendard Variable",-apple-system,"Inter",system-ui,"Apple SD Gothic Neo",sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--font); color:var(--ink); background:var(--page); -webkit-font-smoothing:antialiased; line-height:1.5}
+  button{font-family:inherit; cursor:pointer}
+  .app{display:flex; min-height:100vh}
+
+  /* two-tone icon convention */
+  .ico .fg{fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round}
+  .ico .bg{fill:currentColor; opacity:.18}
+
+  /* sidebar */
+  .side{width:220px; flex:none; background:var(--surface); border-right:1px solid var(--border);
+        display:flex; flex-direction:column; padding:22px 14px 16px; position:sticky; top:0; height:100vh}
+  .side .wordmark{font-size:22px; font-weight:800; letter-spacing:-.02em; padding:4px 8px 22px}
+  .nav{display:flex; flex-direction:column; gap:2px}
+  .navrow{display:flex; align-items:center; gap:11px; padding:9px 10px; border-radius:10px;
+          font-size:14px; font-weight:600; color:var(--body); text-decoration:none}
+  .navrow svg{width:19px; height:19px; flex:none}
+  .navrow:hover{background:var(--soft)}
+  .navrow.active{background:var(--brand-pale); color:var(--brand)}
+  .side .spacer{flex:1}
+  .credit{border:1px solid var(--border); border-radius:12px; padding:12px 13px; margin-bottom:12px}
+  .credit .k{font-size:11px; font-weight:600; color:var(--faint)}
+  .credit .v{font-size:16px; font-weight:700; margin:5px 0 8px}
+  .credit .track{height:6px; border-radius:99px; background:#ECECF2; overflow:hidden}
+  .credit .fill{height:100%; width:36%; background:var(--brand); border-radius:99px}
+  .me{display:flex; align-items:center; gap:9px; padding:6px 6px}
+  .me .av{width:26px; height:26px; border-radius:50%; background:#E7E4F7; display:grid; place-items:center; color:var(--brand); font-size:11px; font-weight:700}
+  .me .nm{font-size:13px; font-weight:600; color:var(--body)}
+
+  /* main */
+  .main{flex:1; min-width:0}
+  .inner{max-width:1128px; margin:0 auto; padding:46px 46px 80px}
+
+  /* header */
+  .head{display:flex; align-items:flex-start; justify-content:space-between; gap:20px; margin-bottom:22px}
+  .head .title{display:flex; align-items:center; gap:10px}
+  .head h1{font-size:24px; font-weight:700; letter-spacing:-.02em}
+  .badge{height:24px; padding:0 10px; border-radius:999px; background:var(--soft2); border:1px solid var(--border);
+         font-size:12px; font-weight:600; color:var(--body); display:inline-flex; align-items:center}
+  .head .sub{margin-top:8px; font-size:13px; color:var(--mute)}
+  .head .actions{display:flex; gap:8px; flex:none}
+  .btn{height:41px; padding:0 15px; border-radius:var(--r-btn); font-size:13.5px; font-weight:600;
+       display:inline-flex; align-items:center; gap:7px; border:1px solid transparent}
+  .btn svg{width:15px; height:15px}
+  .btn-soft{background:var(--soft2); border-color:var(--border); color:var(--body)}
+  .btn-soft:hover{background:#EFEFF3}
+  .btn-primary{background:var(--brand); color:#fff}
+  .btn-primary:hover{background:var(--brand-pressed)}
+
+  /* rationale banner */
+  .rationale{display:flex; gap:12px; padding:16px 18px; background:var(--brand-selago);
+             border:1px solid #E6E0FF; border-radius:14px; margin-bottom:16px}
+  .rationale .star{color:var(--brand); font-size:15px; flex:none; line-height:1.5}
+  .rationale .rt{font-size:13.5px; font-weight:700; margin-bottom:4px}
+  .rationale p{font-size:12.8px; line-height:1.6; color:var(--body)}
+  .rationale b{color:var(--ink); font-weight:700}
+  .rationale .hintrow{display:flex; align-items:center; gap:7px; margin-top:9px; font-size:12.5px; color:var(--mute)}
+  .miniab{display:inline-flex; border:1px solid var(--brand-border); border-radius:999px; overflow:hidden}
+  .miniab span{font-size:11px; font-weight:700; padding:3px 9px; color:var(--brand)}
+  .miniab span.on{background:var(--brand); color:#fff}
+
+  /* result card */
+  .card{background:var(--surface); border:1px solid var(--border); border-radius:var(--r-card);
+        padding:20px 22px; margin-bottom:14px}
+  .card .chead{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:15px}
+  .card .cname{display:flex; align-items:center; gap:11px}
+  .tile{width:34px; height:34px; border-radius:10px; display:grid; place-items:center; flex:none}
+  .tile.purple{background:var(--brand-pale); color:var(--brand)}
+  .tile.teal{background:var(--teal-pale); color:var(--teal)}
+  .tile.coral{background:var(--coral-pale); color:var(--coral)}
+  .tile svg{width:19px; height:19px}
+  .card .cname .nm{font-size:15px; font-weight:700}
+  .card .cname .nm small{display:block; font-size:11.5px; font-weight:500; color:var(--faint); margin-top:1px}
+
+  /* A/B toggle */
+  .abtoggle{display:inline-flex; background:var(--soft2); border:1px solid var(--border); border-radius:999px; padding:3px}
+  .abtoggle button{border:0; background:transparent; font-size:12px; font-weight:700; color:var(--mute);
+                   padding:5px 13px; border-radius:999px}
+  .abtoggle button.on{background:var(--brand); color:#fff}
+
+  .copybody{font-size:15px; line-height:1.65; color:var(--ink)}
+  .caption{display:flex; align-items:center; gap:7px; margin-top:11px; font-size:13px; font-weight:600; color:var(--brand)}
+  .caption .s{font-size:12px}
+  .cfoot{display:flex; align-items:center; justify-content:space-between; margin-top:14px}
+  .count{font-size:12.5px; color:var(--mute)}
+  .count.warn{color:var(--warn); font-weight:600}
+  .btn-copy{height:36px; padding:0 13px; border-radius:9px; font-size:13px; font-weight:600;
+            background:var(--brand-pale); color:var(--brand); border:0; display:inline-flex; align-items:center; gap:6px}
+  .btn-copy:hover{background:#E9E2FF}
+  .btn-copy.done{background:var(--brand); color:#fff}
+  .btn-copy svg{width:14px; height:14px}
+
+  /* tone chips (profile) */
+  .tone-chips{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px}
+  .tchip{height:32px; padding:0 14px; border-radius:999px; background:var(--brand-pale); border:1px solid var(--brand-border);
+         color:var(--brand); font-size:13px; font-weight:600; display:inline-flex; align-items:center}
+  .persona{font-size:14px; line-height:1.6; color:var(--body)}
+  .persona b{color:var(--ink); font-weight:700}
+
+  /* 금칙어 */
+  .ban-note{font-size:13px; color:var(--mute); margin-bottom:13px}
+  .ban-note b{color:var(--body); font-weight:700}
+  .bans{display:flex; flex-wrap:wrap; gap:8px}
+  .ban{height:31px; padding:0 12px; border-radius:8px; background:var(--danger-pale); border:1px solid var(--danger-border);
+       color:var(--danger); font-size:13px; font-weight:600; display:inline-flex; align-items:center}
+  .ban::before{content:"✕"; font-size:10px; margin-right:6px; opacity:.7}
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- sidebar -->
+  <aside class="side">
+    <div class="wordmark">Verba</div>
+    <nav class="nav">
+      <a class="navrow" href="#"><svg class="ico" viewBox="0 0 24 24"><path class="bg" d="M4 10.5 12 4l8 6.5V20H4z"/><path class="fg" d="M4 10.5 12 4l8 6.5V20H4zM9.5 20v-6h5v6"/></svg>대시보드</a>
+      <a class="navrow" href="#"><svg class="ico" viewBox="0 0 24 24"><rect class="bg" x="4" y="4" width="16" height="16" rx="4"/><path class="fg" d="M8 9h8M8 13h8M8 17h5"/></svg>카피 생성</a>
+      <a class="navrow" href="#"><svg class="ico" viewBox="0 0 24 24"><rect class="bg" x="4" y="4" width="16" height="16" rx="3"/><path class="fg" d="M4 9h16M9 9v11"/></svg>템플릿</a>
+      <a class="navrow active" href="#"><svg class="ico" viewBox="0 0 24 24"><rect class="bg" x="9" y="3" width="6" height="11" rx="3"/><path class="fg" d="M9 6.5a3 3 0 0 1 6 0v4a3 3 0 0 1-6 0zM6 11a6 6 0 0 0 12 0M12 17v3"/></svg>브랜드 보이스</a>
+      <a class="navrow" href="#"><svg class="ico" viewBox="0 0 24 24"><path class="bg" d="M4 8 12 4l8 4-8 4z"/><path class="fg" d="M4 8 12 4l8 4-8 4-8-4Zm0 0v8l8 4 8-4V8"/></svg>상품</a>
+      <a class="navrow" href="#"><svg class="ico" viewBox="0 0 24 24"><circle class="bg" cx="12" cy="12" r="8"/><path class="fg" d="M12 7v5l3 2M4 12a8 8 0 1 1 2.3 5.6"/></svg>히스토리</a>
+      <a class="navrow" href="#"><svg class="ico" viewBox="0 0 24 24"><rect class="bg" x="4" y="4" width="16" height="16" rx="4"/><path class="fg" d="M8 15l3-3 2 2 3-4"/></svg>인사이트</a>
+    </nav>
+    <div class="spacer"></div>
+    <div class="credit">
+      <div class="k">남은 크레딧</div>
+      <div class="v">18 / 50</div>
+      <div class="track"><span class="fill"></span></div>
+    </div>
+    <div class="me"><span class="av">S</span><span class="nm">Sam Lee</span></div>
+  </aside>
+
+  <!-- main -->
+  <main class="main">
+    <div class="inner">
+
+      <!-- header -->
+      <div class="head">
+        <div>
+          <div class="title">
+            <h1>우리 브랜드 · 기본</h1>
+            <span class="badge">요식업</span>
+          </div>
+          <div class="sub">방금 생성 · 초록상회 · 톤 4개 · 금칙어 8개 반영</div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-soft"><svg class="ico" viewBox="0 0 24 24"><path class="fg" d="M20 11a8 8 0 1 0-.6 4M20 5v6h-6"/></svg>다시 생성</button>
+          <button class="btn btn-primary"><svg class="ico" viewBox="0 0 24 24"><path class="fg" d="M5 12.5 10 17.5 19 7"/></svg>이 보이스로 저장</button>
+        </div>
+      </div>
+
+      <!-- rationale -->
+      <div class="rationale">
+        <span class="star">✦</span>
+        <div>
+          <div class="rt">이렇게 만들었어요</div>
+          <p>입력한 <b>브랜드·업종·기본 톤·피하고 싶은 표현</b>을 바탕으로 보이스를 정리했어요. 아래 <b>샘플 문장</b>은 이 보이스가 실제 카피에서 어떻게 들리는지 보여줘요. <b>저장</b>하면 생성 시 자동으로 적용돼요.</p>
+          <div class="hintrow">
+            <span class="miniab"><span class="on">안 A</span><span>안 B</span></span>
+            를 눌러 두 가지 톤 변형을 비교해 보세요.
+          </div>
+        </div>
+      </div>
+
+      <!-- card 1: 톤 & 성격 -->
+      <div class="card">
+        <div class="chead">
+          <div class="cname">
+            <span class="tile purple"><svg class="ico" viewBox="0 0 24 24"><path class="bg" d="M4 12c0-4 3-7 8-7s8 3 8 7-3 7-8 7c-1 0-2-.1-3-.4L4 20l1-3.5C4.4 15.4 4 13.8 4 12Z"/><path class="fg" d="M8.5 11h7M8.5 14h4"/></svg></span>
+            <span class="nm">톤 &amp; 성격<small>이 보이스의 핵심 성격</small></span>
+          </div>
+        </div>
+        <div class="tone-chips">
+          <span class="tchip">친근함</span><span class="tchip">신뢰감</span><span class="tchip">따뜻함</span><span class="tchip">위트있게</span>
+        </div>
+        <p class="persona"><b>다정하게 말 걸되, 신뢰가 먼저.</b> 재료 이야기로 시작해 부담 없이 구매까지 이어지는 톤. 위트는 문장 끝에 살짝, 과하지 않게.</p>
+        <div class="caption"><span class="s">✦</span> 핵심 규칙: 신뢰 먼저 → 위트는 양념</div>
+      </div>
+
+      <!-- card 2: 샘플 문장 (A/B) -->
+      <div class="card" id="sample">
+        <div class="chead">
+          <div class="cname">
+            <span class="tile teal"><svg class="ico" viewBox="0 0 24 24"><rect class="bg" x="4" y="5" width="16" height="14" rx="4"/><path class="fg" d="M8 10h8M8 14h5"/></svg></span>
+            <span class="nm">이렇게 말해요 · 샘플<small>같은 상황, 두 가지 변형</small></span>
+          </div>
+          <div class="abtoggle" id="ab">
+            <button class="on" data-v="A">안 A</button>
+            <button data-v="B">안 B</button>
+          </div>
+        </div>
+        <p class="copybody" id="sampleBody">🌿 바쁜 하루에도 챙기는 건강한 한 끼, 오늘은 저희가 도와드릴게요.</p>
+        <div class="caption"><span class="s">✦</span> <span id="sampleCap">관계형 인사 · 따뜻하게 말 걸기</span></div>
+        <div class="cfoot">
+          <span class="count" id="sampleCount">36자</span>
+          <button class="btn-copy" id="sampleCopy"><svg class="ico" viewBox="0 0 24 24"><rect class="fg" x="9" y="9" width="11" height="11" rx="2.5"/><path class="fg" d="M5 15V6a2 2 0 0 1 2-2h8"/></svg>복사</button>
+        </div>
+      </div>
+
+      <!-- card 3: 금칙어 -->
+      <div class="card">
+        <div class="chead">
+          <div class="cname">
+            <span class="tile coral"><svg class="ico" viewBox="0 0 24 24"><circle class="bg" cx="12" cy="12" r="8"/><path class="fg" d="M12 8v4M12 15.5v.5M6.5 17.5a8 8 0 1 1 11 0"/></svg></span>
+            <span class="nm">피하고 싶은 표현 · 금칙어<small>생성에서 자동으로 제외</small></span>
+          </div>
+        </div>
+        <p class="ban-note">아래 표현은 이 보이스로 만든 카피에서 <b>자동으로 걸러져요</b>. (과장 최상급 · 의학적 효능 오인 · 단정 표현)</p>
+        <div class="bans">
+          <span class="ban">최고</span><span class="ban">1위</span><span class="ban">국내 최초</span><span class="ban">완치</span>
+          <span class="ban">부작용 없음</span><span class="ban">100% 안전</span><span class="ban">무조건</span><span class="ban">초저가</span>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script>
+  // 샘플 A/B toggle
+  var SAMPLES = {
+    A: {body:"🌿 바쁜 하루에도 챙기는 건강한 한 끼, 오늘은 저희가 도와드릴게요.", cap:"관계형 인사 · 따뜻하게 말 걸기", count:"36자"},
+    B: {body:"10분이면 완성되는 균형 잡힌 한 끼 — 재료는 저희가, 요리는 당신이.", cap:"효율 강조 · 간결한 정보형", count:"35자"}
+  };
+  var ab = document.getElementById('ab');
+  var body = document.getElementById('sampleBody');
+  var cap = document.getElementById('sampleCap');
+  var count = document.getElementById('sampleCount');
+  ab.addEventListener('click', function(e){
+    var b = e.target.closest('button'); if(!b) return;
+    ab.querySelectorAll('button').forEach(function(x){x.classList.remove('on')});
+    b.classList.add('on');
+    var s = SAMPLES[b.dataset.v];
+    body.textContent = s.body; cap.textContent = s.cap; count.textContent = s.count;
+  });
+
+  // 복사
+  var copyBtn = document.getElementById('sampleCopy');
+  copyBtn.addEventListener('click', function(){
+    var t = body.textContent;
+    if(navigator.clipboard) navigator.clipboard.writeText(t).catch(function(){});
+    copyBtn.classList.add('done');
+    copyBtn.innerHTML = '<svg class="ico" viewBox="0 0 24 24"><path class="fg" d="M5 12.5 10 17.5 19 7"/></svg>복사됨';
+    setTimeout(function(){
+      copyBtn.classList.remove('done');
+      copyBtn.innerHTML = '<svg class="ico" viewBox="0 0 24 24"><rect class="fg" x="9" y="9" width="11" height="11" rx="2.5"/><path class="fg" d="M5 15V6a2 2 0 0 1 2-2h8"/></svg>복사';
+    }, 1600);
+  });
+</script>
+</body>
+</html>

@@ -23,6 +23,7 @@ verba-handoff/
    ├─ verba-history.html       히스토리 단독 화면 (개별 임포트용)
    ├─ verba-brand-voice-filled.html 브랜드 보이스(온보딩 2단계) 작성 완료본 — 톤 칩 선택 + 피하고 싶은 표현(금칙어) 태그 입력
    ├─ verba-voice-loading.html 브랜드 보이스 생성 로딩 (온보딩)
+   ├─ verba-brand-voice-result.html 브랜드 보이스 생성 완료 — 카피 완료 UI 차용(헤더·근거 배너·톤&성격/샘플 A·B/금칙어 카드)
    ├─ verba-generate-cta.html  카피 생성 하단 고정 바(CTA·A/B) + 게스트/크레딧 부족 상태
    ├─ verba-signup-wall.html   결과 위 가입 소프트월 모달(구글·카카오)
    ├─ verba-rationale-copy.html A/B 생성 근거·프로세스 배너 문구(기존→수정)
