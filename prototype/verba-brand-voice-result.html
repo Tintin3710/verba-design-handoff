@@ -163,7 +163,7 @@
         </div>
         <div class="actions">
           <button class="btn btn-soft"><svg class="ico" viewBox="0 0 24 24"><path class="fg" d="M20 11a8 8 0 1 0-.6 4M20 5v6h-6"/></svg>다시 생성</button>
-          <button class="btn btn-primary"><svg class="ico" viewBox="0 0 24 24"><path class="fg" d="M5 12.5 10 17.5 19 7"/></svg>이 보이스로 저장</button>
+          <button class="btn btn-primary" id="saveBtn"><svg class="ico" id="saveIcon" viewBox="0 0 24 24"><path class="fg" d="M5 12.5 10 17.5 19 7"/></svg><span id="saveLabel">이 보이스로 저장</span></button>
         </div>
       </div>
 
@@ -235,6 +235,17 @@
 </div>
 
 <script>
+  // 진입 컨텍스트별 주 액션 라벨
+  // 온보딩 마지막 단계: ?ctx=onboarding → "저장하고 시작하기"
+  // 그 외(브랜드 보이스 홈 → 새 보이스 등): "이 보이스로 저장"
+  (function(){
+    var ctx = new URLSearchParams(location.search).get('ctx');
+    if(ctx === 'onboarding'){
+      document.getElementById('saveLabel').textContent = '저장하고 시작하기';
+      document.getElementById('saveIcon').innerHTML = '<path class="fg" d="M4 12h15M13 6l6 6-6 6"/>';
+    }
+  })();
+
   // 샘플 A/B toggle
   var SAMPLES = {
     A: {body:"🌿 바쁜 하루에도 챙기는 건강한 한 끼, 오늘은 저희가 도와드릴게요.", cap:"관계형 인사 · 따뜻하게 말 걸기", count:"36자"},
