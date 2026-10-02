@@ -20,6 +20,8 @@ verba-handoff/
 └─ prototype/
    ├─ verba.html               참고 구현 (전체 13화면·값·컴포넌트·인터랙션)
    ├─ verba-responsive.html    PC/Tablet/Mobile 3폭 리플로우 데모(컨테이너쿼리)
+   ├─ verba-responsive-interaction.html 반응형 인터랙션 포폴 슬라이드 — 사용자 목표별 표(상품 찾기·정보 입력·주요 행동·상태 확인)
+   ├─ verba-responsive-goals.html 반응형 인터랙션 1920×1080 장표 — 사용자 목표 4블록(PC→Mobile 미니목업 대비)
    ├─ verba-history.html       히스토리 단독 화면 (개별 임포트용)
    ├─ verba-brand-voice-filled.html 브랜드 보이스(온보딩 2단계) 작성 완료본 — 톤 칩 선택 + 피하고 싶은 표현(금칙어) 태그 입력
    ├─ verba-voice-loading.html 브랜드 보이스 생성 로딩 (온보딩)

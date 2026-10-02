@@ -1,0 +1,252 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>Verba — Responsive by User Goal (1920×1080)</title>
+<style>
+  :root{
+    --accent:#5F3EFF; --accent-press:#4F2BEA; --accent-pale:#F2EEFF; --accent-border:#DCD2FF;
+    --page:#F6F7F9; --card:#fff; --soft:#F1F2F5; --line:#E7E8EC; --line2:#EEF0F3; --blk:#E4E5E9;
+    --ink:#1B1C20; --body:#565963; --mute:#9297A2;
+    --sans:"Pretendard",-apple-system,BlinkMacSystemFont,"Inter",system-ui,"Apple SD Gothic Neo",sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;background:#DDE0E6;}
+  body{font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased;}
+  /* 1920x1080 fixed stage (장표) */
+  .stage{width:1920px;height:1080px;background:var(--page);padding:72px 72px 56px;display:flex;flex-direction:column;overflow:hidden;}
+
+  /* header */
+  .head{text-align:center;}
+  .kk{font-size:16px;font-weight:800;color:var(--accent);letter-spacing:.1em;margin:0 0 16px;}
+  h1{font-size:46px;font-weight:800;letter-spacing:-.025em;margin:0 0 18px;line-height:1.28;} h1 .hl{color:var(--accent);}
+  .sub{font-size:19px;color:var(--body);line-height:1.6;margin:0 auto;max-width:92ch;}
+  .bps{display:flex;gap:12px;justify-content:center;margin:26px 0 0;}
+  .bp{font-size:14px;font-weight:700;color:var(--body);background:var(--card);border:1px solid var(--line);border-radius:9999px;padding:9px 20px;} .bp b{color:var(--accent);}
+
+  /* cards */
+  .cards{flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:28px;margin-top:46px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:28px 26px 26px;
+        box-shadow:0 24px 56px -40px rgba(20,20,40,.5);display:flex;flex-direction:column;}
+  .num{font-size:13px;font-weight:800;color:var(--accent);letter-spacing:.06em;}
+  .card h3{font-size:24px;font-weight:800;letter-spacing:-.02em;margin:7px 0 0;}
+  .goalline{font-size:13.5px;color:var(--mute);margin-top:6px;line-height:1.45;}
+
+  /* compare zone */
+  .compare{margin:22px 0 20px;height:300px;background:var(--soft);border:1px solid var(--line2);border-radius:14px;
+           display:flex;align-items:center;justify-content:center;gap:8px;padding:16px 12px;}
+  .arrow{color:var(--accent);font-weight:800;font-size:22px;flex-shrink:0;}
+  .plat{font-size:11px;font-weight:800;color:var(--mute);text-align:center;margin-top:9px;letter-spacing:.03em;}
+  .plat.m{color:var(--accent);}
+
+  /* mini PC frame */
+  .pc{width:205px;}
+  .pcf{border:1px solid var(--line);border-radius:9px;background:#fff;overflow:hidden;box-shadow:0 10px 24px -20px rgba(20,20,40,.5);}
+  .pcf .cr{display:flex;gap:4px;padding:6px 8px;background:var(--soft);border-bottom:1px solid var(--line2);} .pcf .cr i{width:6px;height:6px;border-radius:50%;background:var(--blk);}
+  .pcb{padding:11px;position:relative;height:178px;}
+
+  /* mini mobile frame */
+  .mob{width:104px;}
+  .mobf{border:1px solid var(--line);border-radius:16px;background:#fff;overflow:hidden;box-shadow:0 10px 24px -18px rgba(20,20,40,.55);position:relative;}
+  .mobf .notch{height:14px;display:flex;justify-content:center;align-items:center;} .mobf .notch::after{content:"";width:26px;height:4px;border-radius:9px;background:var(--blk);}
+  .mobb{padding:9px;position:relative;height:200px;}
+
+  /* schematic bits */
+  .b{background:var(--blk);border-radius:3px;}
+  .b.h{height:8px;} .b.title{height:9px;width:46%;}
+  .f{height:17px;background:var(--soft);border:1px solid var(--line2);border-radius:5px;}
+  .f.sm{height:14px;}
+  .field-row{display:flex;align-items:center;gap:5px;height:18px;border:1px solid var(--line);border-radius:5px;padding:0 6px;font-size:8px;color:var(--mute);background:#fff;}
+  .field-row.accent{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-pale);}
+  .cols{display:grid;grid-template-columns:1.3fr 1fr;gap:7px;}
+  .stackcol{display:flex;flex-direction:column;gap:6px;}
+  .vb{height:19px;border:1px solid var(--line2);border-radius:5px;} .vb.on{border-color:var(--accent);background:var(--accent-pale);}
+  .chips{display:flex;gap:4px;} .chips span{flex:1;height:12px;border-radius:3px;border:1px solid var(--line2);background:#fff;} .chips span.on{background:var(--accent-pale);border-color:var(--accent);}
+
+  /* popover (card1 PC) */
+  .pop{position:absolute;left:11px;right:11px;top:44px;background:#fff;border:1px solid var(--accent-border);border-radius:7px;box-shadow:0 12px 24px -14px rgba(23,20,60,.45);padding:6px;z-index:2;}
+  .pop .r{display:flex;align-items:center;gap:5px;padding:4px 3px;} .pop .r .d{width:10px;height:10px;border-radius:3px;background:var(--accent-pale);} .pop .r .t{flex:1;height:6px;border-radius:2px;background:var(--blk);}
+  /* bottom sheet (card1 mobile) */
+  .dim{position:absolute;inset:0;background:rgba(20,20,40,.22);}
+  .sheet{position:absolute;left:5px;right:5px;bottom:5px;background:#fff;border:1px solid var(--accent-border);border-radius:11px 11px 8px 8px;box-shadow:0 -8px 20px -12px rgba(23,20,60,.5);padding:8px;z-index:2;}
+  .sheet .grab{width:26px;height:3px;border-radius:9px;background:var(--line);margin:0 auto 7px;}
+  .sheet .r{display:flex;align-items:center;gap:5px;padding:4px 2px;} .sheet .r .d{width:12px;height:12px;border-radius:4px;background:var(--accent-pale);} .sheet .r .t{flex:1;height:6px;border-radius:2px;background:var(--blk);}
+
+  /* action bars (card3) */
+  .abar{display:flex;align-items:center;gap:6px;margin:0 -11px -11px;padding:9px 11px;border-top:1px solid var(--line2);background:var(--soft);position:absolute;left:0;right:0;bottom:0;}
+  .sw{width:22px;height:12px;border-radius:99px;background:var(--accent);position:relative;flex-shrink:0;} .sw::after{content:"";position:absolute;top:1.5px;right:1.5px;width:9px;height:9px;border-radius:50%;background:#fff;}
+  .cta{background:var(--accent);border-radius:5px;height:17px;width:70px;margin-left:auto;}
+  .mabar{position:absolute;left:0;right:0;bottom:0;padding:8px;border-top:1px solid var(--line2);background:#fff;}
+  .mcta{background:var(--accent);border-radius:7px;height:30px;display:flex;align-items:center;justify-content:center;} .mcta::after{content:"";width:46px;height:7px;border-radius:3px;background:rgba(255,255,255,.85);}
+
+  /* hover tooltip (card4 PC) */
+  .tip{position:absolute;background:var(--ink);color:#fff;font-size:8px;font-weight:700;padding:3px 7px;border-radius:5px;top:30px;left:50%;transform:translateX(-50%);} .tip::after{content:"";position:absolute;left:50%;bottom:-3px;transform:translateX(-50%);border:3px solid transparent;border-top-color:var(--ink);}
+  .hovertarget{height:20px;border-radius:5px;background:var(--accent-pale);border:1px solid var(--accent-border);margin-top:52px;}
+  .cursor{position:absolute;left:54%;top:66px;font-size:13px;}
+  /* explicit touch row (card4 mobile) */
+  .touchrow{display:flex;align-items:center;gap:6px;height:44px;border:1px solid var(--line);border-radius:8px;padding:0 8px;background:#fff;margin-top:18px;position:relative;}
+  .touchrow .t{flex:1;height:7px;border-radius:2px;background:var(--blk);} .touchrow .chev{color:var(--accent);font-weight:800;font-size:11px;}
+  .ring{position:absolute;right:4px;top:50%;transform:translate(0,-50%);width:30px;height:30px;border:2px solid var(--accent);border-radius:50%;opacity:.5;}
+  .touchnote{position:absolute;right:8px;bottom:6px;font-size:8px;font-weight:800;color:var(--accent);background:var(--accent-pale);border:1px solid var(--accent-border);border-radius:9999px;padding:2px 6px;}
+
+  /* descriptions */
+  .descs{margin-top:auto;display:flex;flex-direction:column;gap:11px;}
+  .desc{font-size:13.5px;line-height:1.5;color:var(--body);display:flex;gap:9px;}
+  .desc .tg{flex-shrink:0;font-size:10px;font-weight:800;padding:3px 8px;border-radius:6px;height:fit-content;letter-spacing:.02em;}
+  .desc.pc .tg{background:var(--soft);color:var(--body);border:1px solid var(--line);}
+  .desc.mo{color:var(--ink);} .desc.mo .tg{background:var(--accent-pale);color:var(--accent-press);border:1px solid var(--accent-border);}
+  .desc b{color:var(--ink);font-weight:700;} .desc.mo b{color:var(--accent-press);}
+
+  .foot{text-align:center;font-size:13px;color:var(--mute);margin-top:30px;}
+</style></head>
+<body>
+<div class="stage">
+  <div class="head">
+    <p class="kk">RESPONSIVE · PLATFORM INTERACTION</p>
+    <h1>크기를 줄인 게 아니라, <span class="hl">사용자 행동에 맞게 인터랙션을 바꿨습니다</span></h1>
+    <p class="sub">사용자가 ‘무엇을 하려는가’를 기준으로, 같은 화면도 마우스(PC)와 터치(Mobile)에서 다르게 동작하도록 재설계했습니다. 단순 축소가 아니라, 팝오버·좌우 배치·hover에 의존한 요소를 바텀시트·세로 stack·터치 타깃으로 바꿨습니다.</p>
+    <div class="bps"><span class="bp">Desktop <b>1440</b></span><span class="bp">Tablet <b>768</b></span><span class="bp">Mobile <b>390</b></span></div>
+  </div>
+
+  <div class="cards">
+
+    <!-- 01 상품 찾기 -->
+    <div class="card">
+      <div class="num">01</div>
+      <h3>상품 찾기</h3>
+      <div class="goalline">저장한 상품을 빠르게 찾아 선택</div>
+      <div class="compare">
+        <div class="pc">
+          <div class="pcf"><div class="cr"><i></i><i></i><i></i></div>
+            <div class="pcb">
+              <div class="b title" style="margin-bottom:9px"></div>
+              <div class="field-row accent">🔍 상품 불러오기</div>
+              <div class="pop"><div class="r"><span class="d"></span><span class="t"></span></div><div class="r"><span class="d"></span><span class="t"></span></div><div class="r"><span class="d"></span><span class="t"></span></div></div>
+            </div>
+          </div>
+          <div class="plat">PC · 팝오버</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="mob">
+          <div class="mobf"><div class="notch"></div>
+            <div class="mobb">
+              <div class="b title" style="margin-bottom:8px"></div>
+              <div class="f sm" style="margin-bottom:6px"></div><div class="f sm"></div>
+              <div class="dim"></div>
+              <div class="sheet"><div class="grab"></div><div class="r"><span class="d"></span><span class="t"></span></div><div class="r"><span class="d"></span><span class="t"></span></div><div class="r"><span class="d"></span><span class="t"></span></div></div>
+            </div>
+          </div>
+          <div class="plat m">Mobile · 바텀시트</div>
+        </div>
+      </div>
+      <div class="descs">
+        <div class="desc pc"><span class="tg">PC</span><span>입력과 결과를 <b>동시에</b> 보도록 <b>팝오버</b>로 제공</span></div>
+        <div class="desc mo"><span class="tg">Mobile</span><span>넓게 탐색하고 쉽게 선택하도록 <b>바텀시트</b>로 전환</span></div>
+      </div>
+    </div>
+
+    <!-- 02 정보 입력하기 -->
+    <div class="card">
+      <div class="num">02</div>
+      <h3>정보 입력하기</h3>
+      <div class="goalline">상품 정보와 브랜드 보이스 입력</div>
+      <div class="compare">
+        <div class="pc">
+          <div class="pcf"><div class="cr"><i></i><i></i><i></i></div>
+            <div class="pcb">
+              <div class="b title" style="margin-bottom:9px"></div>
+              <div class="cols">
+                <div class="stackcol"><div class="f"></div><div class="f"></div><div class="chips"><span class="on"></span><span class="on"></span><span></span></div></div>
+                <div class="stackcol"><div class="vb on"></div><div class="vb"></div><div class="vb"></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="plat">PC · 2-column</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="mob">
+          <div class="mobf"><div class="notch"></div>
+            <div class="mobb">
+              <div class="b title" style="margin-bottom:8px"></div>
+              <div class="stackcol"><div class="f sm"></div><div class="f sm"></div><div class="chips"><span class="on"></span><span></span></div><div class="vb on"></div><div class="vb"></div></div>
+            </div>
+          </div>
+          <div class="plat m">Mobile · 세로 stack</div>
+        </div>
+      </div>
+      <div class="descs">
+        <div class="desc pc"><span class="tg">PC</span><span>관련 정보를 <b>좌우로 비교</b>할 수 있게 배치</span></div>
+        <div class="desc mo"><span class="tg">Mobile</span><span>사용 순서에 따라 <b>위에서 아래로</b> 진행하도록 재구성</span></div>
+      </div>
+    </div>
+
+    <!-- 03 주요 행동 실행하기 -->
+    <div class="card">
+      <div class="num">03</div>
+      <h3>주요 행동 실행하기</h3>
+      <div class="goalline">설정 후 카피 생성(주요 CTA)</div>
+      <div class="compare">
+        <div class="pc">
+          <div class="pcf"><div class="cr"><i></i><i></i><i></i></div>
+            <div class="pcb">
+              <div class="b title" style="margin-bottom:9px"></div>
+              <div class="f" style="margin-bottom:6px"></div><div class="f" style="margin-bottom:6px"></div><div class="f"></div>
+              <div class="abar"><span class="sw"></span><div class="b h" style="width:30px"></div><span class="cta"></span></div>
+            </div>
+          </div>
+          <div class="plat">PC · 설정 + CTA 한 줄</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="mob">
+          <div class="mobf"><div class="notch"></div>
+            <div class="mobb">
+              <div class="b title" style="margin-bottom:8px"></div>
+              <div class="f sm" style="margin-bottom:6px"></div><div class="f sm" style="margin-bottom:6px"></div><div class="f sm"></div>
+              <div class="mabar"><div class="mcta"></div></div>
+            </div>
+          </div>
+          <div class="plat m">Mobile · 풀폭 sticky</div>
+        </div>
+      </div>
+      <div class="descs">
+        <div class="desc pc"><span class="tg">PC</span><span>설정과 <b>CTA를 함께</b> 제공</span></div>
+        <div class="desc mo"><span class="tg">Mobile</span><span>주요 CTA <b>우선순위를 높여</b> 스크롤 중에도 접근</span></div>
+      </div>
+    </div>
+
+    <!-- 04 상태 확인하기 -->
+    <div class="card">
+      <div class="num">04</div>
+      <h3>상태 확인하기</h3>
+      <div class="goalline">선택·강조 등 상태 피드백 확인</div>
+      <div class="compare">
+        <div class="pc">
+          <div class="pcf"><div class="cr"><i></i><i></i><i></i></div>
+            <div class="pcb">
+              <div class="b title" style="margin-bottom:9px"></div>
+              <div class="tip">hover</div>
+              <div class="hovertarget"></div>
+              <span class="cursor">🖱️</span>
+            </div>
+          </div>
+          <div class="plat">PC · hover 미리보기</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="mob">
+          <div class="mobf"><div class="notch"></div>
+            <div class="mobb">
+              <div class="b title" style="margin-bottom:8px"></div>
+              <div class="touchrow"><span class="t"></span><span class="chev">›</span><span class="ring"></span></div>
+              <div class="touchnote">탭 44px+</div>
+            </div>
+          </div>
+          <div class="plat m">Mobile · 명시적 탭</div>
+        </div>
+      </div>
+      <div class="descs">
+        <div class="desc pc"><span class="tg">PC</span><span><b>hover</b>에 의존한 상태 표현·미리보기</span></div>
+        <div class="desc mo"><span class="tg">Mobile</span><span><b>명시적 인터랙션</b>과 충분한 <b>터치 영역</b>으로 대체</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="foot">Verba · Responsive by User Goal · 1440 / 768 / 390 · Point Color #5F3EFF</p>
+</div>
+</body></html>
